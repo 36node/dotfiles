@@ -32,7 +32,7 @@ warn() {
 error() {
   echo ${RED}✖ $1${END}
   echo ''
-  exit
+  exit -1
 }
 
 # 选择提示
