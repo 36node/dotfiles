@@ -1,5 +1,9 @@
 os: osx
-osx_image: xcode10.1
+osx_image:
+  - xcode10.1 ## Mojave
+  - xcode11.2 ## Catalina
+
+sudo: required
 
 script:
   - ./install.sh
