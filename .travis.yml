@@ -1,19 +1,5 @@
-# Test on Mac OS
-matrix:
-  include:
+os: osx
+osx_image: xcode11.2
 
-    - name: Test on Mac OS Mojave
-      os: osx
-      osx_image: xcode10.1
-      sudo: required
-      script:
-        - set -eo pipefail
-        - sh install.sh # Test dotfile setup
-
-    - name: Test on Mac OS Catalina
-      os: osx
-      osx_image: xcode11.2
-      sudo: required
-      script:
-        - set -eo pipefail
-        - sh install.sh # Test dotfile setup
+script:
+  - ./install.sh
