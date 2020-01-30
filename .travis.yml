@@ -6,4 +6,5 @@ osx_image:
 sudo: required
 
 script:
+  - set -eo pipefail
   - ./install.sh
