@@ -19,7 +19,7 @@ info() {
 }
 
 # Success message
-ok() {
+success() {
   echo ${GREEN}✔ $1${END}
 }
 
