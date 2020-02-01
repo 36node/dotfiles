@@ -15,18 +15,21 @@ cat $PWD/assets/ascii.txt
 ## 采用 dotenv 加载环境变量 https://github.com/madcoda/dotenv-shell
 . dotenv.sh
 
+## 安装过程用到的环境变量
+export ZSHRC=${ZSHRC:-$HOME/.zshrc}
+
+
+## TODO: 可以通过参数控制 -O
+overwrite_all=true backup_all=false skip_all=false
+
 
 ###############################################################################
-# packages 链接
+# 系统必要文件
+# 1. zsh
+# 2. brew & brew cask & mas
 ###############################################################################
-info '建立链接 packages/**/symlink.*'
+link_file "$PWD/.zshrc" "$ZSHRC"
 
-overwrite_all=false backup_all=false skip_all=false
-for src in $(find "$PWD/packages" -maxdepth 2 -name 'symlink.*')
-do
-  dst="$HOME/.${src##*.}"
-  link_file "$src" "$dst"
-done
 
 ###############################################################################
 # packages 安装
@@ -37,8 +40,18 @@ find ./packages -name install.sh | while read installer ; do sh -c "${installer}
 
 
 ###############################################################################
+# packages 链接
+###############################################################################
+info '建立链接 packages/**/symlink.*'
+
+for src in $(find "$PWD/packages" -maxdepth 2 -name 'symlink.*')
+do
+  dst="$HOME/.${src##*.}"
+  link_file "$src" "$dst"
+done
+
+###############################################################################
 # 善后
 ###############################################################################
-info '防止配置文件被 installer 修改'
+info ''
 
-git checkout head -- .
