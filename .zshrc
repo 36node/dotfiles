@@ -18,7 +18,6 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
 POWERLEVEL9K_TIME_FORMAT="%D{ %H:%M}"
 POWERLEVEL9K_STATUS_VERBOSE=false
 
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -64,6 +63,8 @@ POWERLEVEL9K_STATUS_VERBOSE=false
 plugins=(brew git python osx pip zsh-completions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # User configuration
 
@@ -97,12 +98,6 @@ source $ZSH/oh-my-zsh.sh
 # Set default user
 DEFAULT_USER=zzs
 
-# autojump
-[[ -s /usr/local/etc/profile.d/autojump.sh ]] && . /usr/local/etc/profile.d/autojump.sh
-
-# zsh-syntax-highlighting
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 function fuck_gfw_status() {
     if [ -z $HTTP_PROXY ];then
     	echo ""
@@ -112,12 +107,19 @@ function fuck_gfw_status() {
 }
 
 ###############################################################################
-# source pacakges 的配置文件，在 terminal 打开的时候加载
+# source ./pacakges/**/*.zsh 的配置文件，在 terminal 打开的时候加载
 ###############################################################################
 
-# 解析当前 PACKAGES 所在的路径
-PACKAGES=$(dirname $(dirname $(readlink $HOME/.zshrc)))
-config_files=($PACKAGES/**/*.zsh)
+# 解析当前 DOTFILES 所在的路径
+export DOTFILES=$(dirname $(readlink $HOME/.zshrc))
+export ENV="$DOTFILES/.env"
+
+# 加载 env
+if [ -f "$ENV" -o -L "$ENV" ]; then
+  source "$ENV"
+fi
+
+config_files=($DOTFILES/packages/**/*.zsh)
 
 # load everything but the path and completion files
 # 然后载入除掉所有目录下path.zsh的文件

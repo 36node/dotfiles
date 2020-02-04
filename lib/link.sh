@@ -76,3 +76,15 @@ link_file () {
     success "linked $1 to $2"
   fi
 }
+
+## 先拷贝后建立链接
+sync_file () {
+  local src=$1 dst=$2
+
+  ## 如果 src 不存在，而 dst 存在的话，先备份
+  if [ ! -e "$src" ] && [ -e "$dst" ]; then
+    mv "$dst" "$src"
+  fi
+
+  link_file "$src" "$dst"
+}
