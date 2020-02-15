@@ -2,6 +2,7 @@
 #
 # 翻墙
 
+brew_install proxychains-ng
 brew_cask_install shadowsocksx-ng
 
 ## 从 private 数据恢复 配置

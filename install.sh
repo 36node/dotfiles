@@ -46,20 +46,19 @@ fi
 export ZSHRC=${ZSHRC:-$HOME/.zshrc}
 
 ###############################################################################
-# 系统必要文件
-# 1. zsh
-# 2. oh-my-zsh
+# 系统
+#
+# 1. homebrew
+# 2. zsh && oh-my-zsh
 # 3. brew & brew cask & mas
 ###############################################################################
-
-## zsh
-link_file "$PWD/.zshrc" "$ZSHRC"
 
 ## Xcode
 if ! xcode-select --print-path &> /dev/null; then
   info "安装 build/install tools ..."
   xcode-select --install &> /dev/null;
   success "安装成功 build/install tools"
+
 fi
 
 ## homebrew
@@ -67,15 +66,32 @@ if test ! $(which brew); then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-## oh-my-zsh
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+## zsh
+if [[ $SHELL != $(which zsh) ]]; then
+  chsh -s $(which zsh)
+  export SHELL=$(which zsh)
 fi
 
-## zsh 必备插件
+## oh-my-zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+## 第三方插件
 brew_install zsh-completions # 补全
 brew_install zsh-autosuggestions # 提示
 brew_install zsh-syntax-highlighting # 高亮
+
+## https://github.com/Powerlevel9k/powerlevel9k
+brew tap sambadevi/powerlevel9k
+brew_install powerlevel9k
+
+## https://github.com/ryanoasis/nerd-fonts
+brew tap homebrew/cask-fonts
+brew_cask_install font-hack-nerd-font
+
+## zshrc
+link_file "$PWD/.zshrc" "$ZSHRC"
 
 ###############################################################################
 # packages 安装
@@ -100,9 +116,17 @@ do
 done
 
 ###############################################################################
-# 安装系统软件
+# 安装其他无需配置的系统软件
 ###############################################################################
 
-brew install mas
-. mac.sh
+brew_install mas
+brew_install kubernetes-cli
 
+brew_cask_install mos
+brew_cask_install docker
+
+###############################################################################
+# 当前 shell 就起作用
+###############################################################################
+
+source ~/.zshrc

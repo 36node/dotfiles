@@ -7,16 +7,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-POWERLEVEL9K_MODE='awesome-fontconfig'
-ZSH_THEME="powerlevel9k/powerlevel9k"
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_CUSTOM_GFW_STATUS="fuck_gfw_status"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_gfw_status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
-# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_unique"
-POWERLEVEL9K_TIME_FORMAT="%D{ %H:%M}"
-POWERLEVEL9K_STATUS_VERBOSE=false
+ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -60,11 +51,23 @@ POWERLEVEL9K_STATUS_VERBOSE=false
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew git python osx pip zsh-completions zsh-syntax-highlighting)
+plugins=(brew git python osx pip)
 
-source $ZSH/oh-my-zsh.sh
+## https://github.com/Powerlevel9k/powerlevel9k
+
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_CUSTOM_GFW_STATUS="fuck_gfw_status"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_gfw_status)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
+# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_unique"
+POWERLEVEL9K_STATUS_VERBOSE=false
+
+source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -99,7 +102,7 @@ source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 DEFAULT_USER=zzs
 
 function fuck_gfw_status() {
-    if [ -z $HTTP_PROXY ];then
+    if [ -z $FUCKING_GFW ];then
     	echo ""
     else
     	echo "✈"
