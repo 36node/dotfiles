@@ -7,14 +7,39 @@ cd "$(dirname "$0")"
 set -e
 
 source $PWD/lib/echo.sh
+source $PWD/lib/append.sh
 source $PWD/lib/link.sh
 source $PWD/lib/mac_version.sh
 source $PWD/lib/brew.sh
+source $PWD/help.sh
+
+overwrite_all=false backup_all=false skip_all=false
+
+while test $# -gt 0; do
+	case "$1" in
+		"-h"|"--help")
+			displayUsage
+			exit
+			;;
+		"-o"|"--overwrite")
+			overwrite_all=true
+			;;
+		"-b"|"--backup")
+			backup_all=true
+			;;
+		"-s"|"--skip")
+			skip_all=true
+			;;
+		*)
+			echo "Invalid option: $1"
+			displayUsage
+      exit
+			;;
+	esac
+	shift
+done
 
 cat $PWD/assets/ascii.txt
-
-## TODO: 可以通过参数控制 -O
-overwrite_all=true backup_all=false skip_all=false
 
 ###############################################################################
 # 环境变量
@@ -47,11 +72,15 @@ export ZSHRC=${ZSHRC:-$HOME/.zshrc}
 
 ###############################################################################
 # 系统
-#
+# 0. xcode-tools
 # 1. homebrew
 # 2. zsh && oh-my-zsh
-# 3. brew & brew cask & mas
 ###############################################################################
+
+## Ask for the administrator password upfront
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+# sudo -v
+# while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ## Xcode
 if ! xcode-select --print-path &> /dev/null; then
@@ -67,31 +96,7 @@ if test ! $(which brew); then
 fi
 
 ## zsh
-if [[ $SHELL != $(which zsh) ]]; then
-  chsh -s $(which zsh)
-  export SHELL=$(which zsh)
-fi
-
-## oh-my-zsh
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-
-## 第三方插件
-brew_install zsh-completions # 补全
-brew_install zsh-autosuggestions # 提示
-brew_install zsh-syntax-highlighting # 高亮
-
-## https://github.com/Powerlevel9k/powerlevel9k
-brew tap sambadevi/powerlevel9k
-brew_install powerlevel9k
-
-## https://github.com/ryanoasis/nerd-fonts
-brew tap homebrew/cask-fonts
-brew_cask_install font-hack-nerd-font
-
-## zshrc
-link_file "$PWD/.zshrc" "$ZSHRC"
+. zsh.sh
 
 ###############################################################################
 # packages 安装
@@ -122,11 +127,21 @@ done
 brew_install mas
 brew_install kubernetes-cli
 
-brew_cask_install mos
+brew_cask_install cheatsheet
 brew_cask_install docker
+brew_cask_install dropbox
+brew_cask_install github
+brew_cask_install go2shell
+brew_cask_install google-chrome
+brew_cask_install iina
+brew_cask_install mos
+brew_cask_install secure-pipes
+brew_cask_install spectacle
+brew_cask_install visual-studio-code
+brew_cask_install wechatwebdevtools
 
-###############################################################################
-# 当前 shell 就起作用
-###############################################################################
-
-source ~/.zshrc
+mas install 836500024     # 微信
+mas install 1189898970    # 企业微信
+mas install 409201541     # Pages
+mas install 409203825     # Numbers
+mas install 409183694     # Keynote
