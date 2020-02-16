@@ -69,6 +69,9 @@ fi
 
 ## 安装过程用到的环境变量
 export ZSHRC=${ZSHRC:-$HOME/.zshrc}
+export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
+export REPO=${PROJECTS:-$WORKSPACE/repo}
+export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
 
 ###############################################################################
 # 系统
@@ -77,10 +80,11 @@ export ZSHRC=${ZSHRC:-$HOME/.zshrc}
 # 2. zsh && oh-my-zsh
 ###############################################################################
 
-## Ask for the administrator password upfront
-# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
-# sudo -v
-# while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+# 预先循问管理员密码
+sudo -v
+
+# 保持活跃状态，直到完成
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ## Xcode
 if ! xcode-select --print-path &> /dev/null; then
@@ -99,29 +103,7 @@ fi
 . zsh.sh
 
 ###############################################################################
-# packages 安装
-###############################################################################
-info '安装 packages/**/install.sh'
-
-for installer in $(find "$PWD/packages" -maxdepth 2 -name 'install.sh')
-do
-  . "$installer"
-done
-
-
-###############################################################################
-# packages 链接
-###############################################################################
-info '建立链接 packages/**/*.symlink'
-
-for src in $(find "$PWD/packages" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-do
-  dst="$HOME/.$(basename "${src%.*}")"
-  link_file "$src" "$dst"
-done
-
-###############################################################################
-# 安装其他无需配置的系统软件
+# 安装其他无需配置的软件
 ###############################################################################
 
 brew_install mas
@@ -145,3 +127,35 @@ mas install 1189898970    # 企业微信
 mas install 409201541     # Pages
 mas install 409203825     # Numbers
 mas install 409183694     # Keynote
+
+
+###############################################################################
+# packages 安装
+###############################################################################
+
+info '安装 packages/**/install.sh'
+
+for installer in $(find "$PWD/packages" -maxdepth 2 -name 'install.sh')
+do
+  . "$installer"
+done
+
+
+###############################################################################
+# packages 链接
+###############################################################################
+
+info '建立链接 packages/**/*.symlink'
+
+for src in $(find "$PWD/packages" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
+do
+  dst="$HOME/.$(basename "${src%.*}")"
+  link_file "$src" "$dst"
+done
+
+
+###############################################################################
+# 自定义文件
+###############################################################################
+
+. extra.sh
