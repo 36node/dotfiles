@@ -70,7 +70,6 @@ fi
 ## 安装过程用到的环境变量
 export ZSHRC=${ZSHRC:-$HOME/.zshrc}
 export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
-export REPO=${PROJECTS:-$WORKSPACE/repo}
 export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
 
 ###############################################################################
