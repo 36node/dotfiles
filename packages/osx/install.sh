@@ -88,13 +88,12 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 defaults write com.apple.finder AppleShowAllFiles -bool false;
 
 
-
 ###############################################################################
 # Dock                                                                        #
 ###############################################################################
 
 # Dock 项目图标大小设置
-defaults write com.apple.dock tilesize -int 48
+defaults write com.apple.dock tilesize -int 24
 
 # 最小化/最大化窗口效果
 defaults write com.apple.dock mineffect -string "scale"
@@ -104,15 +103,6 @@ defaults write com.apple.dock launchanim -bool false
 
 # 不显示最近应用
 defaults write com.apple.dock show-recents -bool false
-
-# 重新整理 Dock
-dockutil --no-restart --remove all
-dockutil --no-restart --add "/Applications/Google Chrome.app"
-dockutil --no-restart --add "/Applications/企业微信.app"
-dockutil --no-restart --add "/Applications/WeChat.app"
-
-killall Dock
-
 
 ###############################################################################
 # Terminal                                                                    #
@@ -154,9 +144,8 @@ defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 # 杀掉影响进程的应用程序
 for app in "Address Book" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Safari" "SystemUIServer" "iCal"; do
-  killall "${app}" &> /dev/null
+  killall "${app}" &> /dev/null || true
 done
 
 sudo spctl --master-disable
-
 success "设置完成，其中一些更改需要注销/重新启动才能生效"

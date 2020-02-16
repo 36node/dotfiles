@@ -103,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 DEFAULT_USER=zzs
 
 function fuck_gfw_status() {
-    if [ -z $FUCKING_GFW ];then
+    if [ -z $GFW_OFF ];then
     	echo ""
     else
     	echo "✈"
