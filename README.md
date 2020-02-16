@@ -23,7 +23,6 @@
 ```sh
 export ZSHRC=$HOME/.zshrc
 export WORKSPACE=$HOME/Workspace
-export REPO=$WORKSPACE/repo
 export COMPUTER_NAME=$USER
 ```
 
