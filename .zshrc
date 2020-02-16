@@ -3,12 +3,21 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-export SHELL=$(which zsh)
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
+
+ZSH_THEME="powerlevel9k/powerlevel9k"
+
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_CUSTOM_GFW_STATUS="fuck_gfw_status"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_gfw_status)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
+# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_unique"
+POWERLEVEL9K_STATUS_VERBOSE=false
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -52,22 +61,9 @@ export SHELL=$(which zsh)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew git python osx pip)
+plugins=(brew git python osx pip zsh-autosuggestions zsh-syntax-highlighting zsh-completions)
 
-## https://github.com/Powerlevel9k/powerlevel9k
-
-POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_CUSTOM_GFW_STATUS="fuck_gfw_status"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_gfw_status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
-# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_unique"
-POWERLEVEL9K_STATUS_VERBOSE=false
-
-source /usr/local/opt/powerlevel9k/powerlevel9k.zsh-theme
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
