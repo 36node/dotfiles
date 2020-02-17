@@ -13,8 +13,8 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_CUSTOM_GFW_STATUS="fuck_gfw_status"
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_gfw_status)
+POWERLEVEL9K_CUSTOM_PROXY_STATUS="proxy_status"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(time dir vcs custom_proxy_status)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs virtualenv rbenv rvm status)
 # POWERLEVEL9K_SHORTEN_STRATEGY="truncate_to_unique"
 POWERLEVEL9K_STATUS_VERBOSE=false
@@ -98,8 +98,8 @@ source $ZSH/oh-my-zsh.sh
 # Set default user
 DEFAULT_USER=zzs
 
-function fuck_gfw_status() {
-    if [ -z $GFW_OFF ];then
+function proxy_status() {
+    if [ -z $HTTP_PROXY ];then
     	echo ""
     else
     	echo "✈"

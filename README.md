@@ -1,6 +1,8 @@
 # dotfiles
 
-团队的基础系统配置，目前只是用于 mac 系统。
+团队的基础系统配置，目前只是用于 mac 系统。终端效果
+
+![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
 建议 fork 一份代码到自己的仓库，然后
 
@@ -35,13 +37,37 @@ cd dotfiles
 
 ## 收尾
 
-重新开启 SIP 服务
+- 装完后记得重启 mac, 顺便重新开启 SIP 服务
+- 启动各种软件，其中 shadowsocks-ng/mos/spectacle 最好自动启动
+- go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
+- terminal 设置 -> 建议 SolarizedDark 设置为默认，字体选择 Fira Code Nerd Font 选择细体 12 号
+![image](https://user-images.githubusercontent.com/1524745/74650618-11f29200-51bd-11ea-8f5f-a8d8467e4175.png)
+
+## 重要的命令
+
+命令行下开启翻墙
+
+```sh
+proxy
+```
+
+命令行下关闭翻墙
+
+```sh
+proxy off
+```
+
+单独对 git 之类的命令行进行翻墙
+
+```sh
+pc4 git clone xxxxx
+```
 
 ## 软件列表
 
 重要软件包
 
-- gfw: 翻墙相关
+- gfw: 翻墙相关, 包括 shadowsocks-ng, proxychains4-ng
 - node: nodejs / yarn
 - terminal: terminal 相关以及美化
 - vim: vim 相关优化
