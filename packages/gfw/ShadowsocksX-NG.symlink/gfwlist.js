@@ -12,6 +12,7 @@ var rules = [
   "||realtimeboard.com^",
   "||github.com^",
   "||githubusercontent.com^",
+  "||docker.com^",
   "|http:\/\/85.17.73.31\/",
   "||agnesb.fr",
   "||akiba-web.com",

@@ -106,8 +106,9 @@ fi
 ###############################################################################
 
 brew_install git
-brew_install mas
 brew_install kubernetes-cli
+brew_install mas
+brew_install wget
 
 brew_cask_install cheatsheet
 brew_cask_install docker
@@ -115,6 +116,7 @@ brew_cask_install github
 brew_cask_install go2shell
 brew_cask_install google-chrome
 brew_cask_install mos
+brew_cask_install nextcloud
 brew_cask_install secure-pipes
 brew_cask_install spectacle
 brew_cask_install visual-studio-code
