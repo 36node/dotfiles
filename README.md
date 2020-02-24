@@ -41,7 +41,7 @@ cd dotfiles
 - 启动各种软件，其中 shadowsocks-ng/mos/spectacle 最好自动启动
 - go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
 - terminal 设置 -> 建议 SolarizedDark 设置为默认，字体选择 Fira Code Nerd Font 选择细体 12 号
-![image](https://user-images.githubusercontent.com/1524745/74656648-88958c80-51c9-11ea-89e9-6d9464992839.png)
+  ![image](https://user-images.githubusercontent.com/1524745/74656648-88958c80-51c9-11ea-89e9-6d9464992839.png)
 
 ## 重要的命令
 
@@ -65,7 +65,7 @@ pc4 git clone xxxxx
 
 ## 软件列表
 
-重要软件包
+### 重要软件包
 
 - gfw: 翻墙相关, 包括 shadowsocks-ng, proxychains4-ng
 - node: nodejs / yarn
@@ -73,13 +73,16 @@ pc4 git clone xxxxx
 - vim: vim 相关优化
 - osx: 操作系统相关
 
-命令行程序
+### 命令行程序
 
-- tree
 - autojump
+- git
+- mas
+- tree
 - kubernetes-cli
+- wget
 
-GUI 程序
+### GUI 程序
 
 - [cheatsheet](https://free.com.tw/cheatsheet/)
 - docker
@@ -87,9 +90,17 @@ GUI 程序
 - github
 - [go2shell](https://www.jianshu.com/p/bae3a64ea762)
 - google-chrome
-- [iina](https://iina.io/)
 - mos
+- [nextcloud](https://nextcloud.com/)
 - [secure-pipes](https://www.opoet.com/pyro/index.php)
 - [spectacle](https://www.spectacleapp.com/)
 - visual-studio-code
 - [wechatwebdevtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html)
+
+### App Store
+
+- 微信
+- 企业微信
+- Pages
+- Numbers
+- Keynote
