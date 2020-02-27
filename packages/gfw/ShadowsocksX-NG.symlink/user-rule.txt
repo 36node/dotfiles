@@ -10,3 +10,4 @@
 ||github.com^
 ||githubusercontent.com^
 ||docker.com^
+||circleci.com^

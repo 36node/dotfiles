@@ -13,6 +13,7 @@ var rules = [
   "||github.com^",
   "||githubusercontent.com^",
   "||docker.com^",
+  "||circleci.com^",
   "|http:\/\/85.17.73.31\/",
   "||agnesb.fr",
   "||akiba-web.com",
