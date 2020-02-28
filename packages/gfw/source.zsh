@@ -10,13 +10,6 @@ proxy_help() {
 	echo "  off     Proxy Off"
 }
 
-local sshconfig="
-## Github
-Host github.com
-	HostName github.com
-	User git
-		ProxyCommand nc -v -x 127.0.0.1:1086 %h %p"
-
 proxy_on() {
 	export http_proxy=http://127.0.0.1:6868;
 	export https_proxy=$http_proxy;
@@ -25,7 +18,6 @@ proxy_on() {
 
 	## github
 	git config --global http.https://github.com.proxy socks5://127.0.0.1:1086
-	grep -qxF "Host github.com" "${HOME}/.ssh/config" || echo $sshconfig >> "${HOME}/.ssh/config"
 
 	echo "代理开启 - ${http_proxy}"
 }
@@ -38,8 +30,6 @@ proxy_off() {
 
 	## github
 	git config --global --unset http.https://github.com.proxy
-	sed -i "" '/## Github/{N;N;N;N;N;N;d;}' "${HOME}/.ssh/config"
-	sed -i "" -e '$ d' "${HOME}/.ssh/config" # 删除奇怪的一个空行，没有好的解决办法
 
 	echo "代理关闭"
 }
