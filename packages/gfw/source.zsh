@@ -1,6 +1,7 @@
 export PROXYCHAINS_CONF_FILE=${HOME}/.proxychains
+export PROXYCHAINS_QUIET_MODE=1
 
-alias pc4=proxychains4
+alias pc4="proxychains4 -q"
 
 proxy_help() {
 	echo "Usage: proxy [options]"
