@@ -11,3 +11,4 @@
 ||githubusercontent.com^
 ||docker.com^
 ||circleci.com^
+||stackoverflow.com^
