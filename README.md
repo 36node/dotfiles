@@ -104,3 +104,10 @@ pc4 git clone xxxxx
 - Pages
 - Numbers
 - Keynote
+
+### 字体
+
+```
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+```
