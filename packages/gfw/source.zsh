@@ -56,3 +56,31 @@ function proxy() {
 		esac
 	fi
 }
+
+## restart zerotier
+function zero() {
+	case $1 in
+	"start"*)
+		echo "start zerotier"
+		sudo launchctl load /Library/LaunchDaemons/com.zerotier.one.plist
+		;;
+	"stop"*)
+		echo "stop zerotier"
+		sudo launchctl unload /Library/LaunchDaemons/com.zerotier.one.plist
+		;;
+	"restart"*)
+		echo "restart zerotier"
+		sudo launchctl unload /Library/LaunchDaemons/com.zerotier.one.plist
+		sleep 10
+		sudo launchctl load /Library/LaunchDaemons/com.zerotier.one.plist
+		;;
+	*)
+		echo "Usage: zero <command>"
+		echo ""
+		echo "command:"
+		echo "  start    开启 zerotier"
+		echo "  stop     关闭 zerotier"
+		echo "  restart  重启 zerotier"
+		;;
+	esac
+}
