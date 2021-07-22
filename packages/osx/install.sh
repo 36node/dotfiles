@@ -25,9 +25,6 @@ defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 # 打开 Quick Look 窗口时禁用动画
 defaults write -g QLPanelAnimationDuration -float 0
 
-# Hide Safari's bookmark bar.
-defaults write com.apple.Safari ShowFavoritesBar -bool false
-
 # Use AirDrop over every interface. srsly this should be a default.
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
 
@@ -37,6 +34,7 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
 
 ###############################################################################
 # 屏幕                                                                        #
@@ -51,7 +49,7 @@ defaults write com.apple.screencapture type -string "jpg"
 # 截图禁用阴影
 defaults write com.apple.screencapture disable-shadow -bool true
 
-# 在非Apple LCD上启用亚像素字体渲染
+# 在非 Apple LCD 上启用亚像素字体渲染
 defaults write NSGlobalDomain AppleFontSmoothing -int 2
 
 # Run the screensaver if we're in the bottom-left hot corner.
@@ -66,8 +64,8 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 # 禁用窗口动画和获取信息动画
 defaults write com.apple.finder DisableAllAnimations -bool true
 
-# 不显示文件的扩展名
-defaults write NSGlobalDomain AppleShowAllExtensions -bool false
+# 显示文件的扩展名
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 # 显示状态栏
 defaults write com.apple.finder ShowStatusBar -bool true
@@ -104,6 +102,7 @@ defaults write com.apple.dock launchanim -bool false
 # 不显示最近应用
 defaults write com.apple.dock show-recents -bool false
 
+
 ###############################################################################
 # Terminal                                                                    #
 ###############################################################################
@@ -119,7 +118,7 @@ defaults write com.apple.terminal PromptOnQuit -bool false
 # 硬盘                                                                         #
 ###############################################################################
 
-# 关闭空硬盘Time Machine提醒
+# 关闭空硬盘 Time Machine 提醒
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 
@@ -133,6 +132,8 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 # Set a really fast key repeat.
 defaults write NSGlobalDomain KeyRepeat -int 1
 
+# 重复前延迟
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 
 ###############################################################################

@@ -47,7 +47,7 @@ fi
 
 ## https://github.com/ryanoasis/nerd-fonts
 brew tap homebrew/cask-fonts
-brew_cask_install font-fira-code-nerd-font
+brew_install font-fira-code-nerd-font
 
 ## zshrc
 link_file "$PWD/.zshrc" "$ZSHRC"

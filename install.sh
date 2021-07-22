@@ -46,7 +46,7 @@ cat $PWD/assets/ascii.txt
 ###############################################################################
 
 ## icloud
-export iCloud="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+export iCloud="$HOME/Library/'Mobile Documents'/com~apple~CloudDocs"
 
 ## TODO: 后面允许自行输入 private 数据存放地址
 export PRIVATE="$iCloud/.dotfiles"
@@ -59,7 +59,7 @@ fi
 sync_file "$PRIVATE/.env" "$PWD/.env"
 
 ## 从 private 恢复 ssh 文件
-sync_file "$PRIVATE/.ssh" "$PWD/packages/.ssh"
+sync_file "$PRIVATE/.ssh" "$PWD/.ssh"
 sync_file "$PRIVATE/.ssh" "$HOME/.ssh"
 
 ## 加载环境变量 .env
@@ -105,25 +105,32 @@ fi
 # 安装其他无需配置的软件
 ###############################################################################
 
+brew_install aliyun-cli
+brew_install ansible
 brew_install git
+brew_install gh
+brew_install helm
+brew_install jq
+brew_install k3sup
+brew_install kafkacat
+brew_install kubectx
 brew_install kubernetes-cli
 brew_install mas
 brew_install wget
 
-brew_cask_install cheatsheet
-brew_cask_install docker
-brew_cask_install github
-brew_cask_install go2shell
-brew_cask_install google-chrome
-brew_cask_install mos
-brew_cask_install nextcloud
-brew_cask_install secure-pipes
-brew_cask_install spectacle
-brew_cask_install visual-studio-code
-brew_cask_install wechatwebdevtools
+brew_install cheatsheet
+brew_install docker
+brew_install github
+brew_install go2shell
+brew_install google-chrome
+brew_install mos
+brew_install postman
+brew_install secure-pipes
+brew_install spectacle
+brew_install visual-studio-code
+brew_install zerotier-one
 
 mas install 836500024     # 微信
-mas install 1189898970    # 企业微信
 mas install 409201541     # Pages
 mas install 409203825     # Numbers
 mas install 409183694     # Keynote
@@ -142,16 +149,16 @@ done
 
 
 ###############################################################################
-# packages 链接
+# packages 链接 放到 install 文件中去执行
 ###############################################################################
 
-info '建立链接 packages/**/*.symlink'
+# info '建立链接 packages/**/*.symlink'
 
-for src in $(find "$PWD/packages" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-do
-  dst="$HOME/.$(basename "${src%.*}")"
-  link_file "$src" "$dst"
-done
+# for src in $(find "$PWD/packages" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
+# do
+#   dst="$HOME/.$(basename "${src%.*}")"
+#   link_file "$src" "$dst"
+# done
 
 
 ###############################################################################

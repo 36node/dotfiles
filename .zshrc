@@ -75,7 +75,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -88,10 +88,10 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -104,6 +104,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Set default user
 DEFAULT_USER=zzs
+
+###############################################################################
+# proxy
+###############################################################################
 
 function proxy_status() {
     if [ -z $HTTP_PROXY ];then
@@ -136,3 +140,12 @@ do
 done
 
 unset config_files
+
+
+###############################################################################
+# fzf  交互式命令行  https://github.com/junegunn/fzf
+###############################################################################
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+. "/Users/zzs/.acme.sh/acme.sh.env"
