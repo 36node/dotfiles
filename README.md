@@ -12,8 +12,7 @@
 
 ## 准备工作
 
-1. 在开始安装之前，需要关闭系统的 SIP 服务，[参考](https://sspai.com/post/55066)
-2. 在你的 icloud 根目录中，建立 .dotfiles 目录，用于存放私有敏感数据
+1. 在你的 icloud 根目录中，建立 .dotfiles 目录，用于存放私有敏感数据
 
 ## 安装
 
@@ -37,7 +36,6 @@ cd dotfiles
 
 ## 收尾
 
-- 装完后记得重启 mac, 顺便重新开启 SIP 服务
 - 启动各种软件，其中 shadowsocks-ng/mos/spectacle 最好自动启动
 - go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
 - terminal 设置 -> 建议 SolarizedDark 设置为默认，字体选择 Fira Code Nerd Font 选择细体 12 号
@@ -91,16 +89,14 @@ pc4 git clone xxxxx
 - [go2shell](https://www.jianshu.com/p/bae3a64ea762)
 - google-chrome
 - mos
-- [nextcloud](https://nextcloud.com/)
 - [secure-pipes](https://www.opoet.com/pyro/index.php)
 - [spectacle](https://www.spectacleapp.com/)
 - visual-studio-code
-- [wechatwebdevtools](https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html)
 
 ### App Store
 
 - 微信
-- 企业微信
+- 飞书
 - Pages
 - Numbers
 - Keynote

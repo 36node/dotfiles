@@ -1642,6 +1642,8 @@
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
 	ZmZmg1MTpj6DeHnQPoPQg+A+AYY=
 	</data>
+	<key>columnCount</key>
+	<integer>150</integer>
 	<key>cyanColour</key>
 	<data>
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
@@ -1664,6 +1666,8 @@
 	BAtzdHJlYW10eXBlZIHoA4QBQISEhAdOU0NvbG9yAISECE5TT2JqZWN0AIWEAWMBhARm
 	ZmZmg6i7UT+DUATePYMl2hA+AYY=
 	</data>
+	<key>rowCount</key>
+	<integer>50</integer>
 	<key>shellExitAction</key>
 	<integer>1</integer>
 	<key>type</key>
