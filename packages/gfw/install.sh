@@ -10,5 +10,5 @@ brew_install clashx
 sync_file "$PRIVATE/com.qiuyuzhou.ShadowsocksX-NG.plist" "$HOME/Library/Preferences/com.qiuyuzhou.ShadowsocksX-NG.plist"
 
 ## create links
-link_file "./ShadowsocksX-NG.symlink" "~/.ShadowsocksX-NG"
-link_file "./proxychains.symlink" "~/.proxychains"
+link_file "$PWD/gfw/ShadowsocksX-NG.symlink" "$HOME/.ShadowsocksX-NG"
+link_file "$PWD/gfw/proxychains.symlink" "$HOME/.proxychains"

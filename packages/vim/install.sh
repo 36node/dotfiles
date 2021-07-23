@@ -6,4 +6,4 @@
 brew_install vim
 
 ## create links
-link_file "./vimrc.symlink" "~/.vimrc"
+link_file "$PWD/vim/vimrc.symlink" "$HOME/.vimrc"
