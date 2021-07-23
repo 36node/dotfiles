@@ -12,7 +12,6 @@ source $PWD/lib/link.sh
 source $PWD/lib/mac_version.sh
 source $PWD/lib/brew.sh
 source $PWD/help.sh
-source $PWD/env.sh
 
 overwrite_all=false backup_all=false skip_all=false
 
@@ -65,7 +64,7 @@ sync_file "$PRIVATE/.ssh" "$HOME/.ssh"
 
 ## 加载环境变量文件 .env
 if [ -f .env ]; then
-    loadEnv .env
+  export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
 fi
 
 ## 安装过程用到的环境变量
