@@ -12,6 +12,7 @@ source $PWD/lib/link.sh
 source $PWD/lib/mac_version.sh
 source $PWD/lib/brew.sh
 source $PWD/help.sh
+source $PWD/env.sh
 
 overwrite_all=false backup_all=false skip_all=false
 
@@ -46,7 +47,7 @@ cat $PWD/assets/ascii.txt
 ###############################################################################
 
 ## icloud
-export iCloud="$HOME/Library/'Mobile Documents'/com~apple~CloudDocs"
+export iCloud="$HOME/Library/Mobile\ Documents/com~apple~CloudDocs"
 
 ## TODO: 后面允许自行输入 private 数据存放地址
 export PRIVATE="$iCloud/.dotfiles"
@@ -62,9 +63,9 @@ sync_file "$PRIVATE/.env" "$PWD/.env"
 sync_file "$PRIVATE/.ssh" "$PWD/.ssh"
 sync_file "$PRIVATE/.ssh" "$HOME/.ssh"
 
-## 加载环境变量 .env
-if [ -f ".env" -o -L ".env" ]; then
-  source ".env"
+## 加载环境变量文件 .env
+if [ -f .env ]; then
+    loadEnv .env
 fi
 
 ## 安装过程用到的环境变量
