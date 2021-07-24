@@ -120,6 +120,7 @@ brew_install wget
 
 brew_install cheatsheet
 brew_install docker
+brew_install feishu
 brew_install github
 brew_install go2shell
 brew_install google-chrome

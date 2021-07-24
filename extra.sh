@@ -13,4 +13,3 @@ brew_install mailmaster     # 邮箱大师
 brew_install paper          # 自动换壁纸
 brew_install qqmusic        # qq 音乐
 brew_install snipaste       # 截屏工具
-brew_install sogouinput     # 搜狗拼音输入法
