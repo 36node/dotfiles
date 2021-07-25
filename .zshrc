@@ -125,9 +125,9 @@ function proxy_status() {
 export DOTFILES=$(dirname $(readlink $HOME/.zshrc))
 export ENV="$DOTFILES/.env"
 
-# 加载 env
+## 加载环境变量文件 .env
 if [ -f "$ENV" -o -L "$ENV" ]; then
-  source "$ENV"
+  export $(cat $ENV | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
 fi
 
 config_files=($DOTFILES/packages/**/*.zsh)
