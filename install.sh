@@ -118,18 +118,18 @@ brew_install kubernetes-cli
 brew_install mas
 brew_install wget
 
-brew_install cheatsheet
-brew_install docker
-brew_install feishu
-brew_install github
-brew_install go2shell
-brew_install google-chrome
-brew_install mos
-brew_install postman
-brew_install secure-pipes
-brew_install spectacle
-brew_install visual-studio-code
-brew_install zerotier-one
+brew_cask_install cheatsheet
+brew_cask_install docker
+brew_cask_install feishu
+brew_cask_install github
+brew_cask_install go2shell
+brew_cask_install google-chrome
+brew_cask_install mos
+brew_cask_install postman
+brew_cask_install secure-pipes
+brew_cask_install spectacle
+brew_cask_install visual-studio-code
+brew_cask_install zerotier-one
 
 mas install 836500024     # 微信
 mas install 409201541     # Pages
