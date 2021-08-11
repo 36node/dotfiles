@@ -14,14 +14,14 @@ proxy_help() {
 proxy_on() {
 	local_ip_v4=$(ifconfig | grep inet | grep -v inet6 | grep -v 127 | cut -d ' ' -f2 | head -n 1)
 
-	export http_proxy=http://${local_ip_v4}:6868;
+	export http_proxy=http://${local_ip_v4}:7890;
 	export https_proxy=$http_proxy;
 	export HTTP_PROXY=$http_proxy;
 	export HTTPS_PROXY=$http_proxy;
 	export NO_PROXY=localhost,127.0.0.1,10.96.0.0/12,192.168.99.0/24,192.168.39.0/24,172.17.0.0/24
 
 	## github
-	git config --global http.https://github.com.proxy socks5://127.0.0.1:1086
+	git config --global http.https://github.com.proxy socks5://127.0.0.1:7890
 
 	echo "代理开启 - ${http_proxy}"
 }
