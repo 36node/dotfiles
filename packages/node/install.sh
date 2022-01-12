@@ -11,8 +11,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
 ## node && yarn
-nvm install 15
+nvm install 16
 npm install --global yarn
+npm install --global pnpm
 
 ## create links
 link_file "$PWD/packages/node/npmrc.symlink" "$HOME/.npmrc"

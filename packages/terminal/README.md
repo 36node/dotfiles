@@ -1,13 +1,7 @@
 ## 注意事项
 
-安装 fzf https://github.com/junegunn/fzf，自动执行了下述脚本
+需要在安装完成后手动执行
 
 ```
-brew_install fzf
-```
-
-但是 这个命令自动化不太好，需要手动执行
-
-```
-$(brew --prefix)/opt/fzf/install
+p10k configure
 ```

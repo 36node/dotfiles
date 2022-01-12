@@ -1,7 +1,7 @@
 os: osx
 osx_image:
-  - xcode10.1 ## Mojave
   - xcode11.2 ## Catalina
+  - xcode12.1 ## Monterey
 
 sudo: required
 

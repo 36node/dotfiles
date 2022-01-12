@@ -1,6 +1,8 @@
 # dotfiles
 
-团队的基础系统配置，目前只是用于 mac 系统。终端效果
+一键初始化系统，快速同步团队开发环境。
+
+*目前仅支持 MacOs*
 
 ![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
@@ -10,16 +12,12 @@
 2. packages 增加自己特有的需求
 3. 如果这个修改你觉得可以贡献到 36node 库，cherry pick 出来后，发 pr 到 36node 库。
 
-## 准备工作
-
-1. 在你的 icloud 根目录中，建立 .dotfiles 目录，用于存放私有敏感数据
-
 ## 安装
 
 1. 从你 fork 的工程里，克隆代码
-2. 在 `$iCloud/.dotfiles` 下放置 .env 文件，定义私有的环境变量，如果没有 .env 文件会采用默认值
+2. `cp .env.example .env`
 
-.env 默认值，ps:**如果和默认值一样无需提供**
+可以覆盖系统的环境变量，加一些 private 的环境变量
 
 ```sh
 export ZSHRC=$HOME/.zshrc
@@ -46,7 +44,7 @@ cd dotfiles
 命令行下开启翻墙
 
 ```sh
-proxy
+proxy on
 ```
 
 命令行下关闭翻墙
@@ -92,14 +90,11 @@ pc4 git clone xxxxx
 - [secure-pipes](https://www.opoet.com/pyro/index.php)
 - [spectacle](https://www.spectacleapp.com/)
 - visual-studio-code
+- 微信
+- 飞书
 
 ### App Store
 
-- 微信
-- 飞书
-- Pages
-- Numbers
-- Keynote
 
 ### 字体
 

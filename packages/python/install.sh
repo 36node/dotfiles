@@ -4,5 +4,5 @@
 
 ## pyenv
 brew_install pyenv
-[ -d "$(pyenv root)/versions/3.8.5" ]
-pyenv global 3.8.5
+[ -d "$(pyenv root)/versions/3.10.1" ]
+pyenv global 3.10.1

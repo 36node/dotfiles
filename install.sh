@@ -45,23 +45,6 @@ cat $PWD/assets/ascii.txt
 # 环境变量
 ###############################################################################
 
-## icloud
-export iCloud="$HOME/Library/Mobile\ Documents/com~apple~CloudDocs"
-
-## TODO: 后面允许自行输入 private 数据存放地址
-export PRIVATE="$iCloud/.dotfiles"
-
-if [ ! -d "$PRIVATE" ]; then
-  mkdir -p "$PRIVATE"
-fi
-
-## 从 private 恢复 env 文件
-sync_file "$PRIVATE/.env" "$PWD/.env"
-
-## 从 private 恢复 ssh 文件
-sync_file "$PRIVATE/.ssh" "$PWD/.ssh"
-sync_file "$PRIVATE/.ssh" "$HOME/.ssh"
-
 ## 加载环境变量文件 .env
 if [ -f .env ]; then
   export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
@@ -73,7 +56,7 @@ export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
 export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
 
 ###############################################################################
-# 系统
+# 装机必备的系统级软件
 # 0. xcode-tools
 # 1. homebrew
 # 2. zsh && oh-my-zsh
@@ -95,47 +78,39 @@ fi
 
 ## homebrew
 if test ! $(which brew); then
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-## zsh
-. zsh.sh
-
 ###############################################################################
-# 安装其他无需配置的软件
+# 安装一些必备软件
 ###############################################################################
 
 brew_install aliyun-cli
-brew_install ansible
 brew_install git
 brew_install gh
-brew_install helm
 brew_install jq
-brew_install k3sup
 brew_install kafkacat
-brew_install kubectx
-brew_install kubernetes-cli
 brew_install mas
 brew_install wget
 
 brew_cask_install cheatsheet
 brew_cask_install docker
-brew_cask_install feishu
 brew_cask_install github
 brew_cask_install go2shell
 brew_cask_install google-chrome
 brew_cask_install mos
-brew_cask_install postman
+# brew_cask_install postman
 brew_cask_install secure-pipes
-brew_cask_install spectacle
 brew_cask_install visual-studio-code
-brew_cask_install zerotier-one
+brew_cask_install feishu # 飞书
+brew_cask_install wechat # 微信
 
-mas install 836500024     # 微信
-mas install 409201541     # Pages
-mas install 409203825     # Numbers
-mas install 409183694     # Keynote
-
+## DevOps
+# brew_install ansible
+# brew_install helm
+# brew_install k3sup
+# brew_install kubectx
+# brew_install kubernetes-cli
 
 ###############################################################################
 # packages 安装
@@ -148,25 +123,15 @@ do
   . "$installer"
 done
 
-
-###############################################################################
-# packages 链接 放到 install 文件中去执行
-###############################################################################
-
-# info '建立链接 packages/**/*.symlink'
-
-# for src in $(find "$PWD/packages" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-# do
-#   dst="$HOME/.$(basename "${src%.*}")"
-#   link_file "$src" "$dst"
-# done
-
-
 ###############################################################################
 # 其他
 ###############################################################################
 
-. extra.sh
+## 加载环境变量文件 .env
+# if [ -f extra.sh ]; then
+#   . extra.sh
+# fi
+
 warn "成功安装 dotfiles，请重启电脑！"
 
 
