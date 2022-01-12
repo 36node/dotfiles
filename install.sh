@@ -73,12 +73,13 @@ if ! xcode-select --print-path &> /dev/null; then
   info "安装 build/install tools ..."
   xcode-select --install &> /dev/null;
   success "安装成功 build/install tools"
-
 fi
 
 ## homebrew
 if test ! $(which brew); then
-	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  append 'eval "$(/opt/homebrew/bin/brew shellenv)"' $HOME/.zprofile
 fi
 
 ###############################################################################
