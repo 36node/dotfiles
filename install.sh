@@ -77,9 +77,11 @@ fi
 
 ## homebrew
 if test ! $(which brew); then
+  info "安装 homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  append 'eval "$(/opt/homebrew/bin/brew shellenv)"' $HOME/.zprofile
+  append 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$ZSHRC"
+  success "安装成功 homebrew"
 fi
 
 ###############################################################################
