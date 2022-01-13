@@ -3,11 +3,11 @@
 # osx 相关
 
 
-info "更新 系统软件 ..."
+message "更新 系统软件 ..."
 sudo softwareupdate -i -a
 success "更新成功 系统软件"
 
-info "设置 macos"
+message "设置 macos"
 
 ###############################################################################
 # 常规                                                                        #
@@ -20,7 +20,7 @@ sudo scutil --set LocalHostName ${COMPUTER_NAME}
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string ${COMPUTER_NAME}
 
 # 打开关闭窗口时禁用动画
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool true
 
 # 打开 Quick Look 窗口时禁用动画
 defaults write -g QLPanelAnimationDuration -float 0
@@ -150,3 +150,4 @@ done
 
 sudo spctl --master-disable
 success "设置完成，其中一些更改需要注销/重新启动才能生效"
+echo ""

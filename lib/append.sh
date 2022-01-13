@@ -4,6 +4,7 @@
 
 append() {
   local line=$1 file=$2
+
   grep -qxF "$line" "$file" || echo "$line" >> "$file"
 }
 

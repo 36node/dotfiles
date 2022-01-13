@@ -6,7 +6,9 @@
 
 ![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
-建议 fork 一份代码到自己的仓库，然后
+## 使用方法
+
+*建议 fork 一份代码到自己的仓库*
 
 1. 修改 extra.sh，放入自己特殊的安装脚本
 2. packages 增加自己特有的需求
@@ -24,6 +26,8 @@ export ZSHRC=$HOME/.zshrc
 export WORKSPACE=$HOME/Workspace
 export COMPUTER_NAME=$USER
 ```
+
+一键安装
 
 ```sh
 cd dotfiles
@@ -92,6 +96,19 @@ pc4 git clone xxxxx
 - visual-studio-code
 - 微信
 - 飞书
+
+### 推荐的选装
+
+- another-redis-desktop-manager   # redis gui
+- spectacle                       # 分屏软件
+- baidunetdisk                    # 百度网盘
+- battle-net                      # 暴雪战网，最适合程序员的游戏
+- dropbox                         # dropbox
+- iina                            # 苹果风电影播放器
+- keka                            # 压缩工具
+- paper                           # 自动换壁纸
+- qqmusic                         # qq 音乐
+- snipaste                        # 截屏工具
 
 ### App Store
 

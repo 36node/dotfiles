@@ -70,17 +70,16 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ## Xcode
 if ! xcode-select --print-path &> /dev/null; then
-  info "安装 build/install tools ..."
+  message "安装 build/install tools ..."
   xcode-select --install &> /dev/null;
   success "安装成功 build/install tools"
 fi
 
 ## homebrew
 if test ! $(which brew); then
-  info "安装 homebrew ..."
+  message "安装 homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/opt/homebrew/bin/brew shellenv)"
-  append 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$ZSHRC"
   success "安装成功 homebrew"
 fi
 
@@ -88,55 +87,64 @@ fi
 # 安装一些必备软件
 ###############################################################################
 
-brew_install aliyun-cli
 brew_install git
 brew_install gh
 brew_install jq
-brew_install kafkacat
 brew_install mas
 brew_install wget
 
 brew_cask_install cheatsheet
-brew_cask_install docker
 brew_cask_install github
 brew_cask_install go2shell
 brew_cask_install google-chrome
 brew_cask_install mos
-# brew_cask_install postman
+brew_cask_install postman
 brew_cask_install secure-pipes
 brew_cask_install visual-studio-code
 brew_cask_install feishu # 飞书
 brew_cask_install wechat # 微信
 
-## DevOps
-# brew_install ansible
-# brew_install helm
-# brew_install k3sup
-# brew_install kubectx
-# brew_install kubernetes-cli
-
 ###############################################################################
 # packages 安装
 ###############################################################################
 
-info '安装 packages/**/install.sh'
+message '安装 packages ...'
+echo ""
 
-for installer in $(find "$PWD/packages" -maxdepth 2 -name 'install.sh')
+for package in `find packages -mindepth 1 -maxdepth 1 -type d`
 do
-  . "$installer"
+		echo "***************************************"
+		message "安装插件包 $package"
+		echo "***************************************"
+		echo ""
+
+		if [ -f "$package/install.sh" ]; then
+    	. "$package/install.sh"
+		else 
+			echo "install.sh does not exist."
+		fi
 done
 
 ###############################################################################
 # 其他
 ###############################################################################
 
-## 加载环境变量文件 .env
-# if [ -f extra.sh ]; then
-#   . extra.sh
-# fi
+## 加载额外的 extra.sh
+if [ -f extra.sh ]; then
+	ask "Do you want to install extra apps?\n\
+	[y]yes, [n]no"
+	read -n 1 action
+
+	case "$action" in
+		y )
+			. extra.sh;;
+		* )
+			;;
+	esac
+fi
+
+## 添加 source
+append "# source dotfiles" "$ZSHRC"
+append "source $PWD/source.zsh" "$ZSHRC"
 
 warn "成功安装 dotfiles，请重启电脑！"
-
-
-
-

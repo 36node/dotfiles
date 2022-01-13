@@ -19,10 +19,6 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
-## powerline
-export POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true ## please use `p10k configure` manually
-source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
-
 ## proxy icon for powerline
 function proxy_status() {
   if [ -z $HTTP_PROXY ];then

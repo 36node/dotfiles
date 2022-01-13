@@ -14,7 +14,7 @@ ask() {
 }
 
 # Base infomation
-info() {
+message() {
   echo ${CYAN}➜ $1${END}
 }
 
