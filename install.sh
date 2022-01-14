@@ -91,6 +91,7 @@ brew_install git
 brew_install gh
 brew_install jq
 brew_install mas
+brew_install ruby
 brew_install wget
 
 brew_cask_install cheatsheet

@@ -18,6 +18,12 @@ if [ -f "$ENV" -o -L "$ENV" ]; then
   export $(cat $ENV | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
 fi
 
+## ruby
+if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
+  export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+  export PATH=`gem environment gemdir`/bin:$PATH
+fi
+
 ###############################################################################
 # packages
 ###############################################################################
