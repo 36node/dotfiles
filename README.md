@@ -2,13 +2,13 @@
 
 一键初始化系统，快速同步团队开发环境。
 
-*目前仅支持 MacOs*
+注意：*目前仅支持 MacOs*
 
 ![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
 ## 使用方法
 
-*建议 fork 一份代码到自己的仓库*
+建议：*fork 一份代码到自己的仓库*
 
 1. 修改 extra.sh，放入自己特殊的安装脚本
 2. packages 增加自己特有的需求
@@ -42,6 +42,7 @@ cd dotfiles
 - go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
 - terminal 设置 -> 建议 SolarizedDark 设置为默认，字体选择 Fira Code Nerd Font 选择细体 12 号
   ![image](https://user-images.githubusercontent.com/1524745/74656648-88958c80-51c9-11ea-89e9-6d9464992839.png)
+- 运行 `p10k configure` 配置你的终端
 
 ## 重要的命令
 
@@ -112,10 +113,9 @@ pc4 git clone xxxxx
 
 ### App Store
 
-
 ### 字体
 
-```
+```sh
 brew tap homebrew/cask-fonts
 brew cask install font-fira-code-nerd-font
 ```
