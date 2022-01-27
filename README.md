@@ -112,10 +112,3 @@ pc4 git clone xxxxx
 - snipaste                        # 截屏工具
 
 ### App Store
-
-### 字体
-
-```sh
-brew tap homebrew/cask-fonts
-brew cask install font-fira-code-nerd-font
-```
