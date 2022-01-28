@@ -4,7 +4,7 @@
 
 alias k=kubectl
 
-// kr namespace deployment
+# kr namespace deployment
 function kr() {
   namespace=$1
   deployment=$2
