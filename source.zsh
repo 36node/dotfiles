@@ -9,9 +9,6 @@ realpath() {
 
 DOTFILES_DIR="$(dirname $(realpath "$0"))"
 
-## homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 ## 加载环境变量文件 .env
 ENV="$DOTFILES_DIR/.env"
 if [ -f "$ENV" -o -L "$ENV" ]; then
@@ -19,8 +16,8 @@ if [ -f "$ENV" -o -L "$ENV" ]; then
 fi
 
 ## ruby
-if [ -d "/opt/homebrew/opt/ruby/bin" ]; then
-  export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+if [ -d "${HOMEBREW_PREFIX}/opt/ruby/bin" ]; then
+  export PATH=${HOMEBREW_PREFIX}/opt/ruby/bin:$PATH
   export PATH=`gem environment gemdir`/bin:$PATH
 fi
 

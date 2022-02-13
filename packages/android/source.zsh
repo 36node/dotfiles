@@ -10,4 +10,4 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # java 版本
 export JAVA_HOME=`/usr/libexec/java_home -v 17`
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH"

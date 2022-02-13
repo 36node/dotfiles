@@ -79,7 +79,6 @@ fi
 if test ! $(which brew); then
   message "安装 homebrew ..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
   success "安装成功 homebrew"
 fi
 
