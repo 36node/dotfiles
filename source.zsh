@@ -8,6 +8,7 @@ realpath() {
 }
 
 DOTFILES_DIR="$(dirname $(realpath "$0"))"
+HOMEBREW_PREFIX=$(brew --prefix)
 
 ## 加载环境变量文件 .env
 ENV="$DOTFILES_DIR/.env"
