@@ -2,7 +2,7 @@
 
 一键初始化系统，快速同步团队开发环境。
 
-注意：*目前仅支持 MacOs*
+注意：*目前仅支持 MacOs* 支持最新版 Monterey, 完全适配 M1 和 非M1 mac。
 
 ![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
