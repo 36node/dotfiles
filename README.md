@@ -64,6 +64,10 @@ proxy off
 pc4 git clone xxxxx
 ```
 
+如果想在命令行有代理的提示，请修改 ~/.p10k.zsh 文件
+
+在 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS 中打开 proxy 选项
+
 ## 软件列表
 
 ### 重要软件包
