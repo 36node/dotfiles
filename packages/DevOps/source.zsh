@@ -2,7 +2,7 @@
 #
 # DevOps 相关软件设置
 
-alias k=kubecolor
+alias k=kubectl
 
 # kr namespace deployment
 function kr() {
