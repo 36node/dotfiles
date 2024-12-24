@@ -2,7 +2,15 @@
 #
 # 安卓 相关软件安装
 
+## install java
+brew install temurin
+brew install ant
+brew install maven
+brew install gradle
 
-## java
-brew_install openjdk      # jdk
-sudo ln -sfn ${HOMEBREW_PREFIX}/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+## install android
+brew install android-ndk 
+brew install --cask android-studio
+
+## flutter
+# https://gist.github.com/Rockncoder/a7aa6fb482b427174f767ac30785ec6e

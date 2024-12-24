@@ -9,5 +9,9 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # java 版本
-export JAVA_HOME=`/usr/libexec/java_home -v 17`
-export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH"
+# export PATH="${HOMEBREW_PREFIX}/opt/openjdk/bin:$PATH"
+export JAVA_HOME="$(/usr/libexec/java_home)"
+
+## android
+export ANDROID_NDK_HOME="/opt/homebrew/share/android-ndk"
+## /Users/zzs/Library/Android/sdk
