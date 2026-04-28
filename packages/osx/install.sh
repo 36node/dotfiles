@@ -3,9 +3,8 @@
 # osx 相关
 
 
-message "更新 系统软件 ..."
-sudo softwareupdate -i -a
-success "更新成功 系统软件"
+# 如需安装系统更新，请手动执行：sudo softwareupdate -i -a
+# 这里默认不自动跑，避免一键脚本里触发非预期的大版本升级
 
 message "设置 macos"
 
@@ -17,10 +16,9 @@ message "设置 macos"
 sudo scutil --set ComputerName ${COMPUTER_NAME}
 sudo scutil --set HostName ${COMPUTER_NAME}
 sudo scutil --set LocalHostName ${COMPUTER_NAME}
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string ${COMPUTER_NAME}
 
 # 打开关闭窗口时禁用动画
-defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool true
+defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
 # 打开 Quick Look 窗口时禁用动画
 defaults write -g QLPanelAnimationDuration -float 0
@@ -43,14 +41,11 @@ defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 # 屏幕截屏保存到桌面
 defaults write com.apple.screencapture location -string "${HOME}/Desktop"
 
-# 保存格式为 JPG
-defaults write com.apple.screencapture type -string "jpg"
+# 保存格式为 PNG
+defaults write com.apple.screencapture type -string "png"
 
 # 截图禁用阴影
 defaults write com.apple.screencapture disable-shadow -bool true
-
-# 在非 Apple LCD 上启用亚像素字体渲染
-defaults write NSGlobalDomain AppleFontSmoothing -int 2
 
 # Run the screensaver if we're in the bottom-left hot corner.
 defaults write com.apple.dock wvous-bl-corner -int 5
@@ -91,7 +86,7 @@ defaults write com.apple.finder AppleShowAllFiles -bool false;
 ###############################################################################
 
 # Dock 项目图标大小设置
-defaults write com.apple.dock tilesize -int 24
+defaults write com.apple.dock tilesize -int 48
 
 # 最小化/最大化窗口效果
 defaults write com.apple.dock mineffect -string "scale"
@@ -101,17 +96,6 @@ defaults write com.apple.dock launchanim -bool false
 
 # 不显示最近应用
 defaults write com.apple.dock show-recents -bool false
-
-
-###############################################################################
-# Terminal                                                                    #
-###############################################################################
-
-# 使用 UTF-8 编码
-defaults write com.apple.terminal StringEncodings -array 4
-
-# 退出时不显示提示
-defaults write com.apple.terminal PromptOnQuit -bool false
 
 
 ###############################################################################
@@ -130,7 +114,7 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Set a really fast key repeat.
-defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain KeyRepeat -int 2
 
 # 重复前延迟
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
@@ -144,10 +128,9 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 # 杀掉影响进程的应用程序
-for app in "Address Book" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Safari" "SystemUIServer" "iCal"; do
+for app in "Calendar" "Contacts" "Dock" "Finder" "Mail" "Safari" "SystemUIServer"; do
   killall "${app}" &> /dev/null || true
 done
 
-sudo spctl --master-disable
 success "设置完成，其中一些更改需要注销/重新启动才能生效"
 echo ""
