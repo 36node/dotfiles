@@ -48,7 +48,7 @@ cd dotfiles
 
 ### 重要软件包
 
-- node: nodejs / yarn
+- node: fnm + nodejs / corepack(yarn, pnpm)
 - terminal: terminal 相关以及美化
 - osx: 操作系统相关
 

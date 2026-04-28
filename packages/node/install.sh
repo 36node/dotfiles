@@ -2,15 +2,18 @@
 #
 # node 相关安装
 
-## nvm
-brew_install nvm
-mkdir -p ~/.nvm
+## fnm (Fast Node Manager)
+brew_install fnm
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+## 让本次安装会话内 fnm 可用，以便后续 fnm install/use 命令生效
+eval "$(fnm env --shell bash)"
 
-## node && yarn
-nvm install 18
-npm install --global yarn
-npm install --global pnpm
+## node 24（设为 default，新 shell 自动使用）
+fnm install 24
+fnm default 24
+fnm use 24
+
+## yarn / pnpm 通过 corepack 管理（Node 自带）
+corepack enable
+corepack prepare pnpm@latest --activate
+corepack prepare yarn@stable --activate
