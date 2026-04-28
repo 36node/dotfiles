@@ -40,16 +40,17 @@ cd dotfiles
 
 - 启动各种软件，其中 mos/spectacle 最好自动启动
 - go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
-- terminal 设置 -> 建议 SolarizedDark 设置为默认，字体选择 Fira Code Nerd Font 选择细体 12 号
-  ![image](https://user-images.githubusercontent.com/1524745/74656648-88958c80-51c9-11ea-89e9-6d9464992839.png)
+- ghostty 已默认使用 JetBrains Mono Nerd Font，配置已 symlink 到 `~/.config/ghostty/config`，无需手动设置
 - 运行 `p10k configure` 配置你的终端
+- 首次启动 `nvim`，LazyVim 会自动安装插件，完成后可运行 `:checkhealth` 检查环境
 
 ## 软件列表
 
 ### 重要软件包
 
 - node: fnm + nodejs / corepack(yarn, pnpm)
-- terminal: terminal 相关以及美化
+- nvim: neovim + LazyVim + ripgrep + fd
+- terminal: ghostty + JetBrains Mono Nerd Font + zsh 美化（oh-my-zsh / powerlevel10k）
 - osx: 操作系统相关
 
 ### 命令行程序

@@ -45,11 +45,12 @@ $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
 brew tap homebrew/cask-fonts
 brew_cask_install font-fira-code-nerd-font
 brew_cask_install font-fira-mono-nerd-font
+brew_cask_install font-jetbrains-mono-nerd-font
 
-## terminal 主题
-open "$PWD/packages/terminal/Solarized Light.terminal"
-open "$PWD/packages/terminal/Solarized Dark.terminal"
-defaults write com.apple.terminal "Default Window Settings" "Solarized Dark"
+## ghostty 终端
+brew_cask_install ghostty
+mkdir -p "$HOME/.config/ghostty"
+link_file "$PWD/packages/terminal/ghostty/config" "$HOME/.config/ghostty/config"
 
 ## 安装 powerline
 POWERLINE_DIR=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
