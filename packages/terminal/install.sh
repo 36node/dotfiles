@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # terminal 相关安装
 
@@ -42,7 +42,6 @@ brew_install fzf
 $(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc
 
 ## 字体
-brew tap homebrew/cask-fonts
 brew_cask_install font-fira-code-nerd-font
 brew_cask_install font-fira-mono-nerd-font
 brew_cask_install font-jetbrains-mono-nerd-font

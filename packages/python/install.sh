@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # python 相关安装
 

@@ -2,7 +2,7 @@
 
 一键初始化系统，快速同步团队开发环境。
 
-注意：*目前仅支持 MacOs* 支持最新版 Monterey, 完全适配 M1 和 非M1 mac。
+注意：*目前仅支持 macOS*，已在 macOS 26 (Tahoe) 上验证，兼容 Apple Silicon 与 Intel。
 
 ![image](https://user-images.githubusercontent.com/1524745/74650708-3ea6a980-51bd-11ea-985e-60476e5dc18f.png)
 
@@ -38,7 +38,7 @@ cd dotfiles
 
 ## 收尾
 
-- 启动各种软件，其中 mos/spectacle 最好自动启动
+- 启动各种软件，其中 mos 最好自动启动
 - go2shell [设置方法](https://rebooters.github.io/2019/06/21/%E5%AE%89%E8%A3%85-go2shell-%E5%88%B0-Finder-%E5%B7%A5%E5%85%B7%E6%A0%8F%E7%9A%84%E6%96%B9%E6%B3%95/)
 - ghostty 已默认使用 JetBrains Mono Nerd Font，配置已 symlink 到 `~/.config/ghostty/config`，无需手动设置
 - 运行 `p10k configure` 配置你的终端
@@ -68,11 +68,11 @@ cd dotfiles
 - docker
 - dropbox
 - github
+- [ghostty](https://ghostty.org/)
 - [go2shell](https://www.jianshu.com/p/bae3a64ea762)
 - google-chrome
 - mos
 - [secure-pipes](https://www.opoet.com/pyro/index.php)
-- [spectacle](https://www.spectacleapp.com/)
 - visual-studio-code
 - 微信
 - 飞书
@@ -80,7 +80,6 @@ cd dotfiles
 ### 推荐的选装
 
 - another-redis-desktop-manager   # redis gui
-- spectacle                       # 分屏软件
 - baidunetdisk                    # 百度网盘
 - battle-net                      # 暴雪战网，最适合程序员的游戏
 - dropbox                         # dropbox
@@ -91,3 +90,6 @@ cd dotfiles
 - snipaste                        # 截屏工具
 
 ### App Store
+
+- Xcode
+- Magnet  # 分屏管理

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # nvim 相关安装
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # 自动化安装
 
@@ -9,7 +9,6 @@ set -e
 source $PWD/lib/echo.sh
 source $PWD/lib/append.sh
 source $PWD/lib/link.sh
-source $PWD/lib/mac_version.sh
 source $PWD/lib/brew.sh
 source $PWD/help.sh
 

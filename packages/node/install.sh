@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # node 相关安装
 
