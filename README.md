@@ -294,7 +294,7 @@ cp .env.example .env
 如果不打算换后端，**用前先把 iCloud 配置好**：
 
 1. **登录 iCloud** —— 系统设置 → Apple ID → 登录，并打开 iCloud Drive
-2. **关闭「优化 Mac 存储」**（详见下一节，**这一步必做**）
+2. **给 `.dotfiles` 目录设置「保留下载」**（详见下一节，**这一步必做**）
 
 默认 vault 路径：
 
@@ -313,7 +313,7 @@ cp .env.example .env
 | 软链已正确 | 跳过（幂等） |
 | vault 不可用 | warn 后跳过，安装流程不中断 |
 
-### ⚠️ 关掉 iCloud「优化 Mac 存储」（用 iCloud 时必做）
+### ⚠️ 在 Finder 里给 vault 目录设置「保留下载」（用 iCloud 时必做）
 
 macOS 默认开启 **iCloud Drive → 优化 Mac 存储**：磁盘紧张或文件长期不访问时，
 系统会把本地副本卸载到云端，本地只剩 metadata（APFS 上叫 `dataless` 文件）。
@@ -325,18 +325,16 @@ macOS 默认开启 **iCloud Drive → 优化 Mac 存储**：磁盘紧张或文�
 - 一旦 `~/.ssh/known_hosts` 或私钥被 evict 成 dataless，`git push` / `ssh server` /
   `scp` 都会突然报 `Operation not permitted`，原因极其隐蔽
 
-**两种解决方法，二选一**（用其他 vault 后端就不用管这一节）：
+**解决办法**（用其他 vault 后端就不用管这一节）：
 
-1. **关掉「优化 Mac 存储」（推荐）**
-   系统设置 → Apple ID → iCloud → iCloud Drive → 关闭「优化 Mac 存储」。
-   代价：所有 iCloud Drive 文件都常驻本地，占点磁盘。但 `.dotfiles` 这点东西可忽略。
+> 打开 Finder → 进入 iCloud Drive → 显示隐藏文件（`Cmd + Shift + .`）→
+> 找到 `.dotfiles` 文件夹 → **右键** → **「保留下载」**
 
-2. **针对单个目录设置「始终保留本地副本」**
-   打开 Finder → 进入 iCloud Drive → 找到 `.dotfiles/.ssh` 文件夹 → 右键 → 「始终保留本地副本」。
-   只管这一个目录，不影响其他 iCloud 文件的优化策略。
+这样 vault 目录里的 `.env` 和 `.ssh` 会被钉在本地，不会再被 iCloud evict 到云端。
+只影响这一个目录，其他 iCloud Drive 文件该优化还是优化，不动你全局的「优化 Mac 存储」设置。
 
-`install.sh` 会在每次跑时主动 `cat` 一遍 vault 文件来 materialize 它们（当下能恢复），
-但这只是临时补救，**不能阻止系统下次再 evict**。所以上面的 GUI 设置必须做一次。
+`install.sh` 在每次跑时也会主动 `cat` 一遍 vault 文件触发 materialize（当下能恢复），
+但那只是临时补救，**不能阻止系统下次再 evict**。所以上面的 Finder 设置必须做一次。
 
 ### 机器差异化：`.env.local`
 
@@ -413,7 +411,7 @@ COMPUTER_NAME=zzs-mini
 
 - `packages/osx/install.sh` 会修改 macOS 系统偏好（Finder、Dock、键盘、截图路径等）。如果不希望改系统，跳过此 package 或阅读后注释。
 - 安装末尾会 `killall` Finder / Dock / SystemUIServer 等让设置生效，期间 UI 会闪一下。
-- 用默认的 iCloud Drive vault 时，先把 iCloud 登录、启用，并按上文「关掉优化 Mac 存储」操作；否则 `.env` 会留在仓库目录里 —— 注意别 `git add .` 把它带进 git 历史。
+- 用默认的 iCloud Drive vault 时，先把 iCloud 登录、启用，并按上文给 `.dotfiles` 目录设置「保留下载」；否则 `.env` 会留在仓库目录里 —— 注意别 `git add .` 把它带进 git 历史。
 - 用其他 vault 后端时，确认 `$DOTFILES_VAULT` 指向的目录已存在且可写（cloud client 已登录、本地能 ls 进去）。
 
 ## 贡献

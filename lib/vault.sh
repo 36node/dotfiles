@@ -67,8 +67,8 @@ _vault_sync() {
   # 对非 iCloud 的 vault（Dropbox / Syncthing / 本地等）这一步无害，只是多读了一遍文件。
   #
   # 局限：iCloud 下这只是"当下下载一次"，不能阻止之后再被 evict。
-  # 持久方案：在 Finder 中右键 vault 真身目录 → 「保留下载」，
-  #          或在系统设置 → iCloud Drive 关闭「优化 Mac 存储」。详见 README。
+  # 持久方案：Finder → iCloud Drive → 找到 .dotfiles 目录 → 右键 → 「保留下载」。
+  #          只钉这一个目录，不影响其他 iCloud 文件的优化策略。详见 README。
   if [ -e "$vault_path" ]; then
     find "$vault_path" -type f -exec cat {} \; >/dev/null 2>&1 || true
   fi
