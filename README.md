@@ -94,7 +94,7 @@
 | [git](https://git-scm.com/) | 当然是 git |
 | [gh](https://cli.github.com/) | GitHub 官方 CLI（`gh pr`、`gh issue` 等） |
 | [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI，键盘流操作 |
-| [delta](https://github.com/dandavison/delta) | git diff 美化 pager（`install.sh` 已自动注册到 `~/.gitconfig`，详见下文） |
+| [delta](https://github.com/dandavison/delta) | git diff 美化 pager（`install.sh` 已自动注册到 `~/.gitconfig`） |
 
 ### Kubernetes / 容器
 
@@ -173,24 +173,6 @@
 | [fnm](https://github.com/Schniz/fnm) | Node 版本管理（nvm 替代，Rust 实现） |
 | [pyenv](https://github.com/pyenv/pyenv) | Python 版本管理 |
 | [mas](https://github.com/mas-cli/mas) | Mac App Store CLI |
-
-### `delta` 自动写入了什么
-
-`delta` 装完默认不会被 git 用到。`packages/terminal/install.sh` 在装完后会**自动**把以下 5 条写入你的全局 `~/.gitconfig`：
-
-```bash
-git config --global core.pager 'delta'
-git config --global interactive.diffFilter 'delta --color-only'
-git config --global delta.navigate true        # n / N 在 hunk 间跳转
-git config --global delta.line-numbers true    # 显示行号
-git config --global merge.conflictstyle zdiff3 # 更紧凑的 3-way 冲突视图
-```
-
-之后 `git diff` / `git show` / `git log -p` / `git add -p` 都会自动走 delta。
-
-> 这 5 条是幂等的（git config 重复写只覆盖不堆叠），每次跑 `install.sh` 会重新写一遍。
-> 如果你手动改了 `core.pager` 或 `interactive.diffFilter` 想保留自定义，
-> 编辑 `packages/terminal/install.sh` 把这块注释掉即可。
 
 ## GUI 应用速查
 

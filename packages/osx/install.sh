@@ -67,7 +67,7 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 ###############################################################################
 
 # Dock 项目图标大小设置
-defaults write com.apple.dock tilesize -int 48
+defaults write com.apple.dock tilesize -int 16
 
 # 最小化/最大化窗口效果
 defaults write com.apple.dock mineffect -string "scale"
