@@ -55,7 +55,19 @@ brew_install glow        # 终端 markdown 渲染器
 brew_install gum         # Charm 出的 shell 脚本 UI 组件
 
 ## 其他终端工具增强
-brew_install delta       # git diff 美化 pager（用前需要配置 ~/.gitconfig，详见 README）
+brew_install delta       # git diff 美化 pager（下方自动写入 ~/.gitconfig）
+
+## delta 装完默认不会被 git 用到，需要把它注册成 git 的 pager。
+## git config --global 是幂等的（重复写只覆盖、不堆叠），每次 install 重写一遍最稳。
+## 注：如果你的 ~/.gitconfig 里已经手动配过 core.pager 或 interactive.diffFilter，
+##     这里会覆盖。希望保留自定义配置就把下面这块注释掉。
+git config --global core.pager 'delta'
+git config --global interactive.diffFilter 'delta --color-only'
+git config --global delta.navigate true        # n / N 在 hunk 间跳转
+git config --global delta.line-numbers true    # 显示行号
+git config --global merge.conflictstyle zdiff3 # 比 diff3 更紧凑的 3-way 冲突视图（git 自身能力，与 delta 配合更佳）
+success "已配置 git 使用 delta 作为 diff/pager"
+
 brew_install xh          # curl/httpie 替代，写 API 测试快
 brew_install tokei       # 代码统计
 
