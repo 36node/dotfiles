@@ -1,0 +1,46 @@
+# Cursor 项目级忽略：阻止 AI/Agent 读取这些文件
+# 影响范围: Tab 补全、Agent、Inline Edit、@-mention、Semantic Search
+# 语法同 .gitignore；仅约束 AI 工具，不影响普通 IDE 编辑。
+# 局限：终端命令和 MCP 工具不受此约束，敏感密钥仍建议放到外部 secret manager。
+# 参考: https://cursor.com/docs/reference/ignore-file
+
+# --- 环境变量 / 密钥文件 ---
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.sample
+!**/.env.template
+**/.envrc
+**/.envrc.*
+**/.secrets
+**/.secrets.*
+**/secrets/
+**/credentials.json
+**/credentials.*.json
+**/secrets.json
+
+# --- 密钥 & 证书 ---
+**/*.key
+**/*.pem
+**/*.pfx
+**/*.p12
+**/id_rsa
+**/id_rsa.*
+**/id_ed25519
+**/id_ed25519.*
+**/.ssh/
+
+# --- 云 / 基础设施凭证 ---
+**/.aws/credentials
+**/.aws/config
+**/.gcloud/
+**/kubeconfig
+**/*.kubeconfig
+**/.netrc
+**/.npmrc
+**/.pypirc
+
+# --- 其他敏感后缀 ---
+**/*.token
+**/*.secret
+**/*.private

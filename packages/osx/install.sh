@@ -13,51 +13,35 @@ message "设置 macos"
 ###############################################################################
 
 # Set computer name (as done via System Preferences → Sharing)
-sudo scutil --set ComputerName ${COMPUTER_NAME}
-sudo scutil --set HostName ${COMPUTER_NAME}
-sudo scutil --set LocalHostName ${COMPUTER_NAME}
+# LocalHostName 不允许空格、点、下划线，统一清洗为连字符
+LOCAL_HOST_NAME=$(echo "${COMPUTER_NAME}" | tr ' ._' '-')
+sudo scutil --set ComputerName "${COMPUTER_NAME}"
+sudo scutil --set HostName "${COMPUTER_NAME}"
+sudo scutil --set LocalHostName "${LOCAL_HOST_NAME}"
 
 # 打开关闭窗口时禁用动画
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
-# 打开 Quick Look 窗口时禁用动画
-defaults write -g QLPanelAnimationDuration -float 0
-
-# Use AirDrop over every interface. srsly this should be a default.
-defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
-
-# Set up Safari for development.
-defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
-defaults write com.apple.Safari IncludeDevelopMenu -bool true
-defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
-defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
-defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+# 注意：现代 macOS（Mojave 10.14+）下，Safari 偏好被沙盒在
+# ~/Library/Containers/com.apple.Safari/，defaults 无权限写入会导致 exiting。
+# 想开 Safari 开发者菜单，请用 GUI：Safari → 设置 → 高级 → 「在菜单栏中显示开发菜单」
 
 
 ###############################################################################
-# 屏幕                                                                        #
+# 屏幕截图                                                                        #
 ###############################################################################
 
-# 屏幕截屏保存到桌面
-defaults write com.apple.screencapture location -string "${HOME}/Desktop"
-
-# 保存格式为 PNG
-defaults write com.apple.screencapture type -string "png"
+# 屏幕截屏保存到 ~/Pictures/Screenshots
+mkdir -p "${HOME}/Pictures/Screenshots"
+defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"
 
 # 截图禁用阴影
 defaults write com.apple.screencapture disable-shadow -bool true
-
-# Run the screensaver if we're in the bottom-left hot corner.
-defaults write com.apple.dock wvous-bl-corner -int 5
-defaults write com.apple.dock wvous-bl-modifier -int 0
 
 
 ###############################################################################
 # Finder                                                                      #
 ###############################################################################
-
-# 禁用窗口动画和获取信息动画
-defaults write com.apple.finder DisableAllAnimations -bool true
 
 # 显示文件的扩展名
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -77,9 +61,6 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 # 清空垃圾箱前不显示警告
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
-# 不显示隐藏文件
-defaults write com.apple.finder AppleShowAllFiles -bool false;
-
 
 ###############################################################################
 # Dock                                                                        #
@@ -90,9 +71,6 @@ defaults write com.apple.dock tilesize -int 48
 
 # 最小化/最大化窗口效果
 defaults write com.apple.dock mineffect -string "scale"
-
-# Dock 打开应用时禁用动画
-defaults write com.apple.dock launchanim -bool false
 
 # 不显示最近应用
 defaults write com.apple.dock show-recents -bool false
@@ -127,8 +105,8 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # 阻止 Photo 自动打开
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
-# 杀掉影响进程的应用程序
-for app in "Calendar" "Contacts" "Dock" "Finder" "Mail" "Safari" "SystemUIServer"; do
+# 杀掉影响进程的应用程序（先 cfprefsd 让 defaults 缓存失效，再重启 UI 进程）
+for app in "cfprefsd" "Calendar" "Contacts" "Dock" "Finder" "Mail" "Safari" "SystemUIServer"; do
   killall "${app}" &> /dev/null || true
 done
 

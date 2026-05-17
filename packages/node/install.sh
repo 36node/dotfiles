@@ -9,7 +9,8 @@ brew_install fnm
 eval "$(fnm env --shell bash)"
 
 ## node 24（设为 default，新 shell 自动使用）
-fnm install 24
+## 用 fnm list 判断是否已装，避免每次跑都跳出 "Version already installed" warning
+fnm list 2>/dev/null | grep -q 'v24\.' || fnm install 24
 fnm default 24
 fnm use 24
 
@@ -17,3 +18,4 @@ fnm use 24
 corepack enable
 corepack prepare pnpm@latest --activate
 corepack prepare yarn@stable --activate
+echo ""

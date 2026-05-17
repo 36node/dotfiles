@@ -1,0 +1,14 @@
+# antidote 插件清单
+# 文档：https://getantidote.github.io/
+#
+# 目录跳转用 zoxide（不在这里，由 packages/terminal/install.sh 通过 brew 装）
+
+# 基础补全定义
+zsh-users/zsh-completions
+
+# 交互式补全
+marlonrichert/zsh-autocomplete
+
+# 历史建议和语法高亮（建议放最后）
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting

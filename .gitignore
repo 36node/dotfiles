@@ -31,6 +31,7 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/macos
 
-# 环境变量
-.env
+# 环境变量（除 .env.example 外都不进 git）
+.env*
+!.env.example
 .ssh
