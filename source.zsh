@@ -10,13 +10,13 @@ realpath() {
 DOTFILES_DIR="$(dirname $(realpath "$0"))"
 HOMEBREW_PREFIX=$(brew --prefix)
 
-## 加载共享环境变量 .env（跨机器共享，通过 iCloud 同步）
+## 加载共享环境变量 .env（跨机器共享，通过 vault 同步，默认 iCloud Drive）
 ENV="$DOTFILES_DIR/.env"
 if [ -f "$ENV" -o -L "$ENV" ]; then
   export $(cat $ENV | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
 fi
 
-## 加载本机覆盖 .env.local（机器特定，不进 git、不进 iCloud）
+## 加载本机覆盖 .env.local（机器特定，不进 git、不进 vault）
 ## 后于 .env 加载，同名变量会覆盖前者
 ENV_LOCAL="$DOTFILES_DIR/.env.local"
 if [ -f "$ENV_LOCAL" -o -L "$ENV_LOCAL" ]; then

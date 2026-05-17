@@ -53,7 +53,7 @@ git push origin feat/<你的特性>
 - 文件用 LF 换行，UTF-8 编码
 - 缩进 2 空格
 - 用双引号包裹变量：`"${COMPUTER_NAME}"`，避免空格问题
-- 在写敏感数据相关代码时，写明白潜在风险（参考 `lib/icloud.sh` 的注释）
+- 在写敏感数据相关代码时，写明白潜在风险（参考 `lib/vault.sh` 的注释）
 
 ### Markdown
 

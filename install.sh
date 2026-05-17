@@ -10,7 +10,7 @@ source $PWD/lib/echo.sh
 source $PWD/lib/append.sh
 source $PWD/lib/link.sh
 source $PWD/lib/brew.sh
-source $PWD/lib/icloud.sh
+source $PWD/lib/vault.sh
 source $PWD/help.sh
 
 overwrite_all=false backup_all=false skip_all=false
@@ -45,21 +45,22 @@ cat $PWD/assets/ascii.txt
 # 环境变量
 ###############################################################################
 
-## 通过 iCloud Drive 同步 .env（真身放 iCloud，仓库内是软链）
-## 详见 README 「.env 跨机同步」
-icloud_sync_file .env
+## 通过 vault 同步 .env（真身放 $DOTFILES_VAULT，仓库内是软链）
+## vault 默认是 iCloud Drive，可通过 export DOTFILES_VAULT=... 改成 Dropbox/Syncthing 等
+## 详见 README 「跨机同步：vault 设计」
+vault_sync_file .env
 
-## 通过 iCloud Drive 同步 ~/.ssh 目录（含私钥）
-## 安全提示：iCloud Drive 不是端到端加密，详见 README 「.ssh 跨机同步」
-icloud_sync_home .ssh
+## 通过 vault 同步 ~/.ssh 目录（含私钥）
+## 安全提示：iCloud Drive / Dropbox 等都不是端到端加密，详见 README 「.ssh 跨机同步」
+vault_sync_home .ssh
 fix_ssh_permissions
 
-## 加载共享环境变量 .env（跨机器共享，通过 iCloud 同步）
+## 加载共享环境变量 .env（跨机器共享，通过 vault 同步）
 if [ -f .env ]; then
   export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
 fi
 
-## 加载本机覆盖 .env.local（机器特定，不进 git、不进 iCloud）
+## 加载本机覆盖 .env.local（机器特定，不进 git、不进 vault）
 ## 后于 .env 加载，同名变量会覆盖前者
 if [ -f .env.local ]; then
   export $(cat .env.local | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
