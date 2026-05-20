@@ -1,7 +1,8 @@
-# 快捷键速查：ghostty / yazi / zoxide
+# 快捷键速查：ghostty / yazi / zoxide / claude
 
-仓库内三大终端栈核心工具的常用快捷键 / 命令。
-ghostty 默认值来自 `ghostty +list-keybinds --default`，yazi 来自官方 quick-start，zoxide 取自其 README。
+仓库内终端栈核心工具的常用快捷键 / 命令。
+ghostty 默认值来自 `ghostty +list-keybinds --default`，yazi 来自官方 quick-start，
+zoxide 取自其 README，Claude Code 来自官方 Interactive mode 文档。
 
 > macOS 下 `super` = `⌘ Cmd`，`alt` = `⌥ Option`，`ctrl` = `⌃ Control`，`shift` = `⇧ Shift`。
 
@@ -245,3 +246,117 @@ Zoxide 不是 TUI 工具，没有键盘快捷键，**它是一组 shell 命令**
 
 默认 `~/.local/share/zoxide/db.zo`，纯本地，不进 git。
 要从 `autojump` / `z.sh` / `fasd` 迁移：`zoxide import --from <tool> <path>`。
+
+---
+
+## Claude Code（终端 AI 编码助手）
+
+启动：`claude`（包名 `claude-code`，cask 装，CLI 用）。
+按 `/` 看所有斜杠命令，按 `?` 在 transcript 查看器内调出完整快捷键面板。
+
+### 通用控制
+
+| 快捷键 | 动作 |
+|---|---|
+| `⌃ C` | 取消当前输入 / 生成 |
+| `⌃ D` | 退出会话（EOF） |
+| `⌃ L` | 重绘屏幕（保留对话） |
+| `⌃ O` | 切换 transcript 查看器（展开工具调用 / MCP） |
+| `⌃ R` | 反向搜索历史命令（`⌃ S` 切换作用域） |
+| `⌃ T` | 切换 task list 显示 |
+| `⌃ B` | 把当前 bash / agent 转后台（tmux 用户按两次） |
+| `⌃ X ⌃ K` | 杀掉所有后台 subagent（3 秒内按两次确认） |
+| `⌃ G` / `⌃ X ⌃ E` | 在 `$EDITOR` 里编辑当前 prompt |
+| `Esc` | 打断 Claude（保留已完成的工作） |
+| `Esc Esc` | 回滚 / 总结到先前某条消息 |
+| `⇧ Tab` | 循环权限模式（default → acceptEdits → plan → …） |
+| `⌥ P` | 切换模型（不清空当前 prompt） |
+| `⌥ T` | 切换 extended thinking |
+| `⌥ O` | 切换 fast mode |
+| `↑` / `↓` 或 `⌃ P` / `⌃ N` | 光标 / 历史导航 |
+| `← →` | 在权限对话框 / 菜单的 tab 间切换 |
+| `⌃ V` / `⌘ V`（iTerm2） | 粘贴剪贴板图片为 `[Image #N]` |
+
+> macOS 上 `⌥ B/F/Y/M/P` 等 Option 键需要先把 Option 设为 Meta：Ghostty / iTerm2 默认已开，
+> Apple Terminal 在 设置 → 描述文件 → 键盘 勾「将 Option 键用作 Meta 键」。
+> 部分新版（v2.1.132+）`⌥ T` 在 macOS 已无需配置 Meta。
+
+### 文本编辑
+
+| 快捷键 | 动作 |
+|---|---|
+| `⌃ A` / `⌃ E` | 行首 / 行尾 |
+| `⌃ K` | 删除到行尾（可粘贴回来） |
+| `⌃ U` | 删除到行首（macOS 的 `⌘ Backspace` 也映到这） |
+| `⌃ W` | 删除上一个词 |
+| `⌃ Y` | 粘贴 `⌃ K/U/W` 删掉的内容 |
+| `⌥ Y`（紧接 `⌃ Y`） | 循环粘贴历史 |
+| `⌥ B` / `⌥ F` | 按词左 / 右移光标 |
+
+### 多行输入
+
+| 方式 | 按键 |
+|---|---|
+| 通用 | `\` + `Enter` |
+| 通用 | `⌃ J` |
+| Ghostty / iTerm2 / WezTerm / Kitty / Warp 等 | `⇧ Enter` |
+| macOS（开 Meta 后） | `⌥ Enter` |
+| VS Code / Cursor / Zed | 运行 `/terminal-setup` 装绑定 |
+
+### 前缀字符
+
+| 起始字符 | 含义 |
+|---|---|
+| `/` | 触发斜杠命令 / skill / plugin / MCP |
+| `!` | Shell 模式：直接执行命令，把输出加进对话上下文 |
+| `@` | 文件路径自动补全（@-mention 文件） |
+
+### 常用斜杠命令
+
+按 `/` 即可补全，下面是高频项：
+
+| 命令 | 作用 |
+|---|---|
+| `/help` | 帮助 |
+| `/config` | 设置面板（主题、editor mode、prompt 建议等） |
+| `/model` | 切换模型 |
+| `/clear` | 清空当前会话（历史可 `/resume` 找回） |
+| `/resume` | 恢复之前的会话 |
+| `/compact` | 主动压缩上下文 |
+| `/recap` | 生成会话总结 |
+| `/btw <问题>` | 旁路提问，不进对话历史，不占工具 |
+| `/agents` | 管理 subagent |
+| `/init` | 初始化项目的 `CLAUDE.md` |
+| `/review` | review 当前 PR |
+| `/permissions` | 查看 / 调权限 |
+| `/hooks` | 配置 hook（事件驱动自动行为） |
+| `/mcp` | 管理 MCP server |
+| `/memory` | 编辑长期记忆 |
+| `/status` | 查看 token / 成本 / 模型状态 |
+| `/cost` | 查看本次 / 历史消耗 |
+| `/add-dir <path>` | 把目录加入工作区 |
+| `/terminal-setup` | 给当前终端装 `⇧ Enter` 多行绑定 |
+| `/vim` | 切换 vim 编辑模式（也可在 `/config` 里改） |
+| `/export` | 导出本次会话 |
+| `/bug` | 报告 bug |
+
+### Transcript 查看器（`⌃ O` 进入）
+
+| 按键 | 动作 |
+|---|---|
+| `?` | 显示完整快捷键面板（需 fullscreen 模式） |
+| `{` / `}` | 跳到上 / 下一条用户 prompt（vim 段落动作） |
+| `⌃ E` | 切换显示所有内容 |
+| `[` | 把全对话写入终端原生 scrollback（`⌘ F` / tmux copy 可搜） |
+| `v` | 写入临时文件用 `$VISUAL` / `$EDITOR` 打开 |
+| `q` / `⌃ C` / `Esc` | 退出 transcript |
+
+### Vim 编辑模式（`/config` → Editor mode 启用）
+
+NORMAL 模式核心动作：`h j k l` 移动 / `w e b` 词跳转 / `0 ^ $` 行首尾 /
+`gg G` 文首尾 / `f F t T` 字符跳转 / `; ,` 重复 / `i I a A o O` 进入 INSERT /
+`v V` 进入 VISUAL / `dd D dw cc C cw yy yw p P` 编辑 / `u .` 撤销与重复 /
+`>> <<` 缩进 / 文本对象 `iw aw i" a" i( a( i[ a[ i{ a{` 与算子组合。
+块选 `⌃ V` **不支持**。
+
+> 完整快捷键：<https://docs.claude.com/en/docs/claude-code/interactive-mode>
