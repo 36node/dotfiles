@@ -9,11 +9,6 @@ brew_install neovim
 brew_install ripgrep
 brew_install fd
 
-## LazyVim starter（如果 ~/.config/nvim 已存在则跳过，避免覆盖用户自定义）
-if [ ! -d "$HOME/.config/nvim" ]; then
-  message "克隆 LazyVim starter ..."
-  git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
-  rm -rf "$HOME/.config/nvim/.git"
-  success "LazyVim starter 已就绪"
-  echo ""
-fi
+## 链接 nvim 配置（基于 LazyVim，自定义内容在 packages/nvim/config/）
+mkdir -p "$HOME/.config"
+link_file "$PWD/packages/nvim/config" "$HOME/.config/nvim"

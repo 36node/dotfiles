@@ -1,0 +1,15 @@
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
+
+# 本地状态 / 缓存（不入库）
+.DS_Store
+spell/
+shada/
+session/
+sessions/
