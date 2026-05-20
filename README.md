@@ -245,6 +245,7 @@ cp .env.example .env
 │   └── vault.sh            # 跨机同步辅助（默认 iCloud Drive，可换其他后端）
 └── packages/
     ├── terminal/           # ghostty + zsh + antidote + starship + 字体
+    ├── claude/             # claude code CLI（Anthropic 终端 AI 编码助手）
     ├── node/               # fnm + node + corepack(pnpm/yarn)
     ├── python/             # pyenv + python
     ├── go/                 # go

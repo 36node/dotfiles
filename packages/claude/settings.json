@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(.secrets)",
+      "Read(.secrets.*)",
+      "Read(**/.secrets)",
+      "Read(**/.secrets.*)",
+      "Edit(.env)",
+      "Edit(.env.*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Edit(.secrets)",
+      "Edit(.secrets.*)",
+      "Edit(**/.secrets)",
+      "Edit(**/.secrets.*)",
+      "Write(.env)",
+      "Write(.env.*)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Write(.secrets)",
+      "Write(.secrets.*)",
+      "Write(**/.secrets)",
+      "Write(**/.secrets.*)"
+    ]
+  },
+  "model": "opus[1m]",
+  "skipDangerousModePermissionPrompt": true
+}
