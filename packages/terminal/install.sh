@@ -75,6 +75,10 @@ brew_install tokei       # 代码统计
 ## 用 `z foo` 跳到匹配的目录，`zi` 走 fzf 交互式选
 brew_install zoxide
 
+## direnv 进入目录自动加载 .envrc（per-project 环境变量）
+## 用法：在项目里 `echo 'export FOO=bar' > .envrc && direnv allow`
+brew_install direnv
+
 ## yazi 文件管理 TUI
 ## 文档：https://yazi-rs.github.io/
 ## 预览依赖（ffmpeg/imagemagick/poppler/sevenzip）在主 install.sh 里装
@@ -90,4 +94,7 @@ append 'eval "$(zoxide init zsh)"' "$ZSHRC"
 append "" "$ZSHRC"
 append "# starship prompt" "$ZSHRC"
 append 'eval "$(starship init zsh)"' "$ZSHRC"
+append "" "$ZSHRC"
+append "# direnv 目录级环境变量（钩子放最后，确保覆盖 starship 等设置的 PROMPT）" "$ZSHRC"
+append 'eval "$(direnv hook zsh)"' "$ZSHRC"
 echo ""

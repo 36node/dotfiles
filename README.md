@@ -141,6 +141,7 @@
 | [tmux](https://github.com/tmux/tmux) | 终端复用 |
 | [antidote](https://getantidote.github.io/) | zsh 插件管理器（替代 oh-my-zsh） |
 | [starship](https://starship.rs/) | 跨 shell 的 prompt |
+| [direnv](https://direnv.net/) | 进入目录自动加载 `.envrc`，per-project 环境变量（首次 `direnv allow` 授权） |
 | [gum](https://github.com/charmbracelet/gum) | 写交互式 shell 脚本的 UI 组件库 |
 
 ### AI CLI
