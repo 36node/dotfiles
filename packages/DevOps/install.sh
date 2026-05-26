@@ -16,11 +16,14 @@ brew_install kubernetes-cli
 brew_install hidetatz/tap/kubecolor
 
 ## docker formula 提供独立的 docker / docker-compose CLI
-## 注意：docker-desktop cask 已经自带 docker CLI 和 compose 插件，两者并存会有 PATH
-##       优先级冲突。如果你只用 Docker Desktop，可以 brew uninstall docker docker-compose
-##       让本仓库脚本去掉这两行。如果你用 colima/podman 等替代 daemon，则保留它们。
+## 注意：OrbStack 自带 docker CLI 和 compose 插件（启动时会 symlink 到 PATH），
+##       两者并存有 PATH 优先级冲突。如果你只用 OrbStack，可以 brew uninstall docker
+##       docker-compose 让本仓库脚本去掉这两行。如果你用 colima/podman 等替代 daemon，
+##       则保留它们。
 brew_install docker
 brew_install docker-compose
 brew_install lazydocker  # Docker TUI（lazygit 同作者，UX 一致）
 
-brew_cask_install docker-desktop
+## OrbStack：Docker Desktop 的轻量替代（更快启动、更省内存、原生 Apple Silicon）
+## 同时也能跑 Linux 虚拟机
+brew_cask_install orbstack

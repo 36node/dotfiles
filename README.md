@@ -106,7 +106,7 @@
 | [helm](https://helm.sh/) | k8s 包管理器 |
 | [k9s](https://github.com/derailed/k9s) | k8s TUI 管理工具 |
 | [k3sup](https://github.com/alexellis/k3sup) | 一键部署 k3s 到任何机器 |
-| [docker / docker-compose](https://docs.docker.com/) | docker CLI 和 compose 插件（CLI-only，跟 Docker Desktop 共存时会有 PATH 优先级冲突，详见 `packages/DevOps/install.sh` 注释） |
+| [docker / docker-compose](https://docs.docker.com/) | docker CLI 和 compose 插件（CLI-only，跟 OrbStack 共存时会有 PATH 优先级冲突，详见 `packages/DevOps/install.sh` 注释） |
 | [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker TUI，lazygit 同作者 |
 
 ### 网络 / 远程
@@ -185,7 +185,7 @@
 | [GitHub Desktop](https://desktop.github.com/) | GitHub 图形客户端 |
 | [Postman](https://www.postman.com/) | API 测试 |
 | [Google Chrome](https://www.google.com/chrome/) | 浏览器 |
-| [Docker Desktop](https://www.docker.com/products/docker-desktop) | Docker GUI 与 daemon |
+| [OrbStack](https://orbstack.dev/) | Docker Desktop 的轻量替代，启动快、省内存、原生 Apple Silicon；同时能跑 Linux VM |
 | [KeyClu](https://sergii.tatarenkov.name/keyclu/support/) | 长按 Cmd 显示当前 app 的快捷键 |
 | [Mos](https://mos.caldis.me/) | 鼠标滚动平滑、反向 |
 | [MonitorControl](https://github.com/MonitorControl/MonitorControl) | 用键盘控制外接显示器亮度 / 音量（macOS 自身不支持非 Apple 屏） |

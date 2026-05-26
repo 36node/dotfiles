@@ -84,7 +84,7 @@ export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
 # 策略：临时写一条 NOPASSWD 的 sudoers 规则到 /etc/sudoers.d/，脚本结束自动清理。
 # 收益：脚本里所有 sudo 命令（scutil、dscl 等）零密码；只在第一次 sudo tee 时输一次。
 # 安全：trap EXIT/INT/TERM 保证正常退出、Ctrl+C、异常崩溃都会清理 sudoers 文件。
-# 局限：brew 装某些 cask（docker-desktop 等）会通过 macOS GUI 弹原生密码框
+# 局限：brew 装某些 cask（orbstack 等）会通过 macOS GUI 弹原生密码框
 #       要管理员权限去装系统 helper，那是 osascript 路径，绕不开。
 SUDOERS_TMP="/etc/sudoers.d/dotfiles-install-$$"
 cleanup_sudoers() {
