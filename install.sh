@@ -139,9 +139,8 @@ brew_install poppler  # 提供 pdftotext / pdftoppm，PDF 处理 + yazi PDF 预�
 brew_install sevenzip  # 7z 压缩工具
 
 ## 编辑器 / AI 开发工具
-## 注：claude-code 已移到 packages/claude/install.sh
+## 注：claude-code / codex 已移到 packages/<name>/install.sh
 brew_cask_install visual-studio-code
-brew_cask_install codex           # OpenAI Codex CLI
 
 ## 浏览器 / Git / API
 brew_cask_install github

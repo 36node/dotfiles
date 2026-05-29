@@ -1,0 +1,23 @@
+model_provider = "linkapi"
+model = "gpt-5.5"
+model_reasoning_effort = "high"
+network_access = "enabled"
+disable_response_storage = true
+
+[model_providers.linkapi]
+name = "linkapi"
+base_url = "https://api.linkapi.ai/v1"
+wire_api = "responses"
+requires_openai_auth = true
+
+[projects."/Users/zzs"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/zzswang/hello-word"]
+trust_level = "trusted"
+
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 1
