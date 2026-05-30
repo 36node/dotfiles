@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# install.conf —— ./install.sh 的本机配置（**不进 git**）
+#
+# 用法：
+#   cp install.conf.example install.conf   # 拷贝模板
+#   # 编辑 install.conf，按需注释/取消注释
+#
+# 这是个被 ./install.sh `source` 进来的 bash 文件，能用所有 bash 语法。
+# 改完后 `./install.sh` 跑完整安装时会按你的选择走。
+# 跑 `./install.sh <package>` 单装某个 package 时本文件不会被读取。
+
+###############################################################################
+# PACKAGES：要装的 package 子集
+#
+#   - 不定义此变量            → 装 packages/ 下全部
+#   - PACKAGES=(claude codex) → 只装这两个
+#   - PACKAGES=()             → 装零个（显式空数组）
+#
+# 完整可选项（packages/ 下的目录名）：
+#   claude DevOps codex go node nvim osx python terminal
+###############################################################################
+
+PACKAGES=(
+  terminal
+  claude
+  codex
+  nvim
+  node
+  python
+  go
+  DevOps
+  osx
+)
+
+###############################################################################
+# INSTALL_EXTRA：是否运行 extra.sh
+#
+#   - 留空（默认）→ 交互式询问（保持原行为）
+#   - true        → 直接执行 extra.sh
+#   - false       → 直接跳过 extra.sh
+###############################################################################
+
+# INSTALL_EXTRA=true
+# INSTALL_EXTRA=false

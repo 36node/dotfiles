@@ -26,7 +26,7 @@
 
 - 频繁换 Mac、或团队/新人 onboarding 想要一致开发环境
 - 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信
-- 喜欢「能 fork、能改、能读懂」的人 —— 整个仓库核心 < 200 行 bash
+- 想读得懂自己装了什么的人 —— 整个仓库核心 < 200 行 bash
 
 ## 核心特点
 
@@ -192,7 +192,7 @@
 | [MonitorControl](https://github.com/MonitorControl/MonitorControl) | 用键盘控制外接显示器亮度 / 音量（macOS 自身不支持非 Apple 屏） |
 | [飞书 / 微信](https://www.feishu.cn/) | 国内通讯 |
 
-`extra.sh` 里的可选项（询问后才装）：
+`extra.sh` 里的可选项（默认询问后才装，可通过 [install.conf](#可选install.conf--自定义本机安装范围) 自动跳过/强装）：
 
 | 工具 | 功能 |
 |---|---|
@@ -206,8 +206,8 @@
 ## 快速开始
 
 ```bash
-# 1. fork 仓库到自己账号下，再 clone
-git clone git@github.com:<你的用户名>/dotfiles.git ~/.dotfiles
+# 1. clone 仓库
+git clone git@github.com:36node/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
 # 2. 准备 .env（首次新建可从模板开始；多机用户参见下文「跨机同步：vault 设计」）
@@ -218,6 +218,9 @@ cp .env.example .env
 
 # 4. 一键安装（需要 sudo 密码）
 ./install.sh
+
+# 也可以只装单个 package（跳过系统引导和 brew 软件包列表），例如：
+./install.sh codex
 ```
 
 `install.sh` 跑完会做：
@@ -230,13 +233,48 @@ cp .env.example .env
 
 可重复执行，已装的会跳过。
 
+### 用法速查
+
+```bash
+./install.sh                # 完整安装（按 install.conf；缺失则装全部 + 询问 extra）
+./install.sh <package>      # 仅装单个 package（packages/<name>/install.sh），跳过系统引导和 brew 大列表
+./install.sh -h             # 帮助
+```
+
+### 可选：`install.conf` —— 自定义本机安装范围
+
+每台机器想装的子集可能不同（开发机要 `go` / `nvim`，演示机只要 `terminal` / `claude`）。
+通过仓库根 `install.conf` 控制，**不进 git**，每台机一份：
+
+```bash
+cp install.conf.example install.conf
+# 编辑：按需注释/取消注释 PACKAGES 里的条目；设置 INSTALL_EXTRA=true|false
+```
+
+语义：
+
+| 文件 / 字段 | 行为 |
+|---|---|
+| `install.conf` 不存在 | 装全部 packages + 询问 extra（保持原行为） |
+| `PACKAGES=(a b)` | 只装 `a` 和 `b` 两个 package |
+| `PACKAGES=()` | 装零个（显式空数组） |
+| 未定义 `PACKAGES` | 装全部 packages |
+| `INSTALL_EXTRA=true` | 不询问直接跑 `extra.sh` |
+| `INSTALL_EXTRA=false` | 不询问直接跳过 `extra.sh` |
+| `INSTALL_EXTRA=` (空/未设) | 交互式询问 |
+
+`install.conf` 只影响 `./install.sh`（完整模式）。`./install.sh <package>` 单装时不读
+此文件、不询问 extra、不动 brew 大列表，仅执行指定 package 的 `install.sh`。
+
 ## 项目结构
 
 ```
 .
 ├── install.sh              # 入口：xcode → brew → 必装软件 → packages → extra
+│                           # 支持 `./install.sh <package>` 单装某个 package
+├── install.conf.example    # 本机 PACKAGES / INSTALL_EXTRA 配置模板（拷出 install.conf 编辑）
 ├── source.zsh              # shell 启动时自动加载所有 packages/*/source.zsh
-├── extra.sh                # 个人选装的 cask 软件（询问后执行）
+├── extra.sh                # 个人选装的 cask 软件（默认询问后执行）
 ├── .env / .env.example     # 环境变量（详见 ".env 跨机同步"）
 ├── lib/                    # 通用辅助函数
 │   ├── echo.sh             # 彩色输出 message/success/warn/error
@@ -399,16 +437,6 @@ COMPUTER_NAME=zzs-mini
 >
 > **机器特定的高敏感凭据** 适合放 `.env.local`，因为它不会被 vault 同步上传。
 
-## fork 之后怎么改
-
-1. **加自己常用的软件** —— 编辑根 `install.sh` 加 `brew_install` / `brew_cask_install`，或者按主题新建 `packages/<your-package>/install.sh`
-2. **个人偏好独立放** —— 可选软件放 `extra.sh`，安装末尾会询问是否执行（不影响主流程）
-3. **换 prompt 主题** —— 编辑 `packages/terminal/starship/starship.toml`，或者跑 `starship preset --list` 选别的预设
-4. **改 antidote 插件清单** —— 编辑 `packages/terminal/zsh_plugins.txt`，新开终端会自动 bundle
-5. **改 macOS 系统设置** —— 编辑 `packages/osx/install.sh`（注意：这真的会改你的系统）
-
-如果你的修改对其他人有价值，欢迎 cherry-pick 后向本仓库提 PR。
-
 ## 风险提示
 
 - `packages/osx/install.sh` 会修改 macOS 系统偏好（Finder、Dock、键盘、截图路径等）。如果不希望改系统，跳过此 package 或阅读后注释。
@@ -423,12 +451,6 @@ COMPUTER_NAME=zzs-mini
 - [贡献指南](CONTRIBUTING.md) —— 仓库设计原则、代码风格、PR 流程
 - [行为准则](CODE_OF_CONDUCT.md) —— 社区互动规范
 
-特别欢迎的贡献方向：
-
-- 新增 package（保持单一职责、模块化）
-- 用更现代的工具替换老的（请在 PR 里写清楚理由）
-- macOS 新版本兼容性修复
-
 ## License
 
-本项目采用 [MIT License](LICENSE)，可自由 fork、修改、商用、再分发。
+本项目采用 [MIT License](LICENSE)，可自由使用、修改、商用、再分发。

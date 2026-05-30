@@ -14,6 +14,7 @@ source $PWD/lib/vault.sh
 source $PWD/help.sh
 
 overwrite_all=false backup_all=false skip_all=false
+single_package=""
 
 while test $# -gt 0; do
 	case "$1" in
@@ -30,14 +31,51 @@ while test $# -gt 0; do
 		"-s"|"--skip")
 			skip_all=true
 			;;
-		*)
+		-*)
 			echo "Invalid option: $1"
 			displayUsage
       exit
 			;;
+		*)
+			if [ -n "$single_package" ]; then
+				error "目前只支持单个 package 参数（已收到 '$single_package'，又来 '$1'）"
+			fi
+			single_package="$1"
+			;;
 	esac
 	shift
 done
+
+###############################################################################
+# 单 package 快速模式
+#   ./install.sh <package>
+#   仅装该 package，跳过系统引导（sudo/xcode/brew bootstrap）与 brew 软件包列表
+#   仍加载 .env / .env.local，因为 package 内部可能用到 token（如 codex）
+###############################################################################
+
+if [ -n "$single_package" ]; then
+  pkg_dir="packages/$single_package"
+  [ -d "$pkg_dir" ]            || error "未知 package: ${single_package}（packages/ 下找不到）"
+  [ -f "$pkg_dir/install.sh" ] || error "${pkg_dir} 没有 install.sh"
+
+  if [ -f .env ]; then
+    export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
+  fi
+  if [ -f .env.local ]; then
+    export $(cat .env.local | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
+  fi
+  export ZSHRC=${ZSHRC:-$HOME/.zshrc}
+  export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
+  export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
+
+  echo "***************************************"
+  message "单独安装 $pkg_dir"
+  echo "***************************************"
+  echo ""
+  . "$pkg_dir/install.sh"
+  success "完成 $single_package"
+  exit 0
+fi
 
 cat $PWD/assets/ascii.txt
 
@@ -70,6 +108,30 @@ fi
 export ZSHRC=${ZSHRC:-$HOME/.zshrc}
 export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
 export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
+
+###############################################################################
+# 加载 install.conf（可选）
+#   - 文件缺失：装全部 packages + 询问 extra（原行为）
+#   - 文件存在但没定义 PACKAGES：装全部 packages（容错）
+#   - PACKAGES=(a b)：只装这些
+#   - PACKAGES=()  ：装零个（尊重显式空数组）
+#   - INSTALL_EXTRA=true|false：跳过询问；留空保持原交互
+# 模板见 install.conf.example，本文件不进 git
+###############################################################################
+
+if [ -f install.conf ]; then
+  message "加载 install.conf"
+  . ./install.conf
+  echo ""
+fi
+
+# 用户没在 conf 里定义 PACKAGES 时，默认装全部
+if ! declare -p PACKAGES &>/dev/null; then
+  PACKAGES=()
+  while IFS= read -r dir; do
+    PACKAGES+=("$(basename "$dir")")
+  done < <(find packages -mindepth 1 -maxdepth 1 -type d | sort)
+fi
 
 ###############################################################################
 # 装机必备的系统级软件
@@ -160,20 +222,26 @@ brew_cask_install wechat          # 微信
 # packages 安装
 ###############################################################################
 
-message '安装 packages ...'
+message "安装 packages（共 ${#PACKAGES[@]} 个）..."
 echo ""
 
-for package in `find packages -mindepth 1 -maxdepth 1 -type d`
-do
+for pkg in "${PACKAGES[@]}"; do
+  pkg_dir="packages/$pkg"
   echo "***************************************"
-  message "安装插件包 $package"
+  message "安装插件包 $pkg_dir"
   echo "***************************************"
   echo ""
 
-  if [ -f "$package/install.sh" ]; then
-    . "$package/install.sh"
+  if [ ! -d "$pkg_dir" ]; then
+    warn "$pkg_dir 不存在，跳过（检查 install.conf 里的 PACKAGES 拼写）"
+    echo ""
+    continue
+  fi
+
+  if [ -f "$pkg_dir/install.sh" ]; then
+    . "$pkg_dir/install.sh"
   else
-    warn "$package 没有 install.sh，跳过"
+    warn "$pkg_dir 没有 install.sh，跳过"
     echo ""
   fi
 done
@@ -183,15 +251,39 @@ done
 ###############################################################################
 
 ## 加载额外的 extra.sh
+## INSTALL_EXTRA 由 install.conf 控制：true/false 跳过询问，留空保持原交互
 if [ -f extra.sh ]; then
-	ask "Do you want to install extra apps?\n\
-	[y]yes, [n]no"
-	read -n 1 action
+	case "${INSTALL_EXTRA:-}" in
+		true|TRUE|yes|YES|y|Y|1)
+			message "安装 extra apps（由 install.conf 指定）..."
+			echo ""
+			. extra.sh
+			;;
+		false|FALSE|no|NO|n|N|0)
+			message "跳过 extra apps（由 install.conf 指定）"
+			echo ""
+			;;
+		"")
+			ask "Do you want to install extra apps?\n\
+			[y]yes, [n]no"
+			read -n 1 action
 
-	case "$action" in
-		y )
-			. extra.sh;;
-		* )
+			case "$action" in
+				y )
+					. extra.sh;;
+				* )
+					;;
+			esac
+			;;
+		*)
+			warn "INSTALL_EXTRA 值无效（'$INSTALL_EXTRA'），按未设置处理"
+			ask "Do you want to install extra apps?\n\
+			[y]yes, [n]no"
+			read -n 1 action
+			case "$action" in
+				y ) . extra.sh ;;
+				* ) ;;
+			esac
 			;;
 	esac
 fi

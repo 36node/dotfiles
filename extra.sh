@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# 额外执行的操作，fork 后根据自己的需求修改
+# 额外执行的操作，按自己的需求修改
 
 ## 编辑器 / 开发增强
 brew_cask_install cursor         # AI 代码编辑器
