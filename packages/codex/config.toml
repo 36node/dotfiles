@@ -16,8 +16,11 @@ trust_level = "trusted"
 [projects."/Users/zzs/Workspace/zzswang/hello-word"]
 trust_level = "trusted"
 
+[projects."/Users/zzs/Workspace/36node/seed-backend"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
 [tui.model_availability_nux]
-"gpt-5.5" = 1
+"gpt-5.5" = 4

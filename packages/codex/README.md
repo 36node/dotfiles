@@ -21,6 +21,18 @@ codex logout         # 退出登录（清理 auth.json）
 
 想换 key 或重新登录：`codex logout && ./install.sh`。
 
+## Shell 别名
+
+`source.zsh` 注入：
+
+```sh
+alias cx='codex --dangerously-bypass-approvals-and-sandbox'
+```
+
+`cx` 直接进入「跳过审批 + 跳过 sandbox」的全自动模式，codex 会无提示地
+读写文件、执行命令、联网。**仅在自己信任、可丢弃的环境（个人项目、临时
+worktree、容器）里用**；接触他人代码、生产配置或敏感数据时请用原始 `codex`。
+
 ## 配置文件
 
 | 仓库内 | 软链到 |
