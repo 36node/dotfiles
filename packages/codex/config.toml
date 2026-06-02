@@ -19,6 +19,9 @@ trust_level = "trusted"
 [projects."/Users/zzs/Workspace/36node/seed-backend"]
 trust_level = "trusted"
 
+[projects."/Users/zzs/Workspace/adventurer-tech/adventurer-next"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
