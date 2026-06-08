@@ -26,6 +26,29 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
   end,
 })
 
+-- Git commits made outside the running nvim process update .git/HEAD and the
+-- index, not the file on disk, so :checktime is not enough to clear git signs.
+local gitsigns_refresh_pending = false
+local function refresh_gitsigns()
+  if gitsigns_refresh_pending then
+    return
+  end
+
+  gitsigns_refresh_pending = true
+  vim.defer_fn(function()
+    gitsigns_refresh_pending = false
+    local ok, gitsigns = pcall(require, "gitsigns")
+    if ok then
+      gitsigns.refresh()
+    end
+  end, 100)
+end
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI", "BufEnter", "FocusGained", "TermClose", "TermLeave" }, {
+  group = checktime,
+  callback = refresh_gitsigns,
+})
+
 -- 进入 nvim / 离开插入模式 / 切回窗口时自动切回英文输入法（macOS, macism）
 if vim.fn.has("mac") == 1 and vim.fn.executable("macism") == 1 then
   local en_im = "com.apple.keylayout.ABC"
