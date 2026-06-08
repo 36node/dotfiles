@@ -7,3 +7,5 @@
 vim.opt.spelllang = { "en", "cjk" }
 vim.opt.spelloptions:append("camel")
 vim.opt.spellfile = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
+
+vim.opt.relativenumber = false

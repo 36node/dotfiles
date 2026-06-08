@@ -25,3 +25,14 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
     vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
   end,
 })
+
+-- 进入 nvim / 离开插入模式 / 切回窗口时自动切回英文输入法（macOS, macism）
+if vim.fn.has("mac") == 1 and vim.fn.executable("macism") == 1 then
+  local en_im = "com.apple.keylayout.ABC"
+  vim.api.nvim_create_autocmd({ "VimEnter", "InsertLeave", "FocusGained" }, {
+    group = vim.api.nvim_create_augroup("user_im_switch", { clear = true }),
+    callback = function()
+      vim.fn.jobstart({ "macism", en_im }, { detach = true })
+    end,
+  })
+end
