@@ -1,6 +1,5 @@
 {
   "permissions": {
-    "defaultMode": "bypassPermissions",
     "deny": [
       "Read(.env)",
       "Read(.env.*)",
@@ -26,7 +25,8 @@
       "Write(.secrets.*)",
       "Write(**/.secrets)",
       "Write(**/.secrets.*)"
-    ]
+    ],
+    "defaultMode": "bypassPermissions"
   },
   "model": "opus[1m]",
   "skipDangerousModePermissionPrompt": true

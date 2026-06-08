@@ -22,6 +22,18 @@ trust_level = "trusted"
 [projects."/Users/zzs/Workspace/adventurer-tech/adventurer-next"]
 trust_level = "trusted"
 
+[projects."/Users/zzs/Library/Mobile Documents/com~apple~CloudDocs/.dotfiles/.ssh"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/zzswang"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/haivivi/haivivi-next"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/.dotfiles"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
