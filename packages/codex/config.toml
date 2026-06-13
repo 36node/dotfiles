@@ -2,6 +2,8 @@ model_provider = "linkapi"
 model = "gpt-5.5"
 model_reasoning_effort = "high"
 network_access = "enabled"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
 disable_response_storage = true
 
 [model_providers.linkapi]
