@@ -29,5 +29,6 @@
     "defaultMode": "bypassPermissions"
   },
   "model": "opus[1m]",
+  "effortLevel": "medium",
   "skipDangerousModePermissionPrompt": true
 }
