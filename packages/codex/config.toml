@@ -1,6 +1,6 @@
 model_provider = "linkapi"
-model = "gpt-5.5"
-model_reasoning_effort = "high"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "low"
 network_access = "enabled"
 sandbox_mode = "danger-full-access"
 approval_policy = "never"
@@ -10,6 +10,9 @@ notify = [
     "turn-ended",
 ]
 personality = "pragmatic"
+
+[shell_environment_policy]
+inherit = "all"
 
 [model_providers.linkapi]
 name = "linkapi"
@@ -41,6 +44,36 @@ trust_level = "trusted"
 [projects."/Users/zzs/.dotfiles"]
 trust_level = "trusted"
 
+[projects."/Users/zzs/Workspace/tuantuan/shuxue"]
+trust_level = "trusted"
+
+[projects."/private/var/folders/l8/kz_c0lyj2f5cq9hrcf0dvmsr0000gn/T/od-conn-test-31BO5o"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Library/Application Support/Open Design/namespaces/release-stable/data/projects/fc0e5ae1-5465-4495-a1ab-acc5090a86f6"]
+trust_level = "trusted"
+
+[projects."/Applications/Open Design.app/Contents/Resources/app/prebundled"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-06-19/ni"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-06-19/figma-figma-code-connect-users-zzs"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-06-19/plugin-creator-users-zzs-codex-skills"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/tuantuan/yuwen"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Library/Application Support/Open Design/namespaces/release-stable/data/projects/e6921fb5-a322-44ec-b919-3363119807fc"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-08-25/wo"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
@@ -48,12 +81,10 @@ trust_level = "trusted"
 "gpt-5.5" = 4
 
 [marketplaces.openai-bundled]
-last_updated = "2026-06-13T01:12:30Z"
 source_type = "local"
 source = "/Users/zzs/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-06-12T05:37:13Z"
 source_type = "local"
 source = "/Users/zzs/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
@@ -69,10 +100,25 @@ enabled = true
 [plugins."computer-use@openai-bundled"]
 enabled = true
 
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
 [plugins."browser@openai-bundled"]
 enabled = true
 
 [plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."figma@openai-curated"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
 enabled = true
 
 [features]
@@ -81,22 +127,25 @@ memories = true
 
 [mcp_servers.node_repl]
 args = []
-command = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node_repl"
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
 startup_timeout_sec = 120
 
 [mcp_servers.node_repl.env]
 NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = "/Applications/Codex.app/Contents/Resources/cua_node/lib/node_modules"
-NODE_REPL_NODE_PATH = "/Applications/Codex.app/Contents/Resources/cua_node/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "/Users/zzs/.codex"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/zzs/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/zzs/.codex"
-NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "27dca86fd6b571c49414a4b78e46b57bcf683a46cd1319799c11fbb6cfae3110"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "0"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.609.41114"
-CODEX_CLI_PATH = "/Applications/Codex.app/Contents/Resources/codex"
+BROWSER_USE_CODEX_APP_VERSION = "26.818.61809"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/zzs/.codex/plugins/cache/openai-bundled/browser/26.818.61809/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/zzs/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
 [mcp_servers.chrome-devtools]
 command = "npx"
@@ -106,10 +155,25 @@ args = [
     "http://127.0.0.1:9222",
 ]
 
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
+
 [desktop]
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
 ambient-suggestions-enabled = true
 appearanceTheme = "system"
+codeFontSize = 12
+sansFontSize = 14
+git-show-sidebar-pr-icons = true
+git-pull-request-merge-method = "merge"
+preventSleepWhileRunning = true
+show-context-window-usage = true
+defaultTerminalLocation = "right"
+followUpQueueMode = "queue"
+dock-icon-preference = "app-default"
 
 [desktop.open-in-target-preferences]
 global = "zed"
@@ -117,6 +181,36 @@ global = "zed"
 [desktop.open-in-target-preferences.perPath]
 "/Users/zzs/Workspace/zzswang/hello-word" = "cursor"
 "/Users/zzs/Workspace/adventurer-tech/adventurer-next" = "zed"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#339cff"
+contrast = 60
+ink = "#ffffff"
+opaqueWindows = false
+surface = "#181818"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+code = "JetBrainsMono Nerd Font"
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#40c977"
+diffRemoved = "#fa423e"
+skill = "#ad7bf9"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#339cff"
+contrast = 45
+ink = "#1a1c1f"
+opaqueWindows = false
+surface = "#ffffff"
+
+[desktop.appearanceLightChromeTheme.fonts]
+code = "JetBrainsMono Nerd Font"
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#00a240"
+diffRemoved = "#ba2623"
+skill = "#924ff7"
 
 [memories]
 generate_memories = true
