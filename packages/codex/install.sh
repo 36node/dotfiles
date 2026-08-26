@@ -15,13 +15,5 @@ brew_cask_install codex
 mkdir -p "$HOME/.codex"
 sync_file "$PWD/packages/codex/config.toml" "$HOME/.codex/config.toml"
 
-## 用 .env 里的 OPENAI_API_KEY 写入 ~/.codex/auth.json
-## auth.json 是机器本地凭据（不进 git、不进 vault），但 key 本身走 .env（vault 同步）
-## 已登录则跳过；要重登用 `codex logout && ./install.sh` 或手动 `codex login`
-if [ -n "$OPENAI_API_KEY" ] && [ ! -s "$HOME/.codex/auth.json" ]; then
-  message "用 .env 里的 OPENAI_API_KEY 登录 codex ..."
-  printenv OPENAI_API_KEY | codex login --with-api-key \
-    && success "codex 已登录" \
-    || warn "codex login 失败，可手动 \`codex login\` 排查"
-  echo ""
-fi
+## 登录走 ChatGPT 官网账号（`codex login`），不要用 OPENAI_API_KEY
+## 首次使用或换账号：在终端跑 `codex login`，桌面版在应用内 Sign in

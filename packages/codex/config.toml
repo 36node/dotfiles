@@ -1,6 +1,5 @@
-model_provider = "linkapi"
 model = "gpt-5.6-sol"
-model_reasoning_effort = "low"
+model_reasoning_effort = "medium"
 network_access = "enabled"
 sandbox_mode = "danger-full-access"
 approval_policy = "never"
@@ -13,12 +12,6 @@ personality = "pragmatic"
 
 [shell_environment_policy]
 inherit = "all"
-
-[model_providers.linkapi]
-name = "linkapi"
-base_url = "https://api.linkapi.ai/v1"
-wire_api = "responses"
-requires_openai_auth = true
 
 [projects."/Users/zzs"]
 trust_level = "trusted"
@@ -97,16 +90,7 @@ enabled = true
 [plugins."presentations@openai-primary-runtime"]
 enabled = true
 
-[plugins."computer-use@openai-bundled"]
-enabled = true
-
 [plugins."pdf@openai-primary-runtime"]
-enabled = true
-
-[plugins."browser@openai-bundled"]
-enabled = true
-
-[plugins."chrome@openai-bundled"]
 enabled = true
 
 [plugins."figma@openai-curated"]
@@ -121,9 +105,29 @@ enabled = true
 [plugins."visualize@openai-bundled"]
 enabled = true
 
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
 [features]
-js_repl = false
 memories = true
+js_repl = false
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = [
+    "chrome-devtools-mcp@latest",
+    "--browserUrl",
+    "http://127.0.0.1:9222",
+]
 
 [mcp_servers.node_repl]
 args = []
@@ -147,14 +151,6 @@ NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/zzs/.codex/plugins/cache/openai
 SKY_CUA_SERVICE_PATH = "/Users/zzs/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
-[mcp_servers.chrome-devtools]
-command = "npx"
-args = [
-    "chrome-devtools-mcp@latest",
-    "--browserUrl",
-    "http://127.0.0.1:9222",
-]
-
 [mcp_servers.computer-use]
 command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
 args = ["mcp"]
@@ -162,7 +158,7 @@ cwd = "."
 enabled = false
 
 [desktop]
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 appearanceTheme = "system"
 codeFontSize = 12
@@ -174,12 +170,13 @@ show-context-window-usage = true
 defaultTerminalLocation = "right"
 followUpQueueMode = "queue"
 dock-icon-preference = "app-default"
+appearanceLightCodeThemeId = "codex"
 
 [desktop.open-in-target-preferences]
-global = "zed"
+global = "vscode"
 
 [desktop.open-in-target-preferences.perPath]
-"/Users/zzs/Workspace/zzswang/hello-word" = "cursor"
+"/Users/zzs/Workspace/zzswang/hello-word" = "vscode"
 "/Users/zzs/Workspace/adventurer-tech/adventurer-next" = "zed"
 
 [desktop.appearanceDarkChromeTheme]
@@ -198,19 +195,19 @@ diffRemoved = "#fa423e"
 skill = "#ad7bf9"
 
 [desktop.appearanceLightChromeTheme]
-accent = "#339cff"
+accent = "#0169cc"
 contrast = 45
-ink = "#1a1c1f"
+ink = "#0d0d0d"
 opaqueWindows = false
 surface = "#ffffff"
 
 [desktop.appearanceLightChromeTheme.fonts]
-code = "JetBrainsMono Nerd Font"
+code = '"SFMono-Regular"'
 
 [desktop.appearanceLightChromeTheme.semanticColors]
 diffAdded = "#00a240"
-diffRemoved = "#ba2623"
-skill = "#924ff7"
+diffRemoved = "#e02e2a"
+skill = "#751ed9"
 
 [memories]
 generate_memories = true

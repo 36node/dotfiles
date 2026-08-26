@@ -9,17 +9,17 @@ cask 分发，但安装后本质是 `codex` 这个 CLI。
 
 ## 首次使用
 
-`install.sh` 在 `.env` 里有 `OPENAI_API_KEY` 时会自动跑 `codex login --with-api-key`
-写入 `~/.codex/auth.json`，无需手动登录。之后直接：
+CLI 与桌面版共用 `~/.codex`，走 **ChatGPT 官网账号**。不要用 `OPENAI_API_KEY` / `OPENAI_BASE_URL` 登录 Codex。
 
 ```sh
+codex login          # 浏览器登录 ChatGPT
 codex                # 进入交互模式
 codex --help         # 看完整 CLI 参考
 codex doctor         # 检查本机安装 / 配置 / auth / 运行时健康
 codex logout         # 退出登录（清理 auth.json）
 ```
 
-想换 key 或重新登录：`codex logout && ./install.sh`。
+桌面版（ChatGPT.app / Codex）在应用内 Sign in 即可，凭据同样写到 `~/.codex/auth.json`。
 
 ## Shell 别名
 
@@ -41,19 +41,12 @@ worktree、容器）里用**；接触他人代码、生产配置或敏感数据�
 
 `config.toml` 里**只放行为配置**：
 
-- `model_provider` / `model` / `model_reasoning_effort` —— 选模型与推理强度
-- `[model_providers.<name>]` —— 自定义 OpenAI-compatible endpoint
-  （本仓库走 [linkapi](https://api.linkapi.ai)）
+- `model` / `model_reasoning_effort` —— 选模型与推理强度（不设 `model_provider`，默认直连 OpenAI）
 - `network_access`、`disable_response_storage` —— 运行/隐私开关
 
-**敏感字段不在这里**：
+`source.zsh` 调用 `codex` 时会去掉 `OPENAI_BASE_URL`，防止环境里残留中转地址。
 
-| 变量 | 来源 |
-|---|---|
-| `OPENAI_API_KEY` | `.env`（vault 同步，跨机自动一致） |
-
-`.env` 在 shell 启动时 export 进环境；`install.sh` 用 `printenv OPENAI_API_KEY \| codex login --with-api-key` 把它写入本机 `~/.codex/auth.json`。
-`auth.json` 留在本机（不进 git、不进 vault），但凭据本体随 `.env` 跨机。
+**敏感字段不在这里**：登录态在本机 `~/.codex/auth.json`（ChatGPT OAuth，不进 git/vault）。**不要**再 `codex login --with-api-key`。
 
 ## 已知副作用：config.toml 会被 codex 自动回写
 
@@ -74,7 +67,7 @@ worktree、容器）里用**；接触他人代码、生产配置或敏感数据�
 
 ## 其他文件（不由本包管理）
 
-- `~/.codex/auth.json` —— `install.sh` 由 `.env` 生成的本机凭据（不进 git/vault）
+- `~/.codex/auth.json` —— ChatGPT 登录凭据（不进 git/vault）
 - `~/.codex/sessions/` `~/.codex/history.jsonl` —— 会话历史
 - `~/.codex/log/` `~/.codex/*.sqlite*` —— 运行日志 / 状态
 - 项目级 `<repo>/AGENTS.md` —— codex 项目记忆（类似 Claude Code 的 `CLAUDE.md`）
