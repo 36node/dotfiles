@@ -12,6 +12,3 @@ brew_cask_install paper          # 自动换壁纸
 
 ## 云盘 / 协作
 brew_cask_install dropbox
-
-## 网络
-brew_cask_install zerotier-one   # 虚拟局域网

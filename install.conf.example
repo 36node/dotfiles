@@ -18,7 +18,7 @@
 #   - PACKAGES=()             → 装零个（显式空数组）
 #
 # 完整可选项（packages/ 下的目录名）：
-#   claude DevOps codex go node nvim osx python terminal
+#   claude DevOps codex go node nvim osx python terminal zerotier
 ###############################################################################
 
 PACKAGES=(
@@ -31,6 +31,7 @@ PACKAGES=(
   go
   DevOps
   osx
+  zerotier
 )
 
 ###############################################################################

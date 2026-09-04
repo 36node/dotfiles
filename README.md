@@ -191,6 +191,7 @@
 | [Mos](https://mos.caldis.me/) | 鼠标滚动平滑、反向 |
 | [MonitorControl](https://github.com/MonitorControl/MonitorControl) | 用键盘控制外接显示器亮度 / 音量（macOS 自身不支持非 Apple 屏） |
 | [飞书 / 微信](https://www.feishu.cn/) | 国内通讯 |
+| [ZeroTier](https://www.zerotier.com/) | 虚拟局域网，免开 VPN 跨机直连（`packages/zerotier`，shell 里用 `zero start/stop/restart/info`） |
 
 `extra.sh` 里的可选项（默认询问后才装，可通过 [install.conf](#可选install.conf--自定义本机安装范围) 自动跳过/强装）：
 
@@ -201,7 +202,6 @@
 | [IINA](https://iina.io/) | macOS 原生视频播放器 |
 | [Paper](https://paper.fjords.so/) | 自动壁纸 |
 | [Dropbox](https://www.dropbox.com/) | 云盘 |
-| [ZeroTier](https://www.zerotier.com/) | 虚拟局域网，免开 VPN 跨机直连 |
 
 ## 快速开始
 
@@ -290,7 +290,8 @@ cp install.conf.example install.conf
     ├── go/                 # go
     ├── nvim/               # neovim + LazyVim starter
     ├── DevOps/             # k8s / docker / 阿里云 / ansible / helm
-    └── osx/                # macOS 系统设置（Finder/Dock/键盘 等）
+    ├── osx/                # macOS 系统设置（Finder/Dock/键盘 等）
+    └── zerotier/           # ZeroTier 客户端 + `zero` 启停命令
 ```
 
 每个 package 有可选的：
