@@ -4,11 +4,10 @@ network_access = "enabled"
 sandbox_mode = "danger-full-access"
 approval_policy = "never"
 disable_response_storage = true
-notify = [
-    "/Users/zzs/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
-    "turn-ended",
-]
 personality = "pragmatic"
+service_tier = "priority"
+
+notify = ["/Users/zzs/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended", "--previous-notify", "[\"\\/bin\\/sh\",\"-c\",\"\\/usr\\/bin\\/afplay \\/System\\/Library\\/Sounds\\/Glass.aiff; \\\"\\/Users\\/zzs\\/.codex\\/computer-use\\/Codex Computer Use.app\\/Contents\\/SharedSupport\\/SkyComputerUseClient.app\\/Contents\\/MacOS\\/SkyComputerUseClient\\\" turn-ended \\\"$1\\\"\",\"codex-notify\"]"]
 
 [shell_environment_policy]
 inherit = "all"
@@ -65,6 +64,33 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/zzs/Documents/Codex/2026-08-25/wo"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-08-27/realtime-voice-chat"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-08-27/realtime-voice-chat-2"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-08-27/realtime-voice-chat-3"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/zzswang/yueran"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/36node/gfw"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-09-01/new-chat"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-09-01/c"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Workspace/haivivi/x"]
+trust_level = "trusted"
+
+[projects."/Users/zzs/Documents/Codex/2026-09-04/realtime-voice-chat"]
 trust_level = "trusted"
 
 [notice.model_migrations]
@@ -146,8 +172,8 @@ NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunc
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.818.61809"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/zzs/.codex/plugins/cache/openai-bundled/browser/26.818.61809/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.901.22334"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/zzs/.codex/plugins/cache/openai-bundled/browser/26.901.22334/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/zzs/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 
@@ -155,6 +181,10 @@ CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
 args = ["mcp"]
 cwd = "."
+enabled = false
+
+[mcp_servers.cua_repl]
+command = "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT"
 enabled = false
 
 [desktop]
@@ -171,6 +201,9 @@ defaultTerminalLocation = "right"
 followUpQueueMode = "queue"
 dock-icon-preference = "app-default"
 appearanceLightCodeThemeId = "codex"
+realtimeVoiceScreenContextEnabled = true
+open-link-in-target-preference = "external-browser"
+notifications-turn-mode = "always"
 
 [desktop.open-in-target-preferences]
 global = "vscode"
