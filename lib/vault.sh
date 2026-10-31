@@ -54,7 +54,7 @@ _vault_sync() {
   local vault_path="$DOTFILES_VAULT/$rel"
 
   if ! vault_ready; then
-    warn "vault 目录不可用（$DOTFILES_VAULT），跳过 $rel 同步"
+    warn "vault 目录不可用（${DOTFILES_VAULT}），跳过 $rel 同步"
     return 1
   fi
 

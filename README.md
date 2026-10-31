@@ -26,14 +26,14 @@
 
 - 频繁换 Mac、或团队/新人 onboarding 想要一致开发环境
 - 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信
-- 想读得懂自己装了什么的人 —— 整个仓库核心 < 200 行 bash
+- 想读得懂自己装了什么的人 —— 核心就是一个 `install.sh` 加几个 `lib/` 函数，全是带注释的 bash
 
 ## 核心特点
 
 - **模块化** —— `packages/` 下每个目录是一个独立 package，主脚本自动遍历，互不依赖
 - **幂等** —— 所有写入走 `append` / `link_file`，反复跑不会副作用堆叠
 - **现代化** —— 见下方"技术栈"，全部 2026 年仍活跃维护的项目
-- **可读** —— 主 `install.sh` 不到 160 行，每个 package 自带 README，没有黑魔法
+- **可读** —— 主 `install.sh` 从上往下顺序执行、注释比代码多，每个 package 自带 README，没有黑魔法
 - **跨机同步敏感凭据** —— `.env` / `~/.ssh` 通过 vault + 软链方案自动同步，默认走 iCloud Drive，可换 Dropbox / Syncthing / 任意目录
 - **macOS 系统调优** —— Finder / Dock / 键盘 / 截图路径等开箱即用，每条注释完整
 
@@ -238,6 +238,7 @@ cp .env.example .env
 ```bash
 ./install.sh                # 完整安装（按 install.conf；缺失则装全部 + 询问 extra）
 ./install.sh <package>      # 仅装单个 package（packages/<name>/install.sh），跳过系统引导和 brew 大列表
+./install.sh -o|-b|-s       # 软链目标已被其他文件占用时统一覆盖 / 备份 / 跳过，不再逐个询问（可与 <package> 组合）
 ./install.sh -h             # 帮助
 ```
 
@@ -281,10 +282,12 @@ cp install.conf.example install.conf
 │   ├── append.sh           # 幂等地追加行到文件
 │   ├── link.sh             # 软链 + 备份/覆盖/跳过
 │   ├── brew.sh             # brew_install / brew_cask_install
+│   ├── env.sh              # load_env：解析 .env / .env.local（install.sh 与 source.zsh 共用）
 │   └── vault.sh            # 跨机同步辅助（默认 iCloud Drive，可换其他后端）
 └── packages/
     ├── terminal/           # ghostty + zsh + antidote + starship + 字体
     ├── claude/             # claude code CLI（Anthropic 终端 AI 编码助手）
+    ├── codex/              # codex CLI（OpenAI），config.toml 真身走 vault
     ├── node/               # fnm + node + corepack(pnpm/yarn)
     ├── python/             # pyenv + python
     ├── go/                 # go
@@ -302,14 +305,16 @@ cp install.conf.example install.conf
 
 ## 跨机同步：vault 设计
 
-`.env`（敏感凭据）和 `~/.ssh`（私钥/config/known_hosts）不进 git，但需要在多台 Mac
+`.env`（敏感凭据）、`~/.ssh`（私钥/config/known_hosts）和 `~/.codex/config.toml`
+（会被 codex 回写本机路径/项目名）不进 git，但需要在多台 Mac
 间保持一致。本仓库通过 **"vault 目录" + 正向软链**实现：
 
 ```
                        $DOTFILES_VAULT
                             │
                             ├─ .env  ──── symlink ──→ ~/.dotfiles/.env
-                            └─ .ssh/ ──── symlink ──→ ~/.ssh
+                            ├─ .ssh/ ──── symlink ──→ ~/.ssh
+                            └─ .codex/config.toml ── symlink ──→ ~/.codex/config.toml
 ```
 
 **vault 是什么** —— 一个跨机器自动同步的目录。仓库**不绑定任何具体后端**，你想用什么都行：
@@ -371,7 +376,7 @@ macOS 默认开启 **iCloud Drive → 优化 Mac 存储**：磁盘紧张或文�
 > 打开 Finder → 进入 iCloud Drive → 显示隐藏文件（`Cmd + Shift + .`）→
 > 找到 `.dotfiles` 文件夹 → **右键** → **「保留下载」**
 
-这样 vault 目录里的 `.env` 和 `.ssh` 会被钉在本地，不会再被 iCloud evict 到云端。
+这样 vault 目录里的 `.env`、`.ssh` 和 `.codex` 会被钉在本地，不会再被 iCloud evict 到云端。
 只影响这一个目录，其他 iCloud Drive 文件该优化还是优化，不动你全局的「优化 Mac 存储」设置。
 
 `install.sh` 在每次跑时也会主动 `cat` 一遍 vault 文件触发 materialize（当下能恢复），

@@ -38,3 +38,6 @@ Temporary Items
 
 # 本机安装配置（PACKAGES 子集 / INSTALL_EXTRA 开关），模板见 install.conf.example
 install.conf
+
+# codex 配置真身在 vault（见 packages/codex/README.md），防止旧方案的软链把它写回仓库
+packages/codex/config.toml

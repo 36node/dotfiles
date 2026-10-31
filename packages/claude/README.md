@@ -30,7 +30,7 @@ prefix 命令（`/`、`!`、`@`）与 vim mode 切换备忘。完整列表见
 | `packages/claude/settings.json` | `~/.claude/settings.json` |
 
 `settings.json` 里**只放行为配置**：默认权限模式、模型、deny 列表（屏蔽 `.env` /
-`.secrets` 在 `Read` / `Edit` / `Write` 三个工具下的访问），可以安全进 git。
+`.secrets` 的读写，见下方「deny 规则的边界」），可以安全进 git。
 
 **敏感字段不在这里**：
 
@@ -50,10 +50,25 @@ prefix 命令（`/`、`!`、`@`）与 vim mode 切换备忘。完整列表见
 
 ## deny 规则的边界
 
-`permissions.deny` 在 `Read` / `Edit` / `Write` 工具层是真封死的。
-**但 `defaultMode: bypassPermissions` 下 Bash 工具不再要求确认**，所以
-`cat .env` / `source .env` / `grep TOKEN .env` 这类 Bash 旁路仍可能读到敏感文件。
+deny 规则在任何权限模式下都生效，包括 `defaultMode: bypassPermissions`。覆盖范围分两层：
+
+- **`Read(...)` / `Edit(...)` / `Write(...)`**：封住内置文件工具；按官方文档，也覆盖 Bash 里
+  Claude Code 认得的文件命令（`cat` / `head` / `tail` / `sed` / `tee`）和 `< file` / `> file` 重定向
+- **`Bash(...)`**：补上 `Read` 规则管不到的读取命令 —— `bat` / `less` / `more` / `grep` / `rg` /
+  `awk` / `source` / `.`。每个命令覆盖 `cmd .env`、`cmd * .env`、`cmd */.env` 三种位置，以及对应的
+  `.env.*`（`.secrets` 同理）。和 `Read` 规则一样只认 `.env` / `.env.*`，不会挡 `.envrc`
+
+Bash 规则只按命令文本匹配，所以有两类副作用要心里有数：
+
+- **误伤**：命令文本里任何位置出现「空格或 `/` 紧跟 `.env`」都会命中，包括搜索词本身。
+  `rg process.env` 不受影响，但 `grep -rn 'source .env' .`、`rg 'cp .env.example .env'` 会被拒，
+  需要时换个写法（例如 `rg 'source \.env'`）或自己在终端里跑
+- **漏网**：这仍然**不是安全边界**。带引号的路径（`grep TOKEN ".env"`、`source '.env'`）、
+  `/bin/cat .env`、`bash -c '...'`、`python -c 'open(".env")'`、`grep -r TOKEN .` 都能绕过
+
 继续加固的方向（按需自取）：
+
+- 开启 Claude Code sandbox（`sandbox.enabled`），让 `Read` deny 在 OS 层对子进程生效
 
 - 加 `PreToolUse` hook 在 Bash 调用前用脚本拦截命令串
 - 把 token 从 `.env` 移到 macOS Keychain，shell 启动时再 `export`

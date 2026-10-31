@@ -35,35 +35,40 @@ worktree、容器）里用**；接触他人代码、生产配置或敏感数据�
 
 ## 配置文件
 
-| 仓库内 | 软链到 |
+| 位置 | 说明 |
 |---|---|
-| `packages/codex/config.toml` | `~/.codex/config.toml` |
+| `$DOTFILES_VAULT/.codex/config.toml` | 真身，跨机同步（默认 iCloud Drive），**不进 git** |
+| `~/.codex/config.toml` | 软链到上面的真身 |
+| `packages/codex/config.example.toml` | 进 git 的模板，只在本机和 vault 都没有配置时拷贝一次 |
 
-`config.toml` 里**只放行为配置**：
+为什么不进 git：codex（尤其桌面版）会持续往 `config.toml` 回写本机信息，仓库是公开的，
+这些内容进 git 就会泄露本机路径和在做的项目：
 
-- `model` / `model_reasoning_effort` —— 选模型与推理强度（不设 `model_provider`，默认直连 OpenAI）
-- `network_access`、`disable_response_storage` —— 运行/隐私开关
+| 段 | 含义 |
+|---|---|
+| `[projects."<绝对路径>"]` | 项目信任级别 |
+| `[desktop.open-in-target-preferences.perPath]`、`git-worktree-root` | 按路径记住的打开方式、worktree 目录 |
+| `[notice.*]`、`[tui.*]` | 已展示过的迁移/提示记录 |
+| `[marketplaces.*]`、`[plugins.*]`、`[mcp_servers.node_repl]`、`notify` | 桌面版写入的插件与内置 MCP，带本机路径和应用版本号 |
+
+想改模型 / 推理强度 / 桌面偏好时直接改 `~/.codex/config.toml`，会自动同步到其他机器。
+希望新机器默认值也跟着变，再顺手同步到 `config.example.toml`（只放上面这些本机段以外的字段）。
+
+迁移说明：以前 `~/.codex/config.toml` 直接软链到仓库内 `packages/codex/config.toml`。
+`./install.sh codex` 会把旧软链转成实体文件并挪进 vault（vault 里还没有时），或直接链到 vault 里已有的那份。
+
+其他还在旧方案上的机器：
+
+1. 那台机器上 codex 一直往 `packages/codex/config.toml` 回写，`git pull` 可能因为本地修改拒绝删除它。
+   想保留那台的本机改动就先 `cp packages/codex/config.toml /tmp/codex-config.toml` 备份，
+   然后 `git checkout -- packages/codex/config.toml` 再 `git pull`
+2. 跑 `./install.sh codex`：vault 里已有的那份（第一台机器迁移过去的）会生效，
+   那台机器独有的 `[projects.*]` 信任记录需要的话从备份里手动合并
+3. `packages/codex/config.toml` 已加入 `.gitignore`，旧软链在迁移前被 codex 写回也不会再进 git
 
 `source.zsh` 调用 `codex` 时会去掉 `OPENAI_BASE_URL`，防止环境里残留中转地址。
 
 **敏感字段不在这里**：登录态在本机 `~/.codex/auth.json`（ChatGPT OAuth，不进 git/vault）。**不要**再 `codex login --with-api-key`。
-
-## 已知副作用：config.toml 会被 codex 自动回写
-
-下面两类内容由 codex 运行时自己写入 `~/.codex/config.toml`：
-
-| 段 | 含义 | 为什么麻烦 |
-|---|---|---|
-| `[projects."<绝对路径>"]` | 项目信任级别 | 路径强机器相关，跨机不通用 |
-| `[notice.model_migrations]` | 已展示过的迁移记录 | 看到一次新模型就会追加一条 |
-
-因为本包选了「全量 symlink」策略，这两段会持续产生 `git diff`。处理方式：
-
-- **同机使用**：定期把回写内容 commit 进仓库即可
-- **跨机同步**：拉到另一台机时，`[projects.*]` 段需要手动改路径或保留两份
-
-如果哪天觉得 diff 太烦，可以改成「只放共享字段、机器特定段走
-`.gitignore` + `config.local.toml`」的方案（当前未启用）。
 
 ## 其他文件（不由本包管理）
 

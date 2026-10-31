@@ -1,0 +1,88 @@
+# Codex 配置模板（新机器初始化用）
+#
+# 真正生效的 ~/.codex/config.toml 放在 vault（默认 iCloud Drive）里跨机同步，不进 git。
+# 原因：codex 会持续回写 [projects."<绝对路径>"]、open-in-target perPath、notice 等
+# 本机信息，放进公开仓库会泄露本机路径和项目名。
+#
+# packages/codex/install.sh 只在「本机和 vault 都还没有 config.toml」时拷贝这份模板，
+# 之后的修改都直接改 ~/.codex/config.toml（即 vault 里的真身）。
+# 插件、marketplace、内置 MCP（node_repl / computer-use）、notify 由 codex 桌面版自动写入，不放在这里。
+
+model = "gpt-6.1-sol"
+model_reasoning_effort = "ultra"
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+personality = "pragmatic"
+service_tier = "priority"
+
+[shell_environment_policy]
+inherit = "all"
+
+[features]
+memories = true
+js_repl = false
+
+[memories]
+generate_memories = true
+use_memories = true
+disable_on_external_context = true
+
+[mcp_servers.chrome-devtools]
+command = "npx"
+args = [
+    "chrome-devtools-mcp@latest",
+    "--browserUrl",
+    "http://127.0.0.1:9222",
+]
+
+[desktop]
+conversationDetailMode = "STEPS_COMMANDS"
+ambient-suggestions-enabled = true
+appearanceTheme = "system"
+codeFontSize = 12
+sansFontSize = 14
+git-show-sidebar-pr-icons = true
+git-pull-request-merge-method = "merge"
+preventSleepWhileRunning = true
+show-context-window-usage = true
+defaultTerminalLocation = "right"
+followUpQueueMode = "steer"
+dock-icon-preference = "app-default"
+appearanceLightCodeThemeId = "codex"
+realtimeVoiceScreenContextEnabled = true
+open-link-in-target-preference = "external-browser"
+notifications-turn-mode = "always"
+worktree-upstream-refresh-mode = "best-effort"
+
+[desktop.open-in-target-preferences]
+global = "vscode"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#339cff"
+contrast = 60
+ink = "#ffffff"
+opaqueWindows = false
+surface = "#181818"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+code = "JetBrainsMono Nerd Font"
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#40c977"
+diffRemoved = "#fa423e"
+skill = "#ad7bf9"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#0169cc"
+contrast = 45
+ink = "#0d0d0d"
+opaqueWindows = false
+surface = "#ffffff"
+
+[desktop.appearanceLightChromeTheme.fonts]
+code = "JetBrainsMono Nerd Font"
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#00a240"
+diffRemoved = "#e02e2a"
+skill = "#751ed9"

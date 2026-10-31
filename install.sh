@@ -11,6 +11,7 @@ source $PWD/lib/append.sh
 source $PWD/lib/link.sh
 source $PWD/lib/brew.sh
 source $PWD/lib/vault.sh
+source $PWD/lib/env.sh
 source $PWD/help.sh
 
 overwrite_all=false backup_all=false skip_all=false
@@ -58,12 +59,8 @@ if [ -n "$single_package" ]; then
   [ -d "$pkg_dir" ]            || error "未知 package: ${single_package}（packages/ 下找不到）"
   [ -f "$pkg_dir/install.sh" ] || error "${pkg_dir} 没有 install.sh"
 
-  if [ -f .env ]; then
-    export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
-  fi
-  if [ -f .env.local ]; then
-    export $(cat .env.local | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
-  fi
+  load_env .env
+  load_env .env.local
   export ZSHRC=${ZSHRC:-$HOME/.zshrc}
   export WORKSPACE=${WORKSPACE:-$HOME/Workspace}
   export COMPUTER_NAME=${COMPUTER_NAME:-$USER}
@@ -94,15 +91,11 @@ vault_sync_home .ssh
 fix_ssh_permissions
 
 ## 加载共享环境变量 .env（跨机器共享，通过 vault 同步）
-if [ -f .env ]; then
-  export $(cat .env | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
-fi
+load_env .env
 
 ## 加载本机覆盖 .env.local（机器特定，不进 git、不进 vault）
 ## 后于 .env 加载，同名变量会覆盖前者
-if [ -f .env.local ]; then
-  export $(cat .env.local | grep -v '#' | sed 's/\r$//' | awk '/=/ {print $1}' )
-fi
+load_env .env.local
 
 ## 安装过程用到的环境变量
 export ZSHRC=${ZSHRC:-$HOME/.zshrc}
@@ -152,7 +145,7 @@ SUDOERS_TMP="/etc/sudoers.d/dotfiles-install-$$"
 cleanup_sudoers() {
   if [ -f "$SUDOERS_TMP" ]; then
     sudo -n rm -f "$SUDOERS_TMP" 2>/dev/null \
-      || warn "无法自动清理 $SUDOERS_TMP，请手动 sudo rm 它"
+      || warn "无法自动清理 ${SUDOERS_TMP}，请手动 sudo rm 它"
   fi
 }
 trap cleanup_sudoers EXIT INT TERM
@@ -289,7 +282,6 @@ if [ -f extra.sh ]; then
 fi
 
 ## 添加 source
-append "# source dotfiles" "$ZSHRC"
-append "source $PWD/source.zsh" "$ZSHRC"
+append_block "$ZSHRC" "# source dotfiles" "source $PWD/source.zsh"
 
 warn "成功安装 dotfiles，请重启电脑！"

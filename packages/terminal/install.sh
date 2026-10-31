@@ -85,16 +85,14 @@ brew_install direnv
 brew_install yazi
 
 ## 把必要的初始化行追加到 ~/.zshrc（append 是幂等的，重复跑无副作用）
-append "# antidote 插件管理器" "$ZSHRC"
-append 'source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh' "$ZSHRC"
-append 'antidote load' "$ZSHRC"
-append "" "$ZSHRC"
-append "# zoxide 目录跳转（必须在 antidote load 之后初始化）" "$ZSHRC"
-append 'eval "$(zoxide init zsh)"' "$ZSHRC"
-append "" "$ZSHRC"
-append "# starship prompt" "$ZSHRC"
-append 'eval "$(starship init zsh)"' "$ZSHRC"
-append "" "$ZSHRC"
-append "# direnv 目录级环境变量（钩子放最后，确保覆盖 starship 等设置的 PROMPT）" "$ZSHRC"
-append 'eval "$(direnv hook zsh)"' "$ZSHRC"
+## append_block 只在命令行缺失时连同注释一起写入，避免留下孤立注释
+append_block "$ZSHRC" "# antidote 插件管理器" \
+  'source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh' \
+  'antidote load'
+append_block "$ZSHRC" "# zoxide 目录跳转（必须在 antidote load 之后初始化）" \
+  'eval "$(zoxide init zsh)"'
+append_block "$ZSHRC" "# starship prompt" \
+  'eval "$(starship init zsh)"'
+append_block "$ZSHRC" "# direnv 目录级环境变量（钩子放最后，确保覆盖 starship 等设置的 PROMPT）" \
+  'eval "$(direnv hook zsh)"'
 echo ""
