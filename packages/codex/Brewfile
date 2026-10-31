@@ -1,0 +1,2 @@
+# Codex CLI（cask 分发，本质是 CLI，命令为 `codex`）
+cask "codex"

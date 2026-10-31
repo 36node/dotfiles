@@ -5,7 +5,7 @@ cask 分发官方客户端，安装后带菜单栏 GUI 和 `zerotier-cli`。
 
 ## 安装
 
-`install.sh` 通过 `brew_cask_install zerotier-one` 拉取客户端。
+同目录 `Brewfile` 通过 `cask "zerotier-one"` 拉取客户端。
 
 加入网络、授权节点仍走 ZeroTier Central 或本机 `zerotier-cli`。
 

@@ -5,7 +5,7 @@ cask 分发，但安装后本质是 `claude` 这个 CLI。
 
 ## 安装
 
-`install.sh` 通过 `brew_cask_install claude-code` 一键拉取最新版本。
+同目录 `Brewfile` 通过 `cask "claude-code"` 一键拉取最新版本。
 
 ## 首次使用
 
@@ -78,6 +78,6 @@ Bash 规则只按命令文本匹配，所以有两类副作用要心里有数：
 仓库里同主题还装了：
 
 - [`codex`](https://github.com/openai/codex)（cask）—— OpenAI 的同类
-- [`gemini-cli`](https://github.com/google-gemini/gemini-cli)（brew）—— Google Gemini
+- [`antigravity-cli`](https://antigravity.google/product/antigravity-cli)（cask）—— Google Antigravity，gemini-cli 的官方替代
 
 不同 AI CLI 习惯差不多，可以并存，按任务选用。

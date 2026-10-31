@@ -5,7 +5,7 @@ cask 分发，但安装后本质是 `codex` 这个 CLI。
 
 ## 安装
 
-`install.sh` 通过 `brew_cask_install codex` 一键拉取最新版本。
+同目录 `Brewfile` 通过 `cask "codex"` 一键拉取最新版本。
 
 ## 首次使用
 
@@ -82,6 +82,6 @@ worktree、容器）里用**；接触他人代码、生产配置或敏感数据�
 仓库里同主题还装了：
 
 - [`claude-code`](https://www.anthropic.com/claude-code)（cask）—— Anthropic 的同类，本仓库主力
-- [`gemini-cli`](https://github.com/google-gemini/gemini-cli)（brew）—— Google Gemini
+- [`antigravity-cli`](https://antigravity.google/product/antigravity-cli)（cask）—— Google Antigravity，gemini-cli 的官方替代
 
 不同 AI CLI 习惯差不多，可以并存，按任务选用。

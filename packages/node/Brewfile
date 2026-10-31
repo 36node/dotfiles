@@ -1,0 +1,4 @@
+# node：版本管理与工具链（node 本身由 install.sh 通过 fnm 安装）
+
+brew "fnm"                # Fast Node Manager
+brew "biome"              # JS/TS 格式化 + lint

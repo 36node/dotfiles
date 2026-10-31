@@ -2,9 +2,7 @@
 #
 # node 相关安装
 
-## fnm (Fast Node Manager)
-brew_install fnm
-
+## fnm 由同目录 Brewfile 安装
 ## 让本次安装会话内 fnm 可用，以便后续 fnm install/use 命令生效
 eval "$(fnm env --shell bash)"
 

@@ -40,7 +40,7 @@ git push origin feat/<你的特性>
 2. **幂等** —— 所有写文件操作必须可重复执行：
    - 写 `~/.zshrc` 用 `lib/append.sh` 的 `append`
    - 建软链用 `lib/link.sh` 的 `link_file` / `sync_file`
-   - 安装 brew 包用 `lib/brew.sh` 的 `brew_install` / `brew_cask_install`
+   - 安装软件写进 package 的 `Brewfile`，由主脚本统一 `brew bundle install --no-upgrade`
 3. **可读** —— 每个 `install.sh` 控制在 ~50 行，复杂的拆函数 / 拆文件
 4. **现代化** —— 引入新工具时，优先选择**仍在快速迭代**的项目；过时工具应该被替换、不是堆积
 5. **诚实的注释** —— 每段配置上方用中文说清「为什么这么做」，不只说「做了什么」
@@ -63,7 +63,8 @@ git push origin feat/<你的特性>
 
 ### 文件命名
 
-- 各 package 主入口：`packages/<name>/install.sh`
+- 各 package 软件清单：`packages/<name>/Brewfile`（被主脚本用 `brew bundle` 安装）
+- 各 package 配置脚本：`packages/<name>/install.sh`（装完软件后执行）
 - 各 package shell 集成：`packages/<name>/source.zsh`（被根 `source.zsh` 自动加载）
 - 各 package 文档：`packages/<name>/README.md`（可选，复杂 package 推荐有）
 
@@ -73,24 +74,34 @@ git push origin feat/<你的特性>
 
 ```
 packages/<name>/
-├── install.sh          # 必需，主脚本会自动执行
+├── Brewfile            # 软件清单，主脚本先 brew bundle 安装（和 install.sh 至少要有一个）
+├── install.sh          # 装完软件后执行的配置脚本
 ├── source.zsh          # 可选，shell 启动时自动加载
 └── README.md           # 可选但推荐
 ```
 
-**`install.sh` 模板**：
+**`Brewfile` 模板**：
+
+```ruby
+# <name>：一句话说明
+
+brew "<formula>"          # 用途
+cask "<cask>"             # 用途
+mas "<App 名>", id: 123   # App Store 应用（需要先登录 App Store）
+
+# 第三方 tap 需显式信任
+brew "<user>/<tap>/<formula>", trusted: true
+```
+
+**`install.sh` 模板**（只做配置，不装软件）：
 
 ```bash
 #!/bin/bash
 #
-# <name> 相关安装
+# <name> 相关配置（软件由同目录 Brewfile 安装）
 
-## 工具一
-brew_install <tool>
-
-## 工具二（可执行的初始化）
-brew_install <tool>
 <tool> init  # 注意幂等
+link_file "$PWD/packages/<name>/config" "$HOME/.config/<tool>"
 ```
 
 **关键约束**：

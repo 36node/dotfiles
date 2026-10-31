@@ -2,10 +2,8 @@
 #
 # Codex（OpenAI 终端 AI 编码助手）安装
 
-## Codex CLI（通过 cask 分发，本质是 CLI 工具）
-## 安装后命令为 `codex`
+## Codex CLI 由同目录 Brewfile 安装，命令为 `codex`
 ## 官方仓库：https://github.com/openai/codex
-brew_cask_install codex
 
 ## ~/.codex/config.toml 真身放 vault（默认 iCloud Drive）跨机同步，不进 git
 ## 原因：codex 会持续回写 [projects."<绝对路径>"]、perPath、notice 等本机信息，

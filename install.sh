@@ -50,14 +50,15 @@ done
 ###############################################################################
 # 单 package 快速模式
 #   ./install.sh <package>
-#   仅装该 package，跳过系统引导（sudo/xcode/brew bootstrap）与 brew 软件包列表
+#   仅装该 package（它的 Brewfile + install.sh），跳过系统引导（sudo/xcode/brew bootstrap）与根 Brewfile
 #   仍加载 .env / .env.local，因为 package 内部可能用到 token（如 codex）
 ###############################################################################
 
 if [ -n "$single_package" ]; then
   pkg_dir="packages/$single_package"
   [ -d "$pkg_dir" ]            || error "未知 package: ${single_package}（packages/ 下找不到）"
-  [ -f "$pkg_dir/install.sh" ] || error "${pkg_dir} 没有 install.sh"
+  [ -f "$pkg_dir/Brewfile" ] || [ -f "$pkg_dir/install.sh" ] \
+    || error "${pkg_dir} 既没有 Brewfile 也没有 install.sh"
 
   load_env .env
   load_env .env.local
@@ -69,7 +70,8 @@ if [ -n "$single_package" ]; then
   message "单独安装 $pkg_dir"
   echo "***************************************"
   echo ""
-  . "$pkg_dir/install.sh"
+  [ -f "$pkg_dir/Brewfile" ] && brew_bundle "$pkg_dir/Brewfile"
+  [ -f "$pkg_dir/install.sh" ] && . "$pkg_dir/install.sh"
   success "完成 $single_package"
   exit 0
 fi
@@ -178,38 +180,8 @@ fi
 # 安装一些必备软件
 ###############################################################################
 
-brew_install git
-brew_install gh
-brew_install jq
-brew_install mas
-brew_install ruby
-brew_install wget
-brew_install autossh  # SSH 隧道断线自动重连，配合 ~/.ssh/config 的 LocalForward 用（替代已下架的 secure-pipes）
-brew_install gemini-cli  # Google Gemini CLI
-
-## 媒体/压缩通用工具（yazi 的预览功能也依赖这几个）
-brew_install ffmpeg
-brew_install imagemagick
-brew_install poppler  # 提供 pdftotext / pdftoppm，PDF 处理 + yazi PDF 预览
-brew_install sevenzip  # 7z 压缩工具
-
-## 编辑器 / AI 开发工具
-## 注：claude-code / codex 已移到 packages/<name>/install.sh
-brew_cask_install visual-studio-code
-
-## 浏览器 / Git / API
-brew_cask_install github
-brew_cask_install google-chrome
-brew_cask_install postman
-
-## macOS 体验增强
-brew_cask_install keyclu          # 长按 Cmd 显示快捷键（替代已下架的 cheatsheet）
-brew_cask_install monitorcontrol  # 用键盘控制外接显示器亮度/音量（macOS 自身不支持非 Apple 屏）
-brew_cask_install mos             # 鼠标平滑滚动 + 反向
-
-## 通讯
-brew_cask_install feishu          # 飞书
-brew_cask_install wechat          # 微信
+## 软件清单见根目录 Brewfile（各 package 的在 packages/<name>/Brewfile）
+brew_bundle Brewfile
 
 ###############################################################################
 # packages 安装
@@ -231,10 +203,11 @@ for pkg in "${PACKAGES[@]}"; do
     continue
   fi
 
-  if [ -f "$pkg_dir/install.sh" ]; then
-    . "$pkg_dir/install.sh"
-  else
-    warn "$pkg_dir 没有 install.sh，跳过"
+  ## 先装软件（Brewfile），再做配置（install.sh），后者可能依赖前者装好的命令
+  [ -f "$pkg_dir/Brewfile" ] && brew_bundle "$pkg_dir/Brewfile"
+  [ -f "$pkg_dir/install.sh" ] && . "$pkg_dir/install.sh"
+  if [ ! -f "$pkg_dir/Brewfile" ] && [ ! -f "$pkg_dir/install.sh" ]; then
+    warn "$pkg_dir 既没有 Brewfile 也没有 install.sh，跳过"
     echo ""
   fi
 done
@@ -243,14 +216,14 @@ done
 # 其他
 ###############################################################################
 
-## 加载额外的 extra.sh
+## 选装软件 Brewfile.extra
 ## INSTALL_EXTRA 由 install.conf 控制：true/false 跳过询问，留空保持原交互
-if [ -f extra.sh ]; then
+if [ -f Brewfile.extra ]; then
 	case "${INSTALL_EXTRA:-}" in
 		true|TRUE|yes|YES|y|Y|1)
 			message "安装 extra apps（由 install.conf 指定）..."
 			echo ""
-			. extra.sh
+			brew_bundle Brewfile.extra
 			;;
 		false|FALSE|no|NO|n|N|0)
 			message "跳过 extra apps（由 install.conf 指定）"
@@ -263,7 +236,7 @@ if [ -f extra.sh ]; then
 
 			case "$action" in
 				y )
-					. extra.sh;;
+					brew_bundle Brewfile.extra;;
 				* )
 					;;
 			esac
@@ -274,7 +247,7 @@ if [ -f extra.sh ]; then
 			[y]yes, [n]no"
 			read -n 1 action
 			case "$action" in
-				y ) . extra.sh ;;
+				y ) brew_bundle Brewfile.extra ;;
 				* ) ;;
 			esac
 			;;

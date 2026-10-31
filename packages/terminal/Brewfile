@@ -1,0 +1,38 @@
+# terminal：终端、shell、字体与现代 CLI（详细说明见 README「命令行工具速查」）
+
+## 终端 / shell
+cask "ghostty"
+brew "starship"           # prompt
+brew "antidote"           # zsh 插件管理器（替代 oh-my-zsh）
+brew "tmux"
+brew "tree"
+
+## 字体
+cask "font-fira-code-nerd-font"
+cask "font-fira-mono-nerd-font"
+cask "font-jetbrains-mono-nerd-font"
+cask "font-noto-sans-cjk-sc"
+cask "font-noto-serif-cjk-sc"
+
+## 现代 CLI —— 经典 Unix 工具的替代品
+brew "bat"                # cat 替代：语法高亮 + 行号 + git diff
+brew "eza"                # ls 替代：彩色 + git 状态 + tree 模式
+brew "fzf"                # 模糊查找（zoxide/yazi/zsh 历史搜索都依赖它）
+brew "bottom"             # top 替代：跨平台，命令名 btm
+brew "mactop"             # macOS 专用 top：CPU/GPU/能耗
+brew "dust"               # du 替代：树形可视化磁盘占用
+brew "duf"                # df 替代：彩色磁盘容量表
+brew "procs"              # ps 替代
+brew "sd"                 # sed 替代：语法更直观
+brew "xh"                 # curl/httpie 替代，写 API 测试快
+brew "tokei"              # 代码统计
+brew "zoxide"             # cd 替代：`z foo` 智能跳转，`zi` 走 fzf 交互式选
+brew "direnv"             # 进入目录自动加载 .envrc
+
+## 终端 TUI 应用
+brew "lazygit"            # Git TUI，键盘流操作
+brew "jless"              # JSON viewer TUI（搭配 jq 用）
+brew "glow"               # 终端 markdown 渲染器
+brew "gum"                # Charm 出的 shell 脚本 UI 组件
+brew "yazi"               # 文件管理 TUI（预览依赖在根 Brewfile）
+brew "git-delta"          # git diff 美化 pager（install.sh 自动写入 ~/.gitconfig）

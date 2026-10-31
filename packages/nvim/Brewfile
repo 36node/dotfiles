@@ -1,0 +1,11 @@
+# nvim：neovim + LazyVim 依赖
+
+brew "neovim"
+
+## LazyVim 依赖
+brew "ripgrep"
+brew "fd"
+
+## macism：nvim 自动切回英文输入法（macOS）
+tap "laishulu/homebrew"
+brew "laishulu/homebrew/macism", trusted: true   # Homebrew 7 起第三方 tap 需显式信任

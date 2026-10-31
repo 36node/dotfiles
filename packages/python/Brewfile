@@ -1,0 +1,3 @@
+# python：版本管理（python 本身由 install.sh 通过 pyenv 安装）
+
+brew "pyenv"

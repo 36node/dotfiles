@@ -1,0 +1,39 @@
+# DevOps：云、k8s、容器、数据库客户端
+
+## 云
+brew "aliyun-cli"         # 阿里云
+cask "gcloud-cli"         # Google Cloud
+brew "ansible"
+
+## Kubernetes
+brew "kubernetes-cli"
+brew "kubectx"
+brew "k9s"                # Kubernetes TUI 管理工具
+brew "k3sup"
+## helm 和 helm@3 都提供 bin/helm，只能链一个：PATH 上的 helm 是 3.x，helm 4 装着但不链接
+## 必须写明 link:，否则 brew bundle 会按 keg-only 默认值去 link helm / unlink helm@3，撞上冲突后整个安装中断
+## 顺序也要保持：先 unlink helm，再 link helm@3
+brew "helm", link: false
+brew "helm@3", link: true
+tap "hidetatz/tap"
+brew "hidetatz/tap/kubecolor", trusted: true   # Homebrew 7 起第三方 tap 需显式信任
+
+## 容器
+## docker formula 提供独立的 docker / docker-compose CLI
+## 注意：OrbStack 自带 docker CLI 和 compose 插件（启动时会 symlink 到 PATH），
+##       两者并存有 PATH 优先级冲突。如果你只用 OrbStack，可以删掉 docker / docker-compose 两行
+##       并 brew uninstall 它们；如果你用 colima/podman 等替代 daemon，则保留。
+brew "docker"
+brew "docker-compose"
+brew "lazydocker"         # Docker TUI（lazygit 同作者，UX 一致）
+brew "skopeo"             # 不拉镜像直接查看/复制远端镜像
+cask "orbstack"           # Docker Desktop 的轻量替代，也能跑 Linux 虚拟机
+
+## 数据库 / 消息
+brew "libpq", link: true  # psql 等 Postgres 客户端（keg-only，强制链接进 PATH）
+brew "redis"
+cask "redis-insight"      # Redis GUI
+brew "mosquitto"          # MQTT broker / mosquitto_pub / mosquitto_sub
+
+## 网络
+cask "ngrok"              # 内网穿透

@@ -1,0 +1,4 @@
+# go：直接装稳定版
+# 如果将来有多版本切换需求，可改用 goenv：brew "goenv"
+
+brew "go"

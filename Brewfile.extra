@@ -1,0 +1,18 @@
+# 选装软件：./install.sh 默认询问后才装，install.conf 里 INSTALL_EXTRA=true|false 可跳过询问
+# 按自己的需求修改
+
+## 编辑器 / 开发增强
+cask "cursor"             # AI 代码编辑器
+cask "cmux"               # 基于 Ghostty 的终端，竖排标签
+
+## 媒体 / 桌面
+cask "iina"               # 苹果风视频播放器
+cask "paper"              # 自动换壁纸
+cask "qqmusic"            # QQ 音乐
+cask "qqlive"             # 腾讯视频
+
+## 云盘 / 协作
+cask "dropbox"
+
+## App Store（需要先登录 App Store）
+mas "Speedtest", id: 1153157709

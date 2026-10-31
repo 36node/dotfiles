@@ -1,0 +1,8 @@
+# xcode：iOS / macOS 开发（Xcode 有十几 GB，不需要的机器在 install.conf 里去掉这个 package）
+# mas 条目需要先登录 App Store，否则安装失败
+
+mas "Xcode", id: 497799835
+mas "TestFlight", id: 899247664
+mas "Developer", id: 640199958
+
+brew "xcodegen"           # 用 YAML 描述生成 .xcodeproj

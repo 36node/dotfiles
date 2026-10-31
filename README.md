@@ -55,7 +55,8 @@
 
 ## 命令行工具速查
 
-下面是仓库里**默认装的全部 CLI 工具**，按主题分组。每个工具都附了官方仓库/文档链接，点进去看截图最直观。
+下面是仓库里装的主要 CLI 工具，按主题分组，每个工具都附了官方仓库/文档链接。
+完整清单以根目录 `Brewfile` 和各 `packages/<name>/Brewfile` 为准（见「[软件清单：Brewfile](#软件清单brewfile)」）。
 
 ### 文件浏览 / 跳转
 
@@ -95,6 +96,8 @@
 | [gh](https://cli.github.com/) | GitHub 官方 CLI（`gh pr`、`gh issue` 等） |
 | [lazygit](https://github.com/jesseduffield/lazygit) | Git TUI，键盘流操作 |
 | [delta](https://github.com/dandavison/delta) | git diff 美化 pager（`install.sh` 已自动注册到 `~/.gitconfig`） |
+| [git-lfs](https://git-lfs.com/) | Git 大文件存储 |
+| [actionlint](https://github.com/rhysd/actionlint) | GitHub Actions workflow 静态检查 |
 
 ### Kubernetes / 容器
 
@@ -103,11 +106,20 @@
 | [kubectl](https://kubernetes.io/docs/reference/kubectl/) | k8s 官方 CLI（包名 `kubernetes-cli`） |
 | [kubectx / kubens](https://github.com/ahmetb/kubectx) | 快速切换 context / namespace |
 | [kubecolor](https://github.com/kubecolor/kubecolor) | 给 kubectl 输出着色 |
-| [helm](https://helm.sh/) | k8s 包管理器 |
+| [helm](https://helm.sh/) | k8s 包管理器（PATH 上是 `helm@3`；helm 4 装着但不链接） |
 | [k9s](https://github.com/derailed/k9s) | k8s TUI 管理工具 |
 | [k3sup](https://github.com/alexellis/k3sup) | 一键部署 k3s 到任何机器 |
-| [docker / docker-compose](https://docs.docker.com/) | docker CLI 和 compose 插件（CLI-only，跟 OrbStack 共存时会有 PATH 优先级冲突，详见 `packages/DevOps/install.sh` 注释） |
+| [docker / docker-compose](https://docs.docker.com/) | docker CLI 和 compose 插件（CLI-only，跟 OrbStack 共存时会有 PATH 优先级冲突，详见 `packages/DevOps/Brewfile` 注释） |
 | [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker TUI，lazygit 同作者 |
+| [skopeo](https://github.com/containers/skopeo) | 不拉镜像直接查看 / 复制远端镜像 |
+
+### 数据库 / 消息
+
+| 工具 | 功能 |
+|---|---|
+| [libpq](https://www.postgresql.org/docs/current/libpq.html) | `psql` 等 Postgres 客户端（keg-only，Brewfile 里强制链接进 PATH） |
+| [redis](https://redis.io/) | Redis 服务端与 `redis-cli` |
+| [mosquitto](https://mosquitto.org/) | MQTT broker，附带 `mosquitto_pub` / `mosquitto_sub` |
 
 ### 网络 / 远程
 
@@ -116,12 +128,16 @@
 | [autossh](https://www.harding.motd.ca/autossh/) | SSH 隧道断线自动重连，配合 `~/.ssh/config` 的 `LocalForward` 用 |
 | [xh](https://github.com/ducaale/xh) | `curl` / `httpie` 替代，语法极简 |
 | [wget](https://www.gnu.org/software/wget/) | 经典下载器 |
+| [iperf3](https://github.com/esnet/iperf) | 网络带宽测试 |
+| [telnet](https://www.gnu.org/software/inetutils/) | 测端口连通性 |
+| [ngrok](https://ngrok.com/) | 内网穿透（cask） |
 
 ### 文本 / 数据
 
 | 工具 | 功能 |
 |---|---|
 | [jq](https://jqlang.github.io/jq/) | JSON 流处理（标杆工具） |
+| [yq](https://github.com/mikefarah/yq) | jq 的 YAML 版，也能处理 JSON / XML |
 | [sd](https://github.com/chmln/sd) | `sed` 替代，语法直观 |
 | [tokei](https://github.com/XAMPPRocky/tokei) | 代码行数统计 |
 
@@ -132,6 +148,7 @@
 | [ffmpeg](https://ffmpeg.org/) | 音视频处理，yazi 视频预览也用它 |
 | [imagemagick](https://imagemagick.org/) | 图片格式转换，yazi 图片预览也用它 |
 | [poppler](https://poppler.freedesktop.org/) | PDF 处理（提供 `pdftotext` / `pdftoppm`），yazi PDF 预览依赖 |
+| [librsvg](https://wiki.gnome.org/Projects/LibRsvg) | 提供 `rsvg-convert`，SVG 转 PNG / PDF |
 | [sevenzip](https://github.com/p7zip-project/p7zip) (`7zz`) | 7z 压缩格式，yazi 压缩档预览依赖 |
 
 ### Shell / 终端
@@ -150,14 +167,23 @@
 |---|---|
 | [claude-code](https://www.anthropic.com/claude-code) | Anthropic 的终端 AI 编码助手（cask 分发，但本质是 CLI） |
 | [codex](https://github.com/openai/codex) | OpenAI 的终端 coding agent（cask 分发，本质 CLI） |
-| [gemini-cli](https://github.com/google-gemini/gemini-cli) | Google Gemini AI 终端客户端 |
+| [antigravity-cli](https://antigravity.google/product/antigravity-cli) | Google Antigravity 终端 agent（gemini-cli 的官方替代，cask） |
 
 ### Cloud / 运维
 
 | 工具 | 功能 |
 |---|---|
 | [aliyun-cli](https://github.com/aliyun/aliyun-cli) | 阿里云 CLI |
+| [gcloud-cli](https://cloud.google.com/sdk/gcloud) | Google Cloud CLI（cask） |
 | [ansible](https://www.ansible.com/) | 配置管理与自动化 |
+
+### 构建工具
+
+| 工具 | 功能 |
+|---|---|
+| [cmake](https://cmake.org/) / [ninja](https://ninja-build.org/) | C/C++ 构建 |
+| [emscripten](https://emscripten.org/) | C/C++ 编译到 WebAssembly |
+| [dfu-util](https://dfu-util.sourceforge.net/) | USB DFU 固件烧录 |
 
 ### 编程语言 / 编辑器
 
@@ -166,6 +192,8 @@
 | [go](https://go.dev/) | Go 编译器（直接装稳定版，需要多版本切换可改用 `goenv`） |
 | [neovim](https://neovim.io/) | 现代 vim，搭配 [LazyVim](https://www.lazyvim.org/) starter 一起装 |
 | [ruby](https://www.ruby-lang.org/) | macOS 自带 ruby 太老，brew 装新版（CocoaPods、mas 等工具链需要） |
+| [biome](https://biomejs.dev/) | JS / TS 格式化 + lint（`packages/node`） |
+| [xcodegen](https://github.com/yonaskolb/XcodeGen) | 用 YAML 生成 `.xcodeproj`（`packages/xcode`） |
 
 ### 版本管理
 
@@ -173,35 +201,45 @@
 |---|---|
 | [fnm](https://github.com/Schniz/fnm) | Node 版本管理（nvm 替代，Rust 实现） |
 | [pyenv](https://github.com/pyenv/pyenv) | Python 版本管理 |
-| [mas](https://github.com/mas-cli/mas) | Mac App Store CLI |
+| [mas](https://github.com/mas-cli/mas) | Mac App Store CLI（Brewfile 里的 `mas` 条目靠它安装） |
 
 ## GUI 应用速查
 
-仓库默认装的 macOS 桌面应用：
+仓库装的 macOS 桌面应用（完整清单见各 Brewfile）：
 
 | 工具 | 功能 |
 |---|---|
 | [ghostty](https://ghostty.org/) | 现代终端模拟器，GPU 加速 |
-| [VS Code](https://code.visualstudio.com/) | 编辑器 |
+| [VS Code](https://code.visualstudio.com/) / [Zed](https://zed.dev/) | 编辑器 |
+| [Figma](https://www.figma.com/) | 设计 |
 | [GitHub Desktop](https://desktop.github.com/) | GitHub 图形客户端 |
 | [Postman](https://www.postman.com/) | API 测试 |
 | [Google Chrome](https://www.google.com/chrome/) | 浏览器 |
 | [OrbStack](https://orbstack.dev/) | Docker Desktop 的轻量替代，启动快、省内存、原生 Apple Silicon；同时能跑 Linux VM |
+| [Redis Insight](https://redis.io/insight/) | Redis GUI（`packages/DevOps`） |
+| [ChatGPT](https://openai.com/chatgpt/desktop/) / [Claude](https://claude.ai/download) / [豆包](https://www.doubao.com/) | AI 桌面应用（ChatGPT 同时也是 Codex 桌面版） |
+| [Open Design](https://formulae.brew.sh/cask/open-design) | 本地优先的 AI 设计工具 |
+| [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端 |
+| [balenaEtcher](https://etcher.balena.io/) | 烧录系统镜像到 U 盘 / SD 卡 |
 | [KeyClu](https://sergii.tatarenkov.name/keyclu/support/) | 长按 Cmd 显示当前 app 的快捷键 |
 | [Mos](https://mos.caldis.me/) | 鼠标滚动平滑、反向 |
 | [MonitorControl](https://github.com/MonitorControl/MonitorControl) | 用键盘控制外接显示器亮度 / 音量（macOS 自身不支持非 Apple 屏） |
-| [飞书 / 微信](https://www.feishu.cn/) | 国内通讯 |
+| 飞书 / 微信 / 钉钉 / QQ / 腾讯会议 / 网易邮箱大师 | 国内通讯与办公 |
+| Nerd Fonts（JetBrains Mono / Fira）+ Noto CJK | 终端字体与中文字体（`packages/terminal`） |
+| Xcode / TestFlight / Developer | iOS / macOS 开发，经 App Store（`mas`）安装（`packages/xcode`，十几 GB，不需要就在 install.conf 里去掉） |
 | [ZeroTier](https://www.zerotier.com/) | 虚拟局域网，免开 VPN 跨机直连（`packages/zerotier`，shell 里用 `zero start/stop/restart/info`） |
 
-`extra.sh` 里的可选项（默认询问后才装，可通过 [install.conf](#可选install.conf--自定义本机安装范围) 自动跳过/强装）：
+`Brewfile.extra` 里的可选项（默认询问后才装，可通过 [install.conf](#可选installconf--自定义本机安装范围) 自动跳过/强装）：
 
 | 工具 | 功能 |
 |---|---|
 | [Cursor](https://cursor.com/) | AI 代码编辑器 |
-| [cmux](https://github.com/cmux/cmux) | tmux GUI（Sieve Data 出品，小众） |
+| [cmux](https://formulae.brew.sh/cask/cmux) | 基于 Ghostty 的终端，竖排标签 |
 | [IINA](https://iina.io/) | macOS 原生视频播放器 |
 | [Paper](https://paper.fjords.so/) | 自动壁纸 |
+| QQ 音乐 / 腾讯视频 | 影音 |
 | [Dropbox](https://www.dropbox.com/) | 云盘 |
+| Speedtest | 网速测试（App Store，需要先登录） |
 
 ## 快速开始
 
@@ -219,16 +257,16 @@ cp .env.example .env
 # 4. 一键安装（需要 sudo 密码）
 ./install.sh
 
-# 也可以只装单个 package（跳过系统引导和 brew 软件包列表），例如：
+# 也可以只装单个 package（跳过系统引导和根 Brewfile），例如：
 ./install.sh codex
 ```
 
 `install.sh` 跑完会做：
 
 1. 安装 Xcode Command Line Tools 和 Homebrew
-2. 装一组必备 brew / cask 软件（git、gh、ghostty、VS Code、Chrome 等）
-3. 遍历 `packages/`，逐个执行各 package 的 `install.sh`
-4. 询问是否运行 `extra.sh`（你的个人选装清单）
+2. 按根目录 `Brewfile` 装基础软件（git、gh、VS Code、Chrome、飞书等）
+3. 遍历 `packages/`，逐个先装该 package 的 `Brewfile`，再执行它的 `install.sh`（做配置）
+4. 询问是否安装 `Brewfile.extra`（你的个人选装清单）
 5. 把根 `source.zsh` 注入 `~/.zshrc`
 
 可重复执行，已装的会跳过。
@@ -237,9 +275,12 @@ cp .env.example .env
 
 ```bash
 ./install.sh                # 完整安装（按 install.conf；缺失则装全部 + 询问 extra）
-./install.sh <package>      # 仅装单个 package（packages/<name>/install.sh），跳过系统引导和 brew 大列表
+./install.sh <package>      # 仅装单个 package（它的 Brewfile + install.sh），跳过系统引导和根 Brewfile
 ./install.sh -o|-b|-s       # 软链目标已被其他文件占用时统一覆盖 / 备份 / 跳过，不再逐个询问（可与 <package> 组合）
 ./install.sh -h             # 帮助
+./bundle.sh check           # 清单里有、本机没装的
+./bundle.sh unlisted        # 本机装了、但不在任何 Brewfile 里的（只列出，不卸载）
+./bundle.sh install         # 补装缺失的软件（不升级，不跑 package 的 install.sh）
 ```
 
 ### 可选：`install.conf` —— 自定义本机安装范围
@@ -260,28 +301,59 @@ cp install.conf.example install.conf
 | `PACKAGES=(a b)` | 只装 `a` 和 `b` 两个 package |
 | `PACKAGES=()` | 装零个（显式空数组） |
 | 未定义 `PACKAGES` | 装全部 packages |
-| `INSTALL_EXTRA=true` | 不询问直接跑 `extra.sh` |
-| `INSTALL_EXTRA=false` | 不询问直接跳过 `extra.sh` |
+| `INSTALL_EXTRA=true` | 不询问直接装 `Brewfile.extra` |
+| `INSTALL_EXTRA=false` | 不询问直接跳过 `Brewfile.extra` |
 | `INSTALL_EXTRA=` (空/未设) | 交互式询问 |
 
-`install.conf` 只影响 `./install.sh`（完整模式）。`./install.sh <package>` 单装时不读
-此文件、不询问 extra、不动 brew 大列表，仅执行指定 package 的 `install.sh`。
+`install.conf` 影响 `./install.sh`（完整模式）和 `./bundle.sh check|install`。`./install.sh <package>`
+单装时不读此文件、不询问 extra、不装根 Brewfile，仅处理指定 package 的 `Brewfile` 和 `install.sh`。
+
+## 软件清单：Brewfile
+
+所有软件都写在 [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile) 的 `Brewfile` 里，
+formula、cask、App Store 应用（`mas`）都在同一份清单：
+
+| 文件 | 内容 | 什么时候装 |
+|---|---|---|
+| `Brewfile` | 基础软件 | `./install.sh` 完整安装时总会装 |
+| `packages/<name>/Brewfile` | 该 package 的软件 | 随 `install.conf` 的 `PACKAGES` 选择 |
+| `Brewfile.extra` | 选装软件 | 由 `INSTALL_EXTRA` 控制，默认询问 |
+
+安装时一律 `--no-upgrade`：已装的跳过、不升级，升级请自己 `brew upgrade`。
+
+**几台机器之间保持一致**：
+
+1. 在任一台机器上新装了软件 → 写进对应的 Brewfile 并提交
+2. 其他机器 `git pull` 后跑 `./bundle.sh check` 看缺什么，`./bundle.sh install` 补装
+3. 时不时跑 `./bundle.sh unlisted`，看看有没有手动装了却没写进清单的软件
+
+注意：
+
+- 第三方 tap 的软件要写 `trusted: true`（Homebrew 7 起第三方 tap 需显式信任），例如 `packages/nvim/Brewfile` 里的 `macism`
+- `mas` 条目需要先登录 App Store；没登录时安装会失败，登录后重跑即可
+- 用官网安装包手动装过的应用，写进 Brewfile 后 `brew bundle` 会**自动接管**（adopt）：保留本机那份，
+  登记为 brew 管理。会自动更新的 App（多数桌面应用都是）直接接管；其余的只有版本一致才接管，
+  不一致会报「existing App is different」，这时删掉手动装的那份，或 `brew install --cask --force <cask>` 覆盖安装
+- `helm` 和 `helm@3` 都提供 `bin/helm`，keg-only 的软件要不要进 PATH 都在 Brewfile 里用 `link:` 写明，
+  否则 `brew bundle` 会按默认值改动现有链接（见 `packages/DevOps/Brewfile`）
 
 ## 项目结构
 
 ```
 .
-├── install.sh              # 入口：xcode → brew → 必装软件 → packages → extra
+├── install.sh              # 入口：xcode → brew → 根 Brewfile → packages → Brewfile.extra
 │                           # 支持 `./install.sh <package>` 单装某个 package
 ├── install.conf.example    # 本机 PACKAGES / INSTALL_EXTRA 配置模板（拷出 install.conf 编辑）
 ├── source.zsh              # shell 启动时自动加载所有 packages/*/source.zsh
-├── extra.sh                # 个人选装的 cask 软件（默认询问后执行）
+├── Brewfile                # 基础软件清单（brew bundle）
+├── Brewfile.extra          # 个人选装软件（默认询问后安装）
+├── bundle.sh               # 对比本机和 Brewfile：check / unlisted / install
 ├── .env / .env.example     # 环境变量（详见 ".env 跨机同步"）
 ├── lib/                    # 通用辅助函数
 │   ├── echo.sh             # 彩色输出 message/success/warn/error
 │   ├── append.sh           # 幂等地追加行到文件
 │   ├── link.sh             # 软链 + 备份/覆盖/跳过
-│   ├── brew.sh             # brew_install / brew_cask_install
+│   ├── brew.sh             # brew_bundle / selected_brewfiles
 │   ├── env.sh              # load_env：解析 .env / .env.local（install.sh 与 source.zsh 共用）
 │   └── vault.sh            # 跨机同步辅助（默认 iCloud Drive，可换其他后端）
 └── packages/
@@ -294,12 +366,14 @@ cp install.conf.example install.conf
     ├── nvim/               # neovim + LazyVim starter
     ├── DevOps/             # k8s / docker / 阿里云 / ansible / helm
     ├── osx/                # macOS 系统设置（Finder/Dock/键盘 等）
+    ├── xcode/              # Xcode / TestFlight / Developer（App Store）+ xcodegen
     └── zerotier/           # ZeroTier 客户端 + `zero` 启停命令
 ```
 
 每个 package 有可选的：
 
-- `install.sh` —— 主脚本会自动执行
+- `Brewfile` —— 该 package 的软件清单，主脚本先用 `brew bundle` 装它
+- `install.sh` —— 装完软件后执行，做配置（软链、写 `~/.zshrc` 等）
 - `source.zsh` —— shell 启动时根 `source.zsh` 自动加载
 - `README.md` —— 单 package 的细节说明
 

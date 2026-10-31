@@ -18,7 +18,9 @@
 #   - PACKAGES=()             → 装零个（显式空数组）
 #
 # 完整可选项（packages/ 下的目录名）：
-#   claude DevOps codex go node nvim osx python terminal zerotier
+#   claude DevOps codex go node nvim osx python terminal xcode zerotier
+#
+# 注意 xcode 会从 App Store 装 Xcode（十几 GB），需要先登录 App Store；不需要的机器去掉它
 ###############################################################################
 
 PACKAGES=(
@@ -31,15 +33,16 @@ PACKAGES=(
   go
   DevOps
   osx
+  xcode
   zerotier
 )
 
 ###############################################################################
-# INSTALL_EXTRA：是否运行 extra.sh
+# INSTALL_EXTRA：是否安装 Brewfile.extra（选装软件）
 #
 #   - 留空（默认）→ 交互式询问（保持原行为）
-#   - true        → 直接执行 extra.sh
-#   - false       → 直接跳过 extra.sh
+#   - true        → 直接安装 Brewfile.extra
+#   - false       → 直接跳过 Brewfile.extra
 ###############################################################################
 
 # INSTALL_EXTRA=true
