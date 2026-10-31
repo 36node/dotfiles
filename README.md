@@ -25,7 +25,7 @@
 **适合**：
 
 - 频繁换 Mac、或团队/新人 onboarding 想要一致开发环境
-- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信
+- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信，Homebrew 默认走清华镜像
 - 想读得懂自己装了什么的人 —— 核心就是一个 `install.sh` 加几个 `lib/` 函数，全是带注释的 bash
 
 ## 核心特点
@@ -263,7 +263,7 @@ cp .env.example .env
 
 `install.sh` 跑完会做：
 
-1. 安装 Xcode Command Line Tools 和 Homebrew
+1. 配置 Homebrew 镜像（`brew.env`，默认清华），安装 Xcode Command Line Tools 和 Homebrew
 2. 按根目录 `Brewfile` 装基础软件（git、gh、VS Code、Chrome、飞书等）
 3. 遍历 `packages/`，逐个先装该 package 的 `Brewfile`，再执行它的 `install.sh`（做配置）
 4. 询问是否安装 `Brewfile.extra`（你的个人选装清单）
@@ -308,6 +308,29 @@ cp install.conf.example install.conf
 `install.conf` 影响 `./install.sh`（完整模式）和 `./bundle.sh check|install`。`./install.sh <package>`
 单装时不读此文件、不询问 extra、不装根 Brewfile，仅处理指定 package 的 `Brewfile` 和 `install.sh`。
 
+## Homebrew 镜像：brew.env
+
+国内直连 `formulae.brew.sh` 很慢（实测十几 KB/s，首次要下 35MB 的 formula 清单），
+所以仓库默认让 Homebrew 走[清华 TUNA 镜像](https://mirrors.tuna.tsinghua.edu.cn/help/homebrew/)，
+配置写在根目录 `brew.env`：
+
+| 变量 | 作用 |
+|---|---|
+| `HOMEBREW_BREW_GIT_REMOTE` | brew 本体的 git 仓库（安装和 `brew update` 用） |
+| `HOMEBREW_CORE_GIT_REMOTE` | homebrew-core 仓库（关闭 API 模式时才用到） |
+| `HOMEBREW_API_DOMAIN` | formula / cask 清单 |
+| `HOMEBREW_BOTTLE_DOMAIN` | 预编译 bottle |
+| `HOMEBREW_PIP_INDEX_URL` | brew 内部 pip 源 |
+
+`install.sh` 会把它软链到 `~/.homebrew/brew.env` —— 这是 Homebrew 自己会读的配置文件，
+之后每条 `brew` 命令都生效，不依赖 `~/.zshrc`。全新机器还没装 brew 时，`install.sh` 会先把这些变量导出到安装环境，
+让官方安装脚本直接从镜像 clone。
+
+- 镜像只管 Homebrew 自身、formula 清单和 bottle；cask 仍从各厂商官网下载，第三方 tap（如 `kubecolor`、`macism`）仍走 GitHub
+- 文件格式按 brew 的解析规则：每行 `HOMEBREW_XXX=value`，不加 `export` 和引号，注释只能单独成行
+- 不需要镜像（比如人在海外）：把 `brew.env` 里的变量行注释掉
+- 想换中科大等其他镜像：改 `brew.env` 里的地址即可
+
 ## 软件清单：Brewfile
 
 所有软件都写在 [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile) 的 `Brewfile` 里，
@@ -348,6 +371,7 @@ formula、cask、App Store 应用（`mas`）都在同一份清单：
 ├── Brewfile                # 基础软件清单（brew bundle）
 ├── Brewfile.extra          # 个人选装软件（默认询问后安装）
 ├── bundle.sh               # 对比本机和 Brewfile：check / unlisted / install
+├── brew.env                # Homebrew 镜像（默认清华），软链到 ~/.homebrew/brew.env
 ├── .env / .env.example     # 环境变量（详见 ".env 跨机同步"）
 ├── lib/                    # 通用辅助函数
 │   ├── echo.sh             # 彩色输出 message/success/warn/error
