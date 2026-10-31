@@ -25,7 +25,7 @@
 **适合**：
 
 - 频繁换 Mac、或团队/新人 onboarding 想要一致开发环境
-- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信，Homebrew 默认走清华镜像
+- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信，Homebrew / Python 源码默认走国内镜像
 - 想读得懂自己装了什么的人 —— 核心就是一个 `install.sh` 加几个 `lib/` 函数，全是带注释的 bash
 
 ## 核心特点
@@ -331,6 +331,13 @@ cp install.conf.example install.conf
 - 不需要镜像（比如人在海外）：把 `brew.env` 里的变量行注释掉
 - 想换中科大等其他镜像：改 `brew.env` 里的地址即可
 
+### Python 源码镜像：packages/python/mirror.sh
+
+pyenv 装 Python 要从 `www.python.org` 下源码（同样只有十几 KB/s），`packages/python/mirror.sh`
+把它换成 [npmmirror](https://registry.npmmirror.com/binary.html?path=python/)。
+`install.sh` 和 shell（`source.zsh`）都会加载它，所以之后自己 `pyenv install` 也走镜像。
+下载后 pyenv 仍按内置的 sha256 校验，镜像的文件不对会直接报错。不需要时把里面两行 `export` 注释掉。
+
 ## 软件清单：Brewfile
 
 所有软件都写在 [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile) 的 `Brewfile` 里，
@@ -385,7 +392,7 @@ formula、cask、App Store 应用（`mas`）都在同一份清单：
     ├── claude/             # claude code CLI（Anthropic 终端 AI 编码助手）
     ├── codex/              # codex CLI（OpenAI），config.toml 真身走 vault
     ├── node/               # fnm + node + corepack(pnpm/yarn)
-    ├── python/             # pyenv + python
+    ├── python/             # pyenv + python，源码下载走 npmmirror（mirror.sh）
     ├── go/                 # go
     ├── nvim/               # neovim + LazyVim starter
     ├── DevOps/             # k8s / docker / 阿里云 / ansible / helm
