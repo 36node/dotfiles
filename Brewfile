@@ -64,4 +64,6 @@ cask "wechat"             # 微信
 cask "dingtalk"           # 钉钉
 cask "qq"
 cask "tencent-meeting"    # 腾讯会议
-cask "mailmaster"         # 网易邮箱大师
+## 网易邮箱大师：下载地址 mail5.dmg 不带版本号，官方换包后 cask 的 sha256 跟不上，
+## 2026-10-31 装不上（reports different checksum），等上游 cask 更新后再放开；需要的话先去官网手动装
+# cask "mailmaster"

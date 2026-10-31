@@ -376,6 +376,9 @@ formula、cask、App Store 应用（`mas`）都在同一份清单：
 - 用官网安装包手动装过的应用，写进 Brewfile 后 `brew bundle` 会**自动接管**（adopt）：保留本机那份，
   登记为 brew 管理。会自动更新的 App（多数桌面应用都是）直接接管；其余的只有版本一致才接管，
   不一致会报「existing App is different」，这时删掉手动装的那份，或 `brew install --cask --force <cask>` 覆盖安装
+- 接管时 brew 要 `chgrp` 改 App 包，macOS 的「App 管理」保护会拦下（`chgrp: ... Operation not permitted`，
+  sudo 也没用）。解决：退出该 App、拖进废纸篓后重跑，由 brew 重新安装（~/Library 里的数据会保留）；
+  或者在 系统设置 → 隐私与安全性 → App 管理 里给你跑 `install.sh` 的终端开权限
 - `helm` 和 `helm@3` 都提供 `bin/helm`，keg-only 的软件要不要进 PATH 都在 Brewfile 里用 `link:` 写明，
   否则 `brew bundle` 会按默认值改动现有链接（见 `packages/DevOps/Brewfile`）
 
