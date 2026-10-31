@@ -97,10 +97,11 @@ fix_ssh_permissions() {
   [ -d "$ssh_dir" ] || return 0
 
   chmod 700 "$ssh_dir" 2>/dev/null || true
+  # vault 同步后 ~/.ssh 是指向 vault 的软链，find 默认不进入命令行上的软链，要加 -H
   # 公钥（*.pub）644
-  find "$ssh_dir" -maxdepth 1 -type f -name "*.pub" \
+  find -H "$ssh_dir" -maxdepth 1 -type f -name "*.pub" \
     -exec chmod 644 {} \; 2>/dev/null || true
   # 其余顶层文件（私钥、known_hosts、config 等）600
-  find "$ssh_dir" -maxdepth 1 -type f ! -name "*.pub" \
+  find -H "$ssh_dir" -maxdepth 1 -type f ! -name "*.pub" \
     -exec chmod 600 {} \; 2>/dev/null || true
 }
