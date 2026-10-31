@@ -243,12 +243,24 @@
 
 ## 快速开始
 
+### 开始之前
+
+- [ ] **iCloud**（默认 vault）：系统设置里登录 Apple ID、打开 iCloud Drive，等 `.dotfiles` 同步下来；
+  然后在 Finder → iCloud Drive → `Cmd + Shift + .` 显示隐藏文件 → 右键 `.dotfiles` → **「保留下载」**。
+  **这一步必做**，否则 `~/.ssh` 以后可能被 evict 到云端，ssh 突然报 `Operation not permitted`（原因见「[跨机同步：vault 设计](#跨机同步vault-设计)」）
+- [ ] **App Store**：先登录，`mas` 条目（Xcode / TestFlight 等）没登录会装失败并中断安装
+- [ ] **Xcode 许可**：已经装了 Xcode 的话，先跑一次 `sudo xcodebuild -license accept`，否则 git / brew 都会报错退出
+- [ ] **本机名**：`.env` 里的 `COMPUTER_NAME` 是各机器共享的；这台要不同名字就写进 `.env.local`（如 `COMPUTER_NAME=zzs-m1`）
+- [ ] **安装范围**：不想全装（比如不要 xcode）或不想被询问 extra，就准备 `install.conf`（见下文）
+- [ ] **在真实终端里跑**：中途要输 sudo 密码、Homebrew 安装要按回车，软链冲突也会询问；Homebrew / Python 源码已默认走国内镜像（见「[Homebrew 镜像](#homebrew-镜像brewenv)」），不用开代理
+
 ```bash
 # 1. clone 仓库
 git clone git@github.com:36node/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
-# 2. 准备 .env（首次新建可从模板开始；多机用户参见下文「跨机同步：vault 设计」）
+# 2. 准备 .env：vault 里已经有 .env（不是第一台机器）就跳过这步，install.sh 会自动链过来；
+#    首次新建才从模板开始（参见下文「跨机同步：vault 设计」）
 cp .env.example .env
 
 # 3.（可选）想换 vault 后端就 export，不写默认走 iCloud Drive
