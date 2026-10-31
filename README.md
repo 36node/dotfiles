@@ -25,7 +25,7 @@
 **适合**：
 
 - 频繁换 Mac、或团队/新人 onboarding 想要一致开发环境
-- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信，Homebrew / Python 源码默认走国内镜像
+- 国内（或国内出海）开发者 —— 默认就装阿里云 CLI、飞书、微信，Homebrew / Python 源码 / pip 默认走国内镜像
 - 想读得懂自己装了什么的人 —— 核心就是一个 `install.sh` 加几个 `lib/` 函数，全是带注释的 bash
 
 ## 核心特点
@@ -252,7 +252,7 @@
 - [ ] **Xcode 许可**：已经装了 Xcode 的话，先跑一次 `sudo xcodebuild -license accept`，否则 git / brew 都会报错退出
 - [ ] **本机名**：`.env` 里的 `COMPUTER_NAME` 是各机器共享的；这台要不同名字就写进 `.env.local`（如 `COMPUTER_NAME=zzs-m1`）
 - [ ] **安装范围**：不想全装（比如不要 xcode）或不想被询问 extra，就准备 `install.conf`（见下文）
-- [ ] **在真实终端里跑**：中途要输 sudo 密码、Homebrew 安装要按回车，软链冲突也会询问；Homebrew / Python 源码已默认走国内镜像（见「[Homebrew 镜像](#homebrew-镜像brewenv)」），不用开代理
+- [ ] **在真实终端里跑**：中途要输 sudo 密码、Homebrew 安装要按回车，软链冲突也会询问；Homebrew / Python 源码 / pip 已默认走国内镜像（见「[Homebrew 镜像](#homebrew-镜像brewenv)」），不用开代理
 
 ```bash
 # 1. clone 仓库
@@ -275,7 +275,7 @@ cp .env.example .env
 
 `install.sh` 跑完会做：
 
-1. 配置 Homebrew 镜像（`brew.env`，默认清华），安装 Xcode Command Line Tools 和 Homebrew
+1. 配置 Homebrew / pip 镜像（`brew.env` / `pip.conf`，默认清华），安装 Xcode Command Line Tools 和 Homebrew
 2. 按根目录 `Brewfile` 装基础软件（git、gh、VS Code、Chrome、飞书等）
 3. 遍历 `packages/`，逐个先装该 package 的 `Brewfile`，再执行它的 `install.sh`（做配置）
 4. 询问是否安装 `Brewfile.extra`（你的个人选装清单）
@@ -350,6 +350,24 @@ pyenv 装 Python 要从 `www.python.org` 下源码（同样只有十几 KB/s）�
 `install.sh` 和 shell（`source.zsh`）都会加载它，所以之后自己 `pyenv install` 也走镜像。
 下载后 pyenv 仍按内置的 sha256 校验，镜像的文件不对会直接报错。不需要时把里面两行 `export` 注释掉。
 
+### pip 镜像：pip.conf
+
+国内直连 pypi.org 时通时断，根目录 `pip.conf` 把 pip 的默认源设成[清华 PyPI](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)，
+`install.sh` 把它软链到 `~/.config/pip/pip.conf`（用户级配置），之后在终端里跑的 `pip install` 都走镜像。
+
+**它管不到 cask 安装脚本里的 pip**：
+
+- `brew.env` 里的 `HOMEBREW_PIP_INDEX_URL` 只管 brew 自己编译的 formula
+- Homebrew 7 跑 cask 安装脚本时会进沙箱，HOME 换成临时目录、禁止读家目录，用户级 `pip.conf` 读不到。
+  典型是 `gcloud-cli`：装完会建 virtualenv 再 `pip install crcmod grpcio ...`，直连 pypi.org，网络不通就整个 cask 装失败
+- 这种只能靠代理放行：在软路由（或 Clash 的 TUN 模式）里给 `pypi.org`、`files.pythonhosted.org` 走代理。
+  Clash 的「系统代理」模式不行，命令行工具不读 macOS 系统代理
+
+其他：
+
+- 如果 `~/Library/Application Support/pip/` 目录存在，pip 会改读那里的 `pip.conf`，不再读 `~/.config/pip/`
+- 不需要时把 `pip.conf` 里的 `index-url` 注释掉；临时换源用 `pip install -i <url>`
+
 ## 软件清单：Brewfile
 
 所有软件都写在 [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile) 的 `Brewfile` 里，
@@ -394,6 +412,7 @@ formula、cask、App Store 应用（`mas`）都在同一份清单：
 ├── Brewfile.extra          # 个人选装软件（默认询问后安装）
 ├── bundle.sh               # 对比本机和 Brewfile：check / unlisted / install
 ├── brew.env                # Homebrew 镜像（默认清华），软链到 ~/.homebrew/brew.env
+├── pip.conf                # pip 镜像（默认清华），软链到 ~/.config/pip/pip.conf
 ├── .env / .env.example     # 环境变量（详见 ".env 跨机同步"）
 ├── lib/                    # 通用辅助函数
 │   ├── echo.sh             # 彩色输出 message/success/warn/error

@@ -142,6 +142,10 @@ mkdir -p "$HOME/.homebrew"
 link_file "$PWD/brew.env" "$HOME/.homebrew/brew.env"
 load_env brew.env
 
+## pip 镜像（默认清华 TUNA，见根目录 pip.conf），给平时在终端里跑的 pip 用
+mkdir -p "$HOME/.config/pip"
+link_file "$PWD/pip.conf" "$HOME/.config/pip/pip.conf"
+
 # ---------------------------------------------------------------------------
 # 一次性获取 sudo 权限，整个脚本期间所有 sudo 命令免密
 # ---------------------------------------------------------------------------
