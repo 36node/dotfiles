@@ -57,6 +57,7 @@ cask "balenaetcher"       # 烧录系统镜像到 U 盘 / SD 卡
 cask "keyclu"             # 长按 Cmd 显示快捷键
 cask "monitorcontrol"     # 用键盘控制外接显示器亮度/音量（macOS 自身不支持非 Apple 屏）
 cask "mos"                # 鼠标平滑滚动 + 反向
+cask "wetype"             # 微信输入法，装完注销重登，再到「系统设置 → 键盘 → 输入法」添加
 
 ## 通讯 / 办公
 cask "feishu"             # 飞书
