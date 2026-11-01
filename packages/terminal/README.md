@@ -6,7 +6,7 @@
 - shell：zsh（macOS 默认，**不使用 oh-my-zsh**）
 - 插件管理器：[antidote](https://getantidote.github.io/)
 - 提示符：[starship](https://starship.rs/)（tokyo-night 风格预设）
-- 字体：JetBrains Mono Nerd Font（ghostty 默认）
+- 字体：JetBrains Mono Nerd Font（ghostty 默认；macOS 自带 Terminal 的默认 profile 也由 `install.sh` 改成它）
 - 其它命令行工具：tree、tmux
 
 ## 配置文件（均通过 symlink 管理）

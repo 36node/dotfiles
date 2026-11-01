@@ -17,6 +17,13 @@ fi
 mkdir -p "$HOME/.config/ghostty"
 link_file "$PWD/packages/terminal/ghostty/config" "$HOME/.config/ghostty/config"
 
+## macOS 自带 Terminal：默认 profile 换成 Nerd Font，否则 starship 图标显示成方框
+## Terminal 的字体存在 plist 的二进制归档里，用 AppleScript 改最稳；用的是 PostScript 名
+TERMINAL_PROFILE=$(defaults read com.apple.Terminal "Default Window Settings" 2>/dev/null || echo "Basic")
+osascript -e "tell application \"Terminal\" to set font name of settings set \"$TERMINAL_PROFILE\" to \"JetBrainsMonoNFM-Regular\"" \
+  -e "tell application \"Terminal\" to set font size of settings set \"$TERMINAL_PROFILE\" to 14" > /dev/null \
+  && success "Terminal「$TERMINAL_PROFILE」字体已设为 JetBrainsMono Nerd Font Mono"
+
 ## starship prompt
 mkdir -p "$HOME/.config"
 link_file "$PWD/packages/terminal/starship/starship.toml" "$HOME/.config/starship.toml"
