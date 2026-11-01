@@ -16,3 +16,4 @@ cask "dropbox"
 
 ## App Store（需要先登录 App Store）
 mas "Speedtest", id: 1153157709
+mas "WeTab", id: 6444470807  # Safari 新标签页扩展，装完到 Safari 设置里启用
