@@ -8,6 +8,7 @@
 - 提示符：[starship](https://starship.rs/)（tokyo-night 风格预设）
 - 字体：JetBrains Mono Nerd Font（ghostty 默认；macOS 自带 Terminal 的默认 profile 也由 `install.sh` 改成它）
 - 其它命令行工具：tree、tmux
+- 常用别名（`source.zsh`）：`ls` / `ll` / `la` / `lt` 走 eza，没装 eza 时 `ll` / `la` 退回系统 ls
 
 ## 配置文件（均通过 symlink 管理）
 
