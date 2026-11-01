@@ -75,6 +75,9 @@ defaults write com.apple.dock mineffect -string "scale"
 # 不显示最近应用
 defaults write com.apple.dock show-recents -bool false
 
+# 点按墙纸不收起窗口显示桌面（Sonoma+，对应「点按墙纸显示桌面」→「仅在台前调度中」）
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
 
 ###############################################################################
 # 硬盘                                                                         #
