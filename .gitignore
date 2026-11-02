@@ -35,6 +35,7 @@ Temporary Items
 .env*
 !.env.example
 .ssh
+.vault_pass
 
 # 本机安装配置（PACKAGES 子集 / INSTALL_EXTRA 开关），模板见 install.conf.example
 install.conf
