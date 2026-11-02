@@ -423,7 +423,7 @@ formula、cask、App Store 应用（`mas`）都在同一份清单：
 │   └── vault.sh            # 跨机同步辅助（默认 iCloud Drive，可换其他后端）
 └── packages/
     ├── terminal/           # ghostty + zsh + antidote + starship + 字体
-    ├── claude/             # claude code CLI（Anthropic 终端 AI 编码助手）
+    ├── claude/             # claude code CLI（Anthropic），settings.json 真身走 vault
     ├── codex/              # codex CLI（OpenAI），config.toml 真身走 vault
     ├── node/               # fnm + node + corepack(pnpm/yarn)
     ├── python/             # pyenv + python，源码下载走 npmmirror（mirror.sh）

@@ -25,12 +25,28 @@ prefix 命令（`/`、`!`、`@`）与 vim mode 切换备忘。完整列表见
 
 ## 配置文件
 
-| 仓库内 | 软链到 |
+| 位置 | 说明 |
 |---|---|
-| `packages/claude/settings.json` | `~/.claude/settings.json` |
+| `$DOTFILES_VAULT/.claude/settings.json` | 真身，跨机同步（默认 iCloud Drive），**不进 git** |
+| `~/.claude/settings.json` | 软链到上面的真身 |
+| `packages/claude/settings.example.json` | 进 git 的模板，只在本机和 vault 都没有配置时拷贝一次 |
 
-`settings.json` 里**只放行为配置**：默认权限模式、模型、deny 列表（屏蔽 `.env` /
-`.secrets` 的读写，见下方「deny 规则的边界」），可以安全进 git。
+模板里**只放行为配置**：默认权限模式、模型、deny 列表（屏蔽 `.env` / `.secrets` 的读写，见下方「deny 规则的边界」）。
+
+为什么真身不进 git：Claude Code 会持续回写 `~/.claude/settings.json` —— `/model`、`/config` 里改的偏好、
+通知开关、启用的插件、「始终允许」加进来的权限规则等。以前直接软链到仓库，每次回写都会多出一个
+`chore(claude): 回写 ...` 提交，权限放行规则里还可能带上本机路径和项目名，仓库是公开的。
+
+想改模型 / 偏好时直接改 `~/.claude/settings.json`（或在 Claude Code 里用 `/config`），会自动同步到其他机器。
+希望新机器默认值也跟着变（比如调整 deny 列表），再顺手同步到 `settings.example.json`。
+注意模板只在首次初始化时生效，改了模板的 deny 列表后，已有机器要自己合并进 vault 里的那份。
+
+迁移说明：以前 `~/.claude/settings.json` 直接软链到仓库内 `packages/claude/settings.json`。
+`./install.sh claude` 会把旧软链转成实体文件并挪进 vault（vault 里还没有时），或直接链到 vault 里已有的那份；
+另一台机器 `git pull` 之后旧软链变成悬空链接，同样跑一次 `./install.sh claude` 即可
+（那台机器上 Claude Code 如果往 `packages/claude/settings.json` 回写过，`git pull` 会拒绝删除它，
+先 `git checkout -- packages/claude/settings.json` 再 pull；vault 里已有第一台机器迁移过去的那份，会直接生效）。
+`packages/claude/settings.json` 已加入 `.gitignore`，旧软链被写回也不会再进 git。
 
 **敏感字段不在这里**：
 

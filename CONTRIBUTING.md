@@ -40,6 +40,7 @@ git push origin feat/<你的特性>
 2. **幂等** —— 所有写文件操作必须可重复执行：
    - 写 `~/.zshrc` 用 `lib/append.sh` 的 `append`
    - 建软链用 `lib/link.sh` 的 `link_file` / `sync_file`
+   - 程序会持续回写的配置（如 codex / claude 的全局配置）不要软链进仓库，用 `lib/vault.sh` 的 `vault_sync_home_template` 放 vault，仓库只留模板
    - 安装软件写进 package 的 `Brewfile`，由主脚本统一 `brew bundle install --no-upgrade`
 3. **可读** —— 每个 `install.sh` 控制在 ~50 行，复杂的拆函数 / 拆文件
 4. **现代化** —— 引入新工具时，优先选择**仍在快速迭代**的项目；过时工具应该被替换、不是堆积

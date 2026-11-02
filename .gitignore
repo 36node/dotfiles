@@ -42,3 +42,6 @@ install.conf
 
 # codex 配置真身在 vault（见 packages/codex/README.md），防止旧方案的软链把它写回仓库
 packages/codex/config.toml
+
+# claude settings.json 真身在 vault（见 packages/claude/README.md），防止旧方案的软链把它写回仓库
+packages/claude/settings.json

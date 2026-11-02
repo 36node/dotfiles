@@ -90,6 +90,39 @@ vault_sync_home() {
   _vault_sync "$rel" "$HOME/$rel"
 }
 
+# 带模板的 home 配置文件同步（适合会被程序持续回写、不适合进 git 的配置，如 codex / claude）
+# 例：vault_sync_home_template .codex/config.toml packages/codex/config.example.toml
+#
+# 在 vault_sync_home 之前先处理两种情况：
+#   - 本地是软链但没指向 vault（旧方案直接链到仓库、仓库搬过家后的旧路径、别的手工链接），
+#     否则 vault 同步会把软链本身挪进 vault：
+#       链接目标还在 → 转成实体文件，下面 vault 同步会把它挪进 vault
+#       悬空链接（例如另一台机器 pull 之后仓库文件已删）→ 删掉
+#   - 本机和 vault 都没有 → 用模板初始化（悬空的 vault 链接也先删掉，免得 cp 写穿到不存在的目录）
+vault_sync_home_template() {
+  local rel=$1 template=$2
+  local local_path="$HOME/$rel"
+  local vault_path="$DOTFILES_VAULT/$rel"
+
+  mkdir -p "$(dirname "$local_path")"
+
+  if [ -L "$local_path" ] && [ "$(readlink "$local_path")" != "$vault_path" ]; then
+    if [ -f "$local_path" ]; then
+      cp -L "$local_path" "$local_path.tmp" && mv -f "$local_path.tmp" "$local_path"
+    else
+      rm -f "$local_path"
+    fi
+  fi
+
+  if [ ! -e "$local_path" ] && [ ! -e "$vault_path" ]; then
+    rm -f "$local_path"
+    cp "$template" "$local_path"
+    success "用 $(basename "$template") 初始化 $local_path"
+  fi
+
+  vault_sync_home "$rel"
+}
+
 # 修复 SSH 文件权限：dir 700、私钥 600、公钥 644
 # 跨机同步（特别是 iCloud）有时会破坏 Unix 权限位，sshd 严格检查权限会拒绝使用 key
 fix_ssh_permissions() {
