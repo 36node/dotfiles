@@ -147,43 +147,66 @@ mkdir -p "$HOME/.config/pip"
 link_file "$PWD/pip.conf" "$HOME/.config/pip/pip.conf"
 
 # ---------------------------------------------------------------------------
-# 一次性获取 sudo 权限，整个脚本期间所有 sudo 命令免密
+# 一次性获取 sudo 权限，整个脚本期间保持有效
 # ---------------------------------------------------------------------------
-# 策略：临时写一条 NOPASSWD 的 sudoers 规则到 /etc/sudoers.d/，脚本结束自动清理。
-# 收益：脚本里所有 sudo 命令（scutil、dscl 等）零密码；只在第一次 sudo tee 时输一次。
-# 安全：trap EXIT/INT/TERM 保证正常退出、Ctrl+C、异常崩溃都会清理 sudoers 文件。
+# 策略：sudo -v 输一次密码拿到凭据缓存，后台每 50 秒 sudo -n true 续期一次（默认 5 分钟过期），
+#       主进程退出后续期循环自己结束。不改 /etc/sudoers，进程被 kill -9 也不会留下免密规则。
+# 兼容：Homebrew 官方安装脚本只在 sudo 原本没有缓存时才会在退出时 sudo -k，这里先拿到缓存就不受影响。
 # 局限：brew 装某些 cask（orbstack 等）会通过 macOS GUI 弹原生密码框
 #       要管理员权限去装系统 helper，那是 osascript 路径，绕不开。
-SUDOERS_TMP="/etc/sudoers.d/dotfiles-install-$$"
-cleanup_sudoers() {
-  if [ -f "$SUDOERS_TMP" ]; then
-    sudo -n rm -f "$SUDOERS_TMP" 2>/dev/null \
-      || warn "无法自动清理 ${SUDOERS_TMP}，请手动 sudo rm 它"
-  fi
-}
-trap cleanup_sudoers EXIT INT TERM
-
 message "请输入管理员密码（接下来整个安装过程仅此一次）"
-echo "$USER ALL=(ALL) NOPASSWD: ALL" \
-  | sudo tee "$SUDOERS_TMP" > /dev/null
-sudo chmod 440 "$SUDOERS_TMP"
+sudo -v || error "获取管理员权限失败"
+## 输出重定向掉：否则 ./install.sh | tee log 时，管道要等这个后台循环结束才关
+while kill -0 "$$" 2>/dev/null; do
+  sudo -n true
+  sleep 50
+done > /dev/null 2>&1 &
+SUDO_KEEPALIVE_PID=$!
+trap 'kill "$SUDO_KEEPALIVE_PID" 2>/dev/null' EXIT
 
-## Xcode
+## Command Line Tools（git / clang 等）
+## xcode-select --install 只是弹出系统安装对话框就立即返回，要等真正装完再往下走：
+## 下面克隆 Homebrew 安装脚本要用 git，brew bundle 编译部分 formula 也要用到
 if ! xcode-select --print-path &> /dev/null; then
-  message "安装 build/install tools ..."
-  xcode-select --install &> /dev/null;
-  success "安装成功 build/install tools"
+  message "安装 Command Line Tools：请在弹出的对话框里点「安装」，装完脚本会自动继续 ..."
+  xcode-select --install &> /dev/null || true
+  until xcode-select --print-path &> /dev/null; do
+    sleep 5
+  done
+  success "安装成功 Command Line Tools"
 fi
 
 ## homebrew
-if test ! $(which brew); then
+## brew.env 配了镜像（HOMEBREW_BREW_GIT_REMOTE 形如 <镜像>/brew.git）时，安装脚本也从同一镜像的
+## install.git 克隆（清华 TUNA 提供），国内直连 raw.githubusercontent.com 很慢甚至连不上；
+## 没配镜像或镜像克隆失败时，退回官方的 curl 安装方式
+install_homebrew() {
+  local official="https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh"
+  local remote=${HOMEBREW_BREW_GIT_REMOTE:-}
+  if [[ "$remote" == */brew.git && "$remote" != *github.com* ]]; then
+    local tmp
+    tmp=$(mktemp -d)
+    if git clone --depth=1 "${remote%/brew.git}/install.git" "$tmp/brew-install"; then
+      /bin/bash "$tmp/brew-install/install.sh"
+      local status=$?
+      rm -rf "$tmp"
+      return $status
+    fi
+    rm -rf "$tmp"
+    warn "从镜像克隆 Homebrew 安装脚本失败，改用官方地址"
+  fi
+  /bin/bash -c "$(curl -fsSL "$official")"
+}
+
+if ! command -v brew &> /dev/null; then
   message "安装 homebrew ..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	# for M1
-	if [ -s /opt/homebrew/bin/brew ]; then
-		echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	fi
+  install_homebrew || error "安装 homebrew 失败"
+  # Apple Silicon 装在 /opt/homebrew，不在默认 PATH 里
+  if [ -x /opt/homebrew/bin/brew ]; then
+    touch "$HOME/.zprofile"
+    append 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$HOME/.zprofile"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
   success "安装成功 homebrew"
 fi
 

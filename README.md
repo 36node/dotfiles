@@ -252,7 +252,7 @@
 - [ ] **Xcode 许可**：已经装了 Xcode 的话，先跑一次 `sudo xcodebuild -license accept`，否则 git / brew 都会报错退出
 - [ ] **本机名**：`.env` 里的 `COMPUTER_NAME` 是各机器共享的；这台要不同名字就写进 `.env.local`（如 `COMPUTER_NAME=zzs-m1`）
 - [ ] **安装范围**：不想全装（比如不要 xcode）或不想被询问 extra，就准备 `install.conf`（见下文）
-- [ ] **在真实终端里跑**：中途要输 sudo 密码、Homebrew 安装要按回车，软链冲突也会询问；Homebrew / Python 源码 / pip 已默认走国内镜像（见「[Homebrew 镜像](#homebrew-镜像brewenv)」），不用开代理
+- [ ] **在真实终端里跑**：开头输一次 sudo 密码，没装 Command Line Tools 时要在弹窗里点「安装」（脚本会等它装完）、Homebrew 安装要按回车，软链冲突也会询问；Homebrew / Python 源码 / pip 已默认走国内镜像（见「[Homebrew 镜像](#homebrew-镜像brewenv)」），不用开代理
 
 ```bash
 # 1. clone 仓库
@@ -275,7 +275,7 @@ cp .env.example .env
 
 `install.sh` 跑完会做：
 
-1. 配置 Homebrew / pip 镜像（`brew.env` / `pip.conf`，默认清华），安装 Xcode Command Line Tools 和 Homebrew
+1. 配置 Homebrew / pip 镜像（`brew.env` / `pip.conf`，默认清华），安装 Xcode Command Line Tools 和 Homebrew（安装脚本也从镜像克隆）
 2. 按根目录 `Brewfile` 装基础软件（git、gh、VS Code、Chrome、飞书等）
 3. 遍历 `packages/`，逐个先装该 package 的 `Brewfile`，再执行它的 `install.sh`（做配置）
 4. 询问是否安装 `Brewfile.extra`（你的个人选装清单）
@@ -336,12 +336,13 @@ cp install.conf.example install.conf
 
 `install.sh` 会把它软链到 `~/.homebrew/brew.env` —— 这是 Homebrew 自己会读的配置文件，
 之后每条 `brew` 命令都生效，不依赖 `~/.zshrc`。全新机器还没装 brew 时，`install.sh` 会先把这些变量导出到安装环境，
-让官方安装脚本直接从镜像 clone。
+让官方安装脚本直接从镜像 clone。安装脚本本身也不走 `raw.githubusercontent.com`：`HOMEBREW_BREW_GIT_REMOTE`
+形如 `<镜像>/brew.git` 时，从同一镜像的 `<镜像>/install.git` 克隆（TUNA 提供），克隆失败或没配镜像才退回官方地址。
 
 - 镜像只管 Homebrew 自身、formula 清单和 bottle；cask 仍从各厂商官网下载，第三方 tap（如 `kubecolor`、`macism`）仍走 GitHub
 - 文件格式按 brew 的解析规则：每行 `HOMEBREW_XXX=value`，不加 `export` 和引号，注释只能单独成行
 - 不需要镜像（比如人在海外）：把 `brew.env` 里的变量行注释掉
-- 想换中科大等其他镜像：改 `brew.env` 里的地址即可
+- 想换中科大等其他镜像：改 `brew.env` 里的地址即可（镜像没有 `install.git` 时，安装脚本会自动退回官方地址）
 
 ### Python 源码镜像：packages/python/mirror.sh
 
@@ -585,6 +586,7 @@ COMPUTER_NAME=zzs-mini
 ## 风险提示
 
 - `packages/osx/install.sh` 会修改 macOS 系统偏好（Finder、Dock、键盘、截图路径等）。如果不希望改系统，跳过此 package 或阅读后注释。
+- 安装开始时用 `sudo -v` 拿一次管理员凭据，后台每 50 秒续期一次，安装结束自动停止；不会改 `/etc/sudoers`。
 - 安装末尾会 `killall` Finder / Dock / SystemUIServer 等让设置生效，期间 UI 会闪一下。
 - 用默认的 iCloud Drive vault 时，先把 iCloud 登录、启用，并按上文给 `.dotfiles` 目录设置「保留下载」；否则 `.env` 会留在仓库目录里 —— 注意别 `git add .` 把它带进 git 历史。
 - 用其他 vault 后端时，确认 `$DOTFILES_VAULT` 指向的目录已存在且可写（cloud client 已登录、本地能 ls 进去）。
