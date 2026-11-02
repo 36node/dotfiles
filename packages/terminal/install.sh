@@ -24,6 +24,21 @@ osascript -e "tell application \"Terminal\" to set font name of settings set \"$
   -e "tell application \"Terminal\" to set font size of settings set \"$TERMINAL_PROFILE\" to 14" > /dev/null \
   && success "Terminal「$TERMINAL_PROFILE」字体已设为 JetBrainsMono Nerd Font Mono"
 
+## VS Code 内置终端：同样要 Nerd Font，否则 starship 图标是方框
+## 只改这一个键，用 jq 合并进已有 settings.json；文件带注释（JSONC）时 jq 解析不了，就提示手动改
+VSCODE_SETTINGS="$HOME/Library/Application Support/Code/User/settings.json"
+if [[ -d "$(dirname "$VSCODE_SETTINGS")" ]]; then
+  [[ -f "$VSCODE_SETTINGS" ]] || echo '{}' > "$VSCODE_SETTINGS"
+  if jq '."terminal.integrated.fontFamily" = "'"'"'JetBrainsMono Nerd Font Mono'"'"'"' \
+      "$VSCODE_SETTINGS" > "$VSCODE_SETTINGS.tmp" 2>/dev/null; then
+    mv "$VSCODE_SETTINGS.tmp" "$VSCODE_SETTINGS"
+    success "VS Code 终端字体已设为 JetBrainsMono Nerd Font Mono"
+  else
+    rm -f "$VSCODE_SETTINGS.tmp"
+    warn "VS Code settings.json 解析失败（可能带注释），请手动设置 terminal.integrated.fontFamily 为 'JetBrainsMono Nerd Font Mono'"
+  fi
+fi
+
 ## starship prompt
 mkdir -p "$HOME/.config"
 link_file "$PWD/packages/terminal/starship/starship.toml" "$HOME/.config/starship.toml"
