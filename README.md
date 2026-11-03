@@ -221,6 +221,7 @@
 | [Open Design](https://formulae.brew.sh/cask/open-design) | 本地优先的 AI 设计工具 |
 | [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev) | 代理客户端 |
 | [balenaEtcher](https://etcher.balena.io/) | 烧录系统镜像到 U 盘 / SD 卡 |
+| [Keka](https://www.keka.io/) | 压缩 / 解压，支持 rar / 7z / zip 等 |
 | [KeyClu](https://sergii.tatarenkov.name/keyclu/support/) | 长按 Cmd 显示当前 app 的快捷键 |
 | [Mos](https://mos.caldis.me/) | 鼠标滚动平滑、反向 |
 | [MonitorControl](https://github.com/MonitorControl/MonitorControl) | 用键盘控制外接显示器亮度 / 音量（macOS 自身不支持非 Apple 屏） |

@@ -52,6 +52,7 @@ cask "open-design"
 ## 网络 / 系统工具
 cask "clash-verge-rev"    # 代理客户端
 cask "balenaetcher"       # 烧录系统镜像到 U 盘 / SD 卡
+cask "keka"               # 压缩 / 解压 GUI，支持 rar / 7z / zip 等（brew 版免费，App Store 版收费）
 
 ## macOS 体验增强
 cask "keyclu"             # 长按 Cmd 显示快捷键
